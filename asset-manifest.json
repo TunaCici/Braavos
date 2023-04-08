@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/braavos/static/css/main.11590a3e.css",
+    "main.js": "/braavos/static/js/main.ca7fb9e2.js",
+    "static/js/787.b87667fb.chunk.js": "/braavos/static/js/787.b87667fb.chunk.js",
+    "static/media/rotating_cube.gif": "/braavos/static/media/rotating_cube.dfdd33156e29820ad71f.gif",
+    "static/media/SFMono-Regular.otf": "/braavos/static/media/SFMono-Regular.1d07f933cdf138950a80.otf",
+    "index.html": "/braavos/index.html",
+    "main.11590a3e.css.map": "/braavos/static/css/main.11590a3e.css.map",
+    "main.ca7fb9e2.js.map": "/braavos/static/js/main.ca7fb9e2.js.map",
+    "787.b87667fb.chunk.js.map": "/braavos/static/js/787.b87667fb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.11590a3e.css",
+    "static/js/main.ca7fb9e2.js"
+  ]
+}
