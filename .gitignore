@@ -123,6 +123,8 @@ dist
 .env.test.local
 .env.production.local
 
+pack-lock.json
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
