@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'SF Mono';
+  src: url('./static/SFMono-Regular.otf') format('opentype');
+  font-style: normal;
+}
+
+.App {
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  font-family: "SF Mono";
+}
+
+h2 {
+  color: #FEFEFE;
+  opacity: 0.9;
+}
