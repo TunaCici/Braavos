@@ -1,27 +1,40 @@
-import {useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import "./App.css";
 
-import './App.css';
-import rotating_cube from './static/rotating_cube.gif';
+/* Static assets */
+import rotating_cube from "./static/rotating_cube.gif";
+import { BOOT_STATES } from "./static/enumerations.js";
+
+/* Modules */
+import BootSequence from "./modules/BootSequence/BootSequence";
+import CommandLine from "./common/CommandLine/CommandLine";
 
 function App() {
-  const [text, setText] = useState("");
-  const fullText = "under construction...";
+  /* Initial state values */
+  const [BOOT_STATE, setState] = useState(BOOT_STATES.INITIAL);
 
-  useEffect(() => {
-    let i = 0;
-    const intervalId = setInterval(() => {
-      setText(fullText.substring(0, i));
-      i++;
-      if (i > fullText.length) clearInterval(intervalId);
-    }, 150);
+  const setBootState = (newState) => {
+    setState(newState);
 
-    return () => clearInterval(intervalId);
-  }, []);
+    switch (newState) {
+      case BOOT_STATES.INITIAL:
+        break;
+      case BOOT_STATES.LOADING:
+        break;
+      case BOOT_STATES.SUCCESS:
+        break;
+      case BOOT_STATES.ERROR:
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="App">
-      <img src={rotating_cube} width="256px"></img>
-      <h2>&gt; {text}</h2>
+      <header className="App-header">
+        <BootSequence setBootState={setBootState}></BootSequence>
+      </header>
     </div>
   );
 }

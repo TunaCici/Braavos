@@ -1,0 +1,14 @@
+.command-line {
+  color: #fff;
+
+  font-size: 1rem;
+
+  margin-top: 0.1rem;
+  margin-bottom: 0rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .command-line {
+    font-size: 0.75rem;
+  }
+}

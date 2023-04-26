@@ -1,0 +1,138 @@
+[
+  {
+    "text": "Braavos version 0.0.2-alpha (build@Apple-M1-Pro) (react-18.0.2 (macOS 13.3.1-ventura) Wed Apr 26 4:52:48 PM UTC 2023",
+    "delay": 101
+  },
+  {
+    "text": "Command line: BOOT_HTML=/index.html root=UUID=0c0c0c0c-0c0c-0c0c-0c0c-0c0c0c0c0c0c ro quiet",
+    "delay": 15
+  },
+  {
+    "text": "BIOS Provided physical RAM map:",
+    "delay": 12
+  },
+  {
+    "text": "---- BIOS-e820: 0000000000000000 - 000000000009fc00 (usable)",
+    "delay": 12
+  },
+  {
+    "text": "---- BIOS-e820: 000000000009fc00 - 00000000000a0000 (reserved)",
+    "delay": 12
+  },
+  {
+    "text": "---- BIOS-e820: 00000000000f0000 - 0000000000100000 (reserved)",
+    "delay": 12
+  },
+  {
+    "text": "---- BIOS-e820: 0000000000100000 - 00000000bfe00000 (usable)",
+    "delay": 102
+  },
+  {
+    "text": "efi: EFI v3.14 by Pi",
+    "delay": 208
+  },
+  {
+    "text": "secureboot: Secure boot disabled",
+    "delay": 101
+  },
+  {
+    "text": "DMI: Essos 1.0.0, BIOS F4 04/26/2023",
+    "delay": 13
+  },
+  {
+    "text": "RAMDISK: 0x00000000bfe00000 - 0x00000000c0000000",
+    "delay": 20
+  },
+  {
+    "text": "smpboot: Allowing 1 CPUs, 0 hotplug CPUs",
+    "delay": 500
+  },
+  {
+    "text": "Hypervisor detected: JavaScript \\j",
+    "delay": 11
+  },
+  {
+    "text": "clocksource: js: mask: 0xfffffff max_cycles: 0x2a1b0b0b0c, max_idle_ns: 2712268235963 ns",
+    "delay": 14
+  },
+  {
+    "text": "random: crying [out of the darkness] init done",
+    "delay": 750
+  },
+  {
+    "text": "Console: switching to colour frame buffer [all_kinds_of_colors] 16.7Mx16.7M",
+    "delay": 100
+  },
+  {
+    "text": "usb usb1: New USB device found, idVendor=1uwu, idProduct=0002, bcdDevice= 2.71",
+    "delay": 100
+  },
+  {
+    "text": "usb usb1: Manufacturer: Faceless",
+    "delay": 10
+  },
+  {
+    "text": "usb usb1: SerialNumber: 0x000000000000000S",
+    "delay": 10
+  },
+  {
+    "text": "usb usb2: New USB device found, idVendor=1owo, idProduct=0002, bcdDevice= 1.70",
+    "delay": 100
+  },
+  {
+    "text": "usb usb2: Manufacturer: M4N",
+    "delay": 10
+  },
+  {
+    "text": "usb usb2: SerialNumber: 0x000000000000000H",
+    "delay": 10
+  },
+  {
+    "text": "usb usb3: New USB device found, idVendor=kiwi, idProduct=0002, bcdDevice= 3.14",
+    "delay": 100
+  },
+  {
+    "text": "usb usb3: Manufacturer: Arya",
+    "delay": 10
+  },
+  {
+    "text": "usb usb3: SerialNumber: 0x000000000000000I",
+    "delay": 10
+  },
+  {
+    "text": "usb usb4: New USB device found, idVendor=kuwu, idProduct=0002, bcdDevice= 4.20",
+    "delay": 100
+  },
+  {
+    "text": "usb usb4: Manufacturer: Stark",
+    "delay": 10
+  },
+  {
+    "text": "usb usb4: SerialNumber: 0x000000000000000T",
+    "delay": 10
+  },
+  {
+    "text": "init[1]: Detected architecture arm64",
+    "delay": 10
+  },
+  {
+    "text": "init[1]: Hostname is set to \"tunacici.com\"",
+    "delay": 10
+  },
+  {
+    "text": "init[1]: Launching terminal...",
+    "delay": 1000
+  },
+  {
+    "text": "init[1]: ERROR: Failed to launch terminal. (error code -1)",
+    "delay": 13
+  },
+  {
+    "text": "init[1]: ERROR: Causing kernel panic due to previous error. (Don't worry, I'll be back.)",
+    "delay": 13
+  },
+  {
+    "text": "KERNEL PANIC: No error message(s) were provided (error code -0x0000001)",
+    "delay": 10
+  }
+]
