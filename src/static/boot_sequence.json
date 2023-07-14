@@ -132,6 +132,10 @@
     "delay": 13
   },
   {
+    "text": "init[1]: INFO: You can follow the development on https://github.com/TunaCici/Braavos",
+    "delay": 13
+  },
+  {
     "text": "KERNEL PANIC: No error message(s) were provided (error code -0x0000001)",
     "delay": 10
   }
