@@ -4,6 +4,12 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "SF Mono";
+  src: url("./static/SFMono-Bold.otf") format("opentype");
+  font-style: bold;
+}
+
 .App {
   height: 100vh;
 
