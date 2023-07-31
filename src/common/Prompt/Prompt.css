@@ -1,0 +1,59 @@
+.prompt {
+
+}
+
+.user-info-container {
+
+}
+
+.user-name {
+  color:green;
+}
+
+.host-name {
+  color: green;
+}
+
+.working-dir {
+  color: mediumslateblue;
+}
+
+.user-input-container {
+  
+}
+
+.user-input {
+  width: 0ch;
+  color: #fff;
+
+  font-size: 1rem;
+  font-family: inherit;
+
+  border: none;
+  background-color: transparent;
+  outline-color: transparent;
+  outline-style: none;
+
+  caret-color: transparent;
+}
+
+.blinker {
+  display: inline-block;
+
+  width: 0.25rem;
+  height: 1rem;
+
+  color: #fff;
+  background: #fff;
+
+  animation: cursor-blink 1s steps(2) infinite;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
