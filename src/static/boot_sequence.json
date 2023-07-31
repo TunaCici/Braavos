@@ -121,22 +121,6 @@
   },
   {
     "text": "init[1]: Launching terminal...",
-    "delay": 1000
-  },
-  {
-    "text": "init[1]: ERROR: Failed to launch terminal. (error code -1)",
-    "delay": 13
-  },
-  {
-    "text": "init[1]: ERROR: Causing kernel panic due to previous error. (Don't worry, I'll be back.)",
-    "delay": 13
-  },
-  {
-    "text": "init[1]: INFO: You can follow the development on https://github.com/TunaCici/Braavos",
-    "delay": 13
-  },
-  {
-    "text": "KERNEL PANIC: No error message(s) were provided (error code -0x0000001)",
-    "delay": 10
+    "delay": 500
   }
 ]

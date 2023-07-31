@@ -1,0 +1,68 @@
+.launchpad {
+  color: #fff;
+
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.launchpad-h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.launchpad-grid {
+  display: flex;
+  flex-direction: row;
+
+  gap: 4rem;
+  padding: 1rem 2rem 1rem 2rem;
+
+  border-radius: 16px;
+  background: rgba(83, 83, 83, 0.25);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  justify-content: center;
+}
+
+.launchpad-li {
+  list-style: none;
+}
+
+.launchpad-li:hover {
+  cursor: pointer;
+}
+
+.launchpad-app {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  transition: all 0.1s ease-in-out;
+}
+
+.launchpad-app:hover {
+  transform: scale(1.1);
+}
+
+.launchpad-h3 {
+  font-size: 0.75rem;
+}
+
+.launchpad-icon {
+  width: 6rem;
+  height: 6rem;
+
+  -webkit-box-reflect: below 2px
+  -webkit-gradient(linear, left top, left bottom, from(transparent),
+    color-stop(0.9, transparent), to(rgba(255,255,255,.5)));
+}
+
+
