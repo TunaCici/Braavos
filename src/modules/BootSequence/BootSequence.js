@@ -40,12 +40,18 @@ function BootSequence(props) {
     for (let i = 0; i < boot_sequence.length; i++) {
       let log = "[" + (delay / 1000).toFixed(6) + "] " + boot_sequence[i].text;
 
+      /* Add to the display queue */
       setTimeout(() => {
         appendCommandLine(<CommandLine text={log} key={i}></CommandLine>);
       }, delay);
 
       delay += boot_sequence[i].delay;
     }
+    
+    setTimeout(() => {
+      props.setBootState(BOOT_STATES.SUCCESS);
+    }, delay);
+
   }, []);
 
   /* Scroll to bottom of the screen */
@@ -58,7 +64,7 @@ function BootSequence(props) {
   return (
     <div id="bootScene" className="boot-scene">
       {commandLines}
-      {commandLines.length == boot_sequence.length && <span></span>}
+      {commandLines.length === boot_sequence.length && <span></span>}
     </div>
   );
 }
