@@ -1,0 +1,104 @@
+{
+        "bin": {
+                "type": "directory",
+
+                "sh": {
+                        "type": "executable"
+                },
+                "su": {
+                        "type": "executable"
+                },
+                "echo": {
+                        "type": "executable"
+                },
+                "ls": {
+                        "type": "executable"
+                },
+                "cat": {
+                        "type": "executable"
+                },
+                "clear": {
+                        "type": "executable"
+                }                        
+
+        },
+        "boot": {
+                "type": "directory"
+        },
+        "dev": {
+                "type": "directory",
+
+                "stdin": {
+                        "type": "character-device"
+                },
+                "stdout": {
+                        "type": "character-device"
+                },
+                "stderr": {
+                        "type": "character-device"
+                }
+        },
+        "etc": {
+                "type": "directory"
+        },
+        "home": {
+                "type": "directory",
+
+                "shiny-chrome-boi": {
+                        "type": "directory"
+                },
+                "safari-superstar": {
+                        "type": "directory"
+                },
+                "fire-breathing-fox": {
+                        "type": "directory"
+                },
+                "ancient-net-explorer": {
+                        "type": "directory"
+                },
+                "ms-cutting-edge": {
+                        "type": "directory"
+                },
+                "operatic-masterpiece": {
+                        "type": "directory"
+                }
+        },
+        "lib": {
+                "type": "directory"
+        },
+        "mnt": {
+                "type": "directory"
+        },
+        "proc": {
+                "type": "directory"
+        },
+        "root": {
+                "type": "directory",
+
+                "man": {
+                        "type": "executable"
+                },
+                "projects": {
+                        "type": "directory"
+                },
+                "writings": {
+                        "type": "directory"
+                }
+        },
+        "srv": {
+                "type": "directory"
+        },
+        "sys": {
+                "type": "directory"
+        },
+        "tmp": {
+                "type": "directory"
+        },
+        "usr": {
+                "type": "directory"
+        },
+        "var": {
+                "type": "directory"
+        }
+
+}
