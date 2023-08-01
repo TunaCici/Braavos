@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { interpreteCmd } from "./Interpreter";
 
 /* Modules */
 import CommandLine from "../CommandLine/CommandLine";
@@ -31,15 +30,16 @@ function Prompt(props) {
   };
 
   const getBaseURL = () => {
+    let baseURL = "127.0.0.1";
+
     try {
       const parsedURL = new URL(window.location.href);
-
-      return parsedURL.hostname;
+      baseURL = parsedURL.hostname;
     } catch (error) {
       console.error("Invalid URL:", error.message);
-
-      return "127.0.0.1";
     }
+
+    return baseURL;
   }
     
   const getPwd = () => {
@@ -52,20 +52,21 @@ function Prompt(props) {
   };
 
   const onUserKeyDown = (event) => {
-    if (event.key === "Enter") {
-      const command = event.target.value;
+    const shellPrompt = event.target.value;
 
+    if (event.key === "Enter") {
       props.appendToHistory(
         <Prompt
           key={"history-prompt-" + props.historySize()}
           isActive={false}
-          command={command}
+          shellPrompt={shellPrompt}
         />
       );
 
-      const response = interpreteCmd(command.split(" ")[0]);
-      console.debug(command, "[", response, "]");
-      
+      /* INTERPRETER */
+      const response = props.interpreter(shellPrompt);
+      /* END INTERPRETER */
+
       props.appendToHistory(
         <CommandLine
           key={"history-cmd-" + props.historySize()}
@@ -73,7 +74,18 @@ function Prompt(props) {
         />
       );
 
-      /* Clear input */
+      event.target.value = "";
+    } else if (event.ctrlKey && (
+        event.key === "c" || event.key === "C" ||
+        event.key === "z" || event.key === "Z")) {
+      props.appendToHistory(
+        <Prompt
+          key={"history-prompt-" + props.historySize()}
+          isActive={false}
+          shellPrompt={shellPrompt + "^" + event.key}
+        />
+      );
+
       event.target.value = "";
     }
   };
@@ -103,7 +115,7 @@ function Prompt(props) {
           disabled={false}
         />
         ) : (
-          <span className="user-input">{props.command}</span>
+          <span className="user-input">{props.shellPrompt}</span>
         )}
 
         {props.isActive && <span className="blinker"></span>}
