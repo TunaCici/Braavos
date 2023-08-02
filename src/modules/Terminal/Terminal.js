@@ -9,19 +9,38 @@ import CommandLine from "../../common/CommandLine/CommandLine";
 import "./Terminal.css";
 
 function Terminal(props) {
-  /* TODO: history should be stored in a state */
+  /* TODO: buffer & history should be stored in a state */
+  const [buffer, setBuffer] = useState([]);
   const [history, setHistory] = useState([]);
 
-  function appendToHistory(obj) {
-    setHistory((history) => [...history, obj]);
+  function addToBuffer(obj) { setBuffer((buffer) => [...buffer, obj]); }
+  function addToHistory(obj) { setHistory((history) => [...history, obj]); }
+
+  function clearBuffer() { setBuffer([]); }
+  function clearHistory() { setHistory([]); }
+
+  function bufferSize() { return buffer.length; }
+  function historySize() { return history.length; }
+
+  function removeHistoryItem(index) {
+    let newHistory = history.slice();
+    newHistory.splice(index, 1);
+    setHistory(newHistory);
   }
 
-  function historySize() {
-    return history.length;
-  }
-
-  function interpreter(shellPrompt) {
+  function interpreter(event, shellPrompt) {
     let response = "";
+
+    /* TODO: Browse history */
+    /* TODO: Set the 'response' variable to the history item (e.g. echo "hi") */
+    switch (event.key) {
+      case "ArrowUp":
+        break
+      case "ArrowDown":
+        break;
+      default:
+        break;
+    }
 
     if (shellPrompt) {
       response = interpreteCmd(shellPrompt);
@@ -35,14 +54,16 @@ function Terminal(props) {
     if (document.body.scrollHeight > window.innerHeight) {
       window.scrollTo(0, document.body.scrollHeight);
     }
-  }, [history]);
+  }, [buffer]);
 
   return (
     <div id="terminal" className="terminal"> 
-      {history}
+      {buffer}
       <Prompt
-        key={"history-prompt-0"}
-        appendToHistory={appendToHistory}
+        key={"main-prompt"}
+        addToBuffer={addToBuffer}
+        addToHistory={addToHistory}
+        bufferSize={bufferSize}
         historySize={historySize}
         interpreter={interpreter}
         isActive={true}

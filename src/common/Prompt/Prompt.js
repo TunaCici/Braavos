@@ -55,21 +55,25 @@ function Prompt(props) {
     const shellPrompt = event.target.value;
 
     if (event.key === "Enter") {
-      props.appendToHistory(
+      props.addToBuffer(
         <Prompt
-          key={"history-prompt-" + props.historySize()}
+          key={"buffer-prompt-" + props.bufferSize()}
           isActive={false}
           shellPrompt={shellPrompt}
         />
       );
 
+      if (shellPrompt) {
+        props.addToHistory(shellPrompt);
+      }
+
       /* INTERPRETER */
-      const response = props.interpreter(shellPrompt);
+      const response = props.interpreter(event, shellPrompt);
       /* END INTERPRETER */
 
-      props.appendToHistory(
+      props.addToBuffer(
         <CommandLine
-          key={"history-cmd-" + props.historySize()}
+          key={"buffer-cmdline-" + props.bufferSize()}
           text={response}
         />
       );
@@ -78,15 +82,22 @@ function Prompt(props) {
     } else if (event.ctrlKey && (
         event.key === "c" || event.key === "C" ||
         event.key === "z" || event.key === "Z")) {
-      props.appendToHistory(
+      props.addToBuffer(
         <Prompt
-          key={"history-prompt-" + props.historySize()}
+          key={"buffer-prompt-" + props.bufferSize()}
           isActive={false}
           shellPrompt={shellPrompt + "^" + event.key}
         />
       );
 
       event.target.value = "";
+    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      /* INTERPRETER */
+      const response = props.interpreter(event, shellPrompt);
+      /* END INTERPRETER */
+
+      event.target.value = response;
+      event.target.style.width = response.length + "ch";
     }
   };
 
