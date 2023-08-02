@@ -8,6 +8,12 @@
                 "su": {
                         "type": "executable"
                 },
+                "help": {
+                        "type": "executable"
+                },
+                "uname": {
+                        "type": "executable"
+                },
                 "echo": {
                         "type": "executable"
                 },
