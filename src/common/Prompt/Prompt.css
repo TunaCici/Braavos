@@ -23,7 +23,7 @@
 }
 
 .user-input {
-  width: 0ch;
+  width: 1ch;
   color: #fff;
 
   font-size: 1rem;
@@ -31,10 +31,6 @@
 
   border: none;
   background-color: transparent;
-  outline-color: transparent;
-  outline-style: none;
-
-  caret-color: transparent;
 }
 
 .blinker {
@@ -55,5 +51,11 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .user-input {
+    font-size: 0.75rem;
   }
 }
