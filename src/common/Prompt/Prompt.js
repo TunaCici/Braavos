@@ -47,41 +47,44 @@ function Prompt(props) {
   };
 
   const onUserInput = (event) => {
-    /* Resize */
-    event.target.style.width = event.target.value.length + "ch";
+    /* Resize. _min width is 1ch_ */
+    if (1 <= event.target.value.length) {
+      event.target.style.width = event.target.value.length + "ch";
+    }
   };
 
   const onUserKeyDown = (event) => {
     const shellPrompt = event.target.value;
 
-    if (event.key === "Enter") {
-      props.addToBuffer(
-        <Prompt
-          key={"buffer-prompt-" + props.bufferSize()}
-          isActive={false}
-          shellPrompt={shellPrompt}
-        />
-      );
+    switch (event.key) {
+      case "Enter":
+        props.addToBuffer(
+          <Prompt
+            key={"buffer-prompt-" + props.bufferSize()}
+            isActive={false}
+            shellPrompt={shellPrompt}
+          />
+        );
+  
+        if (shellPrompt) {
+          props.addToHistory(shellPrompt);
+        }
+  
+        event.target.value = "";
+        break;
+      case "ArrowUp":
+        props.decIter();
+        break
+      case "ArrowDown":
+        props.incIter();
+        break
+      default:
+        break;
+    };
 
-      if (shellPrompt) {
-        props.addToHistory(shellPrompt);
-      }
-
-      /* INTERPRETER */
-      const response = props.interpreter(event, shellPrompt);
-      /* END INTERPRETER */
-
-      props.addToBuffer(
-        <CommandLine
-          key={"buffer-cmdline-" + props.bufferSize()}
-          text={response}
-        />
-      );
-
-      event.target.value = "";
-    } else if (event.ctrlKey && (
-        event.key === "c" || event.key === "C" ||
-        event.key === "z" || event.key === "Z")) {
+    if (event.ctrlKey && (
+      event.key === "c" || event.key === "C" ||
+      event.key === "z" || event.key === "Z")) {
       props.addToBuffer(
         <Prompt
           key={"buffer-prompt-" + props.bufferSize()}
@@ -89,16 +92,7 @@ function Prompt(props) {
           shellPrompt={shellPrompt + "^" + event.key}
         />
       );
-
-      event.target.value = "";
-    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      /* INTERPRETER */
-      const response = props.interpreter(event, shellPrompt);
-      /* END INTERPRETER */
-
-      event.target.value = response;
-      event.target.style.width = response.length + "ch";
-    }
+      }
   };
 
   return (
@@ -128,8 +122,6 @@ function Prompt(props) {
         ) : (
           <span className="user-input">{props.shellPrompt}</span>
         )}
-
-        {props.isActive && <span className="blinker"></span>}
       </span>
     </div>
   );
