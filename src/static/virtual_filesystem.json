@@ -1,110 +1,113 @@
 {
         "bin": {
-                "type": "directory",
+                ".type": "directory",
 
                 "sh": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "su": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "help": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "uname": {
-                        "type": "executable"
+                        ".type": "executable"
+                },
+                "history": {
+                        ".type": "executable"
                 },
                 "echo": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "ls": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "cat": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "clear": {
-                        "type": "executable"
+                        ".type": "executable"
                 }                        
 
         },
         "boot": {
-                "type": "directory"
+                ".type": "directory"
         },
         "dev": {
-                "type": "directory",
+                ".type": "directory",
 
                 "stdin": {
-                        "type": "character-device"
+                        ".type": "character-device"
                 },
                 "stdout": {
-                        "type": "character-device"
+                        ".type": "character-device"
                 },
                 "stderr": {
-                        "type": "character-device"
+                        ".type": "character-device"
                 }
         },
         "etc": {
-                "type": "directory"
+                ".type": "directory"
         },
         "home": {
-                "type": "directory",
+                ".type": "directory",
 
                 "shiny-chrome-boi": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "safari-superstar": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "fire-breathing-fox": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "ancient-net-explorer": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "ms-cutting-edge": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "operatic-masterpiece": {
-                        "type": "directory"
+                        ".type": "directory"
                 }
         },
         "lib": {
-                "type": "directory"
+                ".type": "directory"
         },
         "mnt": {
-                "type": "directory"
+                ".type": "directory"
         },
         "proc": {
-                "type": "directory"
+                ".type": "directory"
         },
         "root": {
-                "type": "directory",
+                ".type": "directory",
 
                 "man": {
-                        "type": "executable"
+                        ".type": "executable"
                 },
                 "projects": {
-                        "type": "directory"
+                        ".type": "directory"
                 },
                 "writings": {
-                        "type": "directory"
+                        ".type": "directory"
                 }
         },
         "srv": {
-                "type": "directory"
+                ".type": "directory"
         },
         "sys": {
-                "type": "directory"
+                ".type": "directory"
         },
         "tmp": {
-                "type": "directory"
+                ".type": "directory"
         },
         "usr": {
-                "type": "directory"
+                ".type": "directory"
         },
         "var": {
-                "type": "directory"
+                ".type": "directory"
         }
 
 }
