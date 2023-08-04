@@ -1,0 +1,52 @@
+{
+  "projects": [
+    {
+      "name": "WesterOS",
+      "url": "https://github.com/TunaCici/WesterOS",
+      "description": "Hobbyist operating system /w M.Kernel design.",
+      "authors": "Tuna CICI (me)"
+    },
+    {
+      "name": "QEMU_Starter",
+      "url": "https://github.com/TunaCici/QEMU_Starter",
+      "description": "Pseudo-wiki; offering guides, tutorials, and examples for new QEMU users.",
+      "authors": "Tuna CICI (me)"
+    },
+    {
+      "name": "Braavos",
+      "url": "https://github.com/TunaCici/Braavos",
+      "description": "The web application you are using right now.",
+      "authors": "Tuna CICI (me)"
+    },
+    {
+      "name": "Mhysa",
+      "url": "https://github.com/TunaCici/Mhysa",
+      "description": "Collection of popular C++ algorithms, data structures, utilities and helper functions.",
+      "authors": "Tuna CICI (me)"
+    },
+    {
+      "name": "A.S.R.O.",
+      "url": "https://github.com/yasin-herken/ASRO",
+      "description": "Smart Swarm Robots (Akillı Suru Robotlari), aka ASRO, is a project that aims to create highly efficient swarm control of drones using complex algorithms and artificial intelligence.",
+      "authors": "Dilara OZCAN, Yasin HERKEN, Tuna CICI (me)"
+    },
+    {
+      "name": "Lexus",
+      "url": "https://github.com/TunaCici/Lexus",
+      "description": "Control software for a Raspberry Pi wearable /w YOLOv4 computer vision.",
+      "authors": "Dilara OZCAN, Yasin HERKEN, Yilmaz KESKIN, Tuna CICI (me)"
+    },
+    {
+      "name": "Movie_Town",
+      "url": "https://github.com/TunaCici/Movie_Town",
+      "description": "Search and discover IMDb movies in a web application written using the Flask framework. Uses services such as MongoDB, ElasticSearch, Redis and RabbitMQ.",
+      "authors": "Tuna CICI (me)"
+    },
+    {
+      "name": "PetLove",
+      "url": "https://github.com/TunaCici/PetLove",
+      "description": "An Android application developed using native Android Studio Tools.",
+      "authors": "Bayram YASAR, Tuna CICI (me)"
+    }
+  ]
+}
