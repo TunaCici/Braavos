@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 /* Static assets */
-import rotating_cube from "./static/rotating_cube.gif";
 import { BOOT_STATES } from "./static/enumerations.js";
 
 /* Modules */
@@ -21,13 +20,19 @@ function App() {
     setState(newState);
   };
 
+  const getBootState = () => {
+    return BOOT_STATE;
+  };
+
   useEffect(() => {
     console.debug("BOOT_STATE: ", BOOT_STATE);
 
     switch (BOOT_STATE) {
       case BOOT_STATES.INITIAL:
         break;
-      case BOOT_STATES.BOOTING:
+      case BOOT_STATES.STAGE_1:
+        break;
+      case BOOT_STATES.STAGE_2:
         break;
       case BOOT_STATES.SUCCESS:
         window.location.href = "/launchpad";
@@ -43,12 +48,11 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<BootSequence setBootState={setBootState} />} />
+          <Route path="/" element={<BootSequence setBootState={setBootState} getBootState={getBootState} />} />
           <Route path="/launchpad" element={<Launchpad />} />
           <Route path="/terminal" element={<Terminal />} />
 
-          {/* 404 to '/' */}
-          <Route path="*" element={<BootSequence setBootState={setBootState} />} />
+          <Route path="*" element={<BootSequence setBootState={setBootState} getBootState={getBootState} />} />
         </Routes>
       </div>
     </Router>
