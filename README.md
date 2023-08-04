@@ -61,3 +61,7 @@ $ npm build
 **5. Now go and explore everything!**
 
 [1]: https://gameofthrones.fandom.com/wiki/Braavos
+
+----
+
+<img src="media/TunaCiciSignature.gif" width="240" alt="Tuna Cici Signature" />
