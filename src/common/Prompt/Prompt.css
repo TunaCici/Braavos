@@ -7,15 +7,15 @@
 }
 
 .user-name {
-  color:green;
+  color:#39be2b;
 }
 
 .host-name {
-  color: green;
+  color: #39be2b;
 }
 
 .working-dir {
-  color: mediumslateblue;
+  color: #d43bd2;
 }
 
 .user-input-container {

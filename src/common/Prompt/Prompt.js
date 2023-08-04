@@ -74,27 +74,30 @@ function Prompt(props) {
         break;
       case "ArrowUp":
         props.decIter();
-        break
+        break;
       case "ArrowDown":
         props.incIter();
         break
+      case "c":
+      case "C":
+      case "z":
+      case "Z":
+        if (event.ctrlKey) {
+          event.target.value = "";
+    
+          props.addToBuffer(
+            <Prompt
+              key={"buffer-prompt-" + props.bufferSize()}
+              isActive={false}
+              shellPrompt={shellPrompt + "^" + event.key}
+            />
+          );
+        }
+        break;
       default:
         break;
     };
-
-    if (event.ctrlKey && (
-      event.key === "c" || event.key === "C" ||
-      event.key === "z" || event.key === "Z")) {
-      props.addToBuffer(
-        <Prompt
-          key={"buffer-prompt-" + props.bufferSize()}
-          isActive={false}
-          shellPrompt={shellPrompt + "^" + event.key}
-        />
-      );
-      }
-  };
-
+  }
   return (
     <div id="prompt" className="prompt">
       <span className="user-info-container">
@@ -112,7 +115,6 @@ function Prompt(props) {
           id="userInput"
           type="text" className="user-input"
           autoFocus={true}
-          onBlur={({ target }) => target.focus()}
           onChange={onUserInput}
           onKeyDown={onUserKeyDown}
           spellCheck={false}
