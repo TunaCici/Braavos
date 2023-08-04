@@ -3,33 +3,75 @@
                 ".type": "directory",
 
                 "sh": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "Braavos [incomplete] command interpreter",
+                        ".usage": "sh"
                 },
                 "su": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "change user ID",
+                        ".usage": "su [username]"
+                },
+                "date": {
+                        ".type": "executable",
+                        ".man": "print the current date and time",
+                        ".usage": "date"
                 },
                 "help": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "print available commands",
+                        ".usage": "help"
+                },
+                "man": {
+                        ".type": "executable",
+                        ".man": "display manual page for a command/file",
+                        ".usage": "man [command/file]"
                 },
                 "uname": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "print certain system information",
+                        ".usage": "uname [-amnoprsv]"
                 },
                 "history": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "print the history of commands",
+                        ".usage": "history"
                 },
                 "echo": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "print a line of text",
+                        ".usage": "echo [text]"
                 },
                 "ls": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "list directory contents",
+                        ".usage": "ls [directory] [-al] "
                 },
                 "cat": {
-                        ".type": "executable"
+                        ".type": "executable",
+                        ".man": "print the contents of a file",
+                        ".usage": "cat [file]"
+                },
+                "file": {
+                        ".type": "executable",
+                        ".man": "determine file type",
+                        ".usage": "file [file]"
                 },
                 "clear": {
-                        ".type": "executable"
-                }                        
-
+                        ".type": "executable",
+                        ".man": "clear the terminal screen",
+                        ".usage": "clear"
+                },
+                "projects": {
+                        ".type": "executable",
+                        ".man": "print the projects directory",
+                        ".usage": "projects"
+                },
+                "writings": {
+                        ".type": "executable",
+                        ".man": "print the writings directory",
+                        ".usage": "writings"
+                }
         },
         "boot": {
                 ".type": "directory"
@@ -84,9 +126,6 @@
         "root": {
                 ".type": "directory",
 
-                "man": {
-                        ".type": "executable"
-                },
                 "projects": {
                         ".type": "directory"
                 },
