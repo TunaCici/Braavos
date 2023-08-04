@@ -6,20 +6,3 @@
 
   margin-top: 16px;
 }
-
-.boot-scene span {
-  display: inline-block;
-
-  width: 8px;
-  height: 16px;
-
-  background: #fff;
-
-  animation: cursor-blink 1s steps(2) infinite;
-}
-
-@keyframes cursor-blink {
-  0% {
-    opacity: 0;
-  }
-}

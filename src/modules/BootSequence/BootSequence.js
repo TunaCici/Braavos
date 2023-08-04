@@ -6,12 +6,15 @@ import { BOOT_STATES } from "../../static/enumerations.js";
 
 /* Modules */
 import CommandLine from "../../common/CommandLine/CommandLine.js";
+import BootScreen from "../../common/BootScreen/BootScreen.js";
 
 /* CSS */
 import "./BootSequence.css";
 
 function BootSequence(props) {
   const [commandLines, setCommandLines] = useState([]);
+  const [stage, setStage] = useState(0);
+
   const AsyncLock = require("async-lock");
   const lock = new AsyncLock();
 
@@ -35,7 +38,7 @@ function BootSequence(props) {
   useEffect(() => {
     let delay = 0;
 
-    props.setBootState(BOOT_STATES.BOOTING);
+    props.setBootState(BOOT_STATES.STAGE_1);
 
     for (let i = 0; i < boot_sequence.length; i++) {
       let log = "[" + (delay / 1000).toFixed(6) + "] " + boot_sequence[i].text;
@@ -49,7 +52,7 @@ function BootSequence(props) {
     }
     
     setTimeout(() => {
-      props.setBootState(BOOT_STATES.SUCCESS);
+      props.setBootState(BOOT_STATES.STAGE_2);
     }, delay);
 
   }, []);
@@ -63,8 +66,8 @@ function BootSequence(props) {
 
   return (
     <div id="bootScene" className="boot-scene">
-      {commandLines}
-      {commandLines.length === boot_sequence.length && <span></span>}
+      { props.getBootState() === BOOT_STATES.STAGE_1 && commandLines }
+      { props.getBootState() === BOOT_STATES.STAGE_2 && <BootScreen setBootState={props.setBootState} /> }
     </div>
   );
 }
