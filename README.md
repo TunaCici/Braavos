@@ -63,5 +63,7 @@ $ npm build
 [1]: https://gameofthrones.fandom.com/wiki/Braavos
 
 ----
+<div style="text-align: center;">
+  <img src="media/TunaCiciSignature.gif" width="240" alt="Tuna Cici Signature" />
+</div>
 
-<img src="media/TunaCiciSignature.gif" width="240" alt="Tuna Cici Signature" />
