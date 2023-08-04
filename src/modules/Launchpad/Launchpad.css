@@ -65,4 +65,19 @@
     color-stop(0.9, transparent), to(rgba(255,255,255,.5)));
 }
 
+.launchpad-footer {
+  position: absolute;
+  bottom: 0;
 
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.launchpad-signature {
+  width: 12rem;
+
+  margin-bottom: 2rem;
+}
