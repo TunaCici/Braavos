@@ -78,9 +78,6 @@ function Terminal(props) {
 
   /* Handle history browsing (a.k.a. Arrow keys) */
   useEffect(() => {
-    console.debug("iter:", iter);
-    console.debug("history:", history);
-
     /* TODO: This is WAAY to dirty...*/
     let userInput = document.getElementById("userInput");
     let newValue = "";
@@ -96,8 +93,13 @@ function Terminal(props) {
 
   }, [iter]);
 
+  const onTerminalClick = (e) => {
+    let userInput = document.getElementById("userInput");
+    userInput.focus();
+  };
+
   return (
-    <div id="terminal" className="terminal"> 
+    <div id="terminal" className="terminal" onClick={ onTerminalClick }> 
       {buffer}
       <Prompt
         id="main-prompt"
