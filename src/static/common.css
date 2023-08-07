@@ -1,0 +1,43 @@
+.projects {
+  display: flex;
+
+  flex-direction: row;
+  
+  height: 100%;
+}
+
+.writings {
+  display: flex;
+
+  flex-direction: row;
+  
+  height: 100%;
+}
+
+.cool-blue {
+  color: #009DDC;
+}
+
+.cool-yellow {
+  color: #FDB827;
+}
+
+.cool-orange {
+  color: #F5821F;
+}
+
+.cool-purple {
+  color: #963D97;
+}
+
+.cool-green {
+  color:#61BB46;
+}
+
+.cool-magenta {
+  color: #d43bd2;
+}
+
+.cool-red {
+  color: #E03A3E;
+}
