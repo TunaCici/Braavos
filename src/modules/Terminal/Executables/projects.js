@@ -2,15 +2,15 @@
 import virtfs from "../../../static/virtual_filesystem.json";
 import projectsJSON from "../../../static/projects.json";
 
+/* CSS */
+import "../../../static/common.css";
+
 /* I'll use static/projects.json to store my projects. */
 /* This goes against my vision for Braavos... For that, I'm sad;( */
 /* TODO: After 'pwd' is implemented, look under /root/projects. */
 function projects(args) {
-  let retMsg = "";
-
   let availableProjects = [];
 
-  /* go over the array of projects projectsJSON["projects"] */
   for (let i = 0; i < projectsJSON["projects"].length; i++) {
     let project = projectsJSON["projects"][i];
 
@@ -19,24 +19,29 @@ function projects(args) {
     let url = project["url"];
     let authors = project["authors"];
 
-    /* Keep name exactly 16 characters with space */
-    if (name.length > 16) {
-      name = name.substring(0, 12) + "... ";
-    } else {
-      name = name + " ".repeat(16 - name.length);
+    if (description.length > 64) {
+      description = description.slice(0, 61) + "...";
     }
 
-    /* Keep description under 64 characters */
-    if (description.length > 64) {
-      description = description.substring(0, 60) + "...";
-    }
-    
-    availableProjects.push(name + "\t- " + description);
+    let leadingSpaces = 14 - name.length;
+    description = " ".repeat(leadingSpaces) + "- " + description;
+
+    let projectHTML = (
+      <div id={"project-" + i} className="projects">
+        <div id={"project-no-" + i}>{i} </div>
+        <a href={url} className="cool-blue" target="_blank">{name}</a>
+        <div id={"project-desc-" + i}>{description}</div>
+      </div>
+    );
+
+    availableProjects.push(projectHTML);
   }
 
-  retMsg = availableProjects.join("\n");
-
-  return retMsg;
+  return (
+    <div id="prpjects-output">
+      {availableProjects}
+    </div>
+  )
 }
 
 export { projects };
