@@ -12,6 +12,9 @@ import { date } from "./Executables/date.js";
 import { help } from "./Executables/help.js";
 import { man } from "./Executables/man.js";
 import { projects } from "./Executables/projects";
+import { writings } from "./Executables/writings";
+import { file } from "./Executables/file";
+import { neofetch } from "./Executables/neofetch";
 
 /* Register executables */
 var context = {};
@@ -26,6 +29,9 @@ context["date"] = date;
 context["help"] = help;
 context["man"] = man;
 context["projects"] = projects;
+context["writings"] = writings;
+context["file"] = file;
+context["neofetch"] = neofetch;
 
 /* Thanks to: https://www.inflectra.com/Support/KnowledgeBase/KB242.aspx */
 function execFn(fnName, ctx /*, args */) 
@@ -60,7 +66,7 @@ function interpreteCmd(shellPrompt) {
       retMsg = execFn(command, context, args);
     }
     catch (error) {
-      retMsg = "sh: " + command + ": not yet implemented ";
+      retMsg = "sh: " + command + ": not yet implemented " + error;
     }
   } else {
     retMsg = "sh: command not found: " + command;
