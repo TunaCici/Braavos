@@ -71,6 +71,11 @@
                         ".type": "executable",
                         ".man": "print the writings directory",
                         ".usage": "writings"
+                },
+                "neofetch": {
+                        ".type": "executable",
+                        ".man": "system info (aka-1 welcoming screen) (aka-2 a-ricers-must-have)",
+                        ".usage": "writings"
                 }
         },
         "boot": {
