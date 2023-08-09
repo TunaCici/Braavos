@@ -1,0 +1,29 @@
+{
+  "contact": [
+    {
+      "place": "X (formerly Twitter)",
+      "username": "@tunacicii",
+      "url": "https://twitter.com/tunacicii"
+    },
+    {
+      "place": "Discord",
+      "username": "tunacici",
+      "url": "http://discordapp.com/users/tunacici"
+    },
+    {
+      "place": "GitHub",
+      "username": "TunaCici",
+      "url": "https://github.com/TunaCici"
+    },
+    {
+      "place": "Mastodon",
+      "username": "@tunacici@mastodon.social",
+      "url": "https://mastodon.social/@tunacici"
+    },
+    {
+      "place": "Mail",
+      "username": "tunacici7@gmail.com",
+      "url": "mailto:tunacici7@gmail.com"
+    }
+  ] 
+}
