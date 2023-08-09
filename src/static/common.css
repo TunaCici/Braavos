@@ -6,6 +6,12 @@
   height: 100%;
 }
 
+.projects-description {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
 .writings {
   display: flex;
 
@@ -40,4 +46,24 @@
 
 .cool-red {
   color: #E03A3E;
+}
+
+.cool-discord {
+  color: #7289da;
+}
+
+.cool-twitter {
+  color: #1DA1F2;
+}
+
+.cool-github {
+  color: #6cc644;
+}
+
+.cool-mastadon {
+  color: #6059f2;
+}
+
+.cool-mail {
+  color: #ea4335;
 }
