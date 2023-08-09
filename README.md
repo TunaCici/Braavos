@@ -64,6 +64,6 @@ $ npm build
 
 ----
 <div style="text-align: center;">
-  <img src="media/TunaCiciSignature.gif" width="240" alt="Tuna Cici Signature" />
+  <img src="media/TunaCiciSignBW.gif" width="240" alt="Tuna Cici Signature" />
 </div>
 
