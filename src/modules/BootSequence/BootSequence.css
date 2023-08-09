@@ -5,4 +5,13 @@
   justify-content: center;
 
   margin-top: 16px;
+
+  font-weight: normal;
+}
+
+/* Decrease the font size for the terminal on smaller screens */
+@media (max-width: 768px) {
+  .boot-scene {
+    font-size: 0.66rem;
+  }
 }

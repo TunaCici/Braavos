@@ -1,13 +1,29 @@
-@font-face {
-  font-family: "SF Mono";
-  src: url("./static/SFMono-Regular.otf") format("opentype");
+ @font-face {
+  font-family: 'Hack';
+  src: url('static/fonts/hack-regular.woff2?sha=3114f1256') format('woff2'), url('static/fonts/hack-regular.woff?sha=3114f1256') format('woff');
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "SF Mono";
-  src: url("./static/SFMono-Bold.otf") format("opentype");
-  font-style: bold;
+  font-family: 'Hack';
+  src: url('static/fonts/hack-bold.woff2?sha=3114f1256') format('woff2'), url('static/fonts/hack-bold.woff?sha=3114f1256') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('static/fonts/hack-italic.woff2?sha=3114f1256') format('woff2'), url('static/fonts/hack-italic.woff?sha=3114f1256') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('static/fonts/hack-bolditalic.woff2?sha=3114f1256') format('woff2'), url('static/fonts/hack-bolditalic.woff?sha=3114f1256') format('woff');
+  font-weight: 700;
+  font-style: italic;
 }
 
 .App {
@@ -16,8 +32,7 @@
   display: flex;
   flex-direction: column;
 
-  font-family: "SF Mono";
-  font-style: normal;
+  font-family: "Hack";
 }
 
 h2 {

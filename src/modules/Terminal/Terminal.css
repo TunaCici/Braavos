@@ -1,5 +1,5 @@
 .terminal {
-  color: #fff;
+  color: #fafafa;
 
   height: 100%;
 
@@ -7,4 +7,17 @@
   flex-direction: column;
 
   padding: 0.5rem;
+
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Decrease the font size for the terminal on smaller screens */
+@media (max-width: 768px) {
+  .terminal {
+    margin-top: 2.5rem;
+
+    font-size: 0.6rem;
+    font-weight: bolder;
+  }
 }
