@@ -12,6 +12,11 @@
                         ".man": "change user ID",
                         ".usage": "su [username]"
                 },
+                "exit": {
+                        ".type": "executable",
+                        ".man": "exit the shell (returns to Launchpad)",
+                        ".usage": "exit"
+                },
                 "date": {
                         ".type": "executable",
                         ".man": "print the current date and time",
@@ -62,14 +67,19 @@
                         ".man": "clear the terminal screen",
                         ".usage": "clear"
                 },
+                "contact": {
+                        ".type": "executable",
+                        ".man": "print the contact directory (personal)",
+                        ".usage": "contact"
+                },
                 "projects": {
                         ".type": "executable",
-                        ".man": "print the projects directory",
+                        ".man": "print the projects directory (personal)",
                         ".usage": "projects"
                 },
                 "writings": {
                         ".type": "executable",
-                        ".man": "print the writings directory",
+                        ".man": "print the writings directory (personal)",
                         ".usage": "writings"
                 },
                 "neofetch": {
@@ -135,6 +145,9 @@
                         ".type": "directory"
                 },
                 "writings": {
+                        ".type": "directory"
+                },
+                "contact": {
                         ".type": "directory"
                 }
         },
