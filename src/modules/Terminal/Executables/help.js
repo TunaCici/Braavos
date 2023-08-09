@@ -9,6 +9,7 @@ function help(args) {
   for (let node in virtfs.bin) {
     if (virtfs.bin[node][".type"] === "executable") {
       let command = node;
+      if (command === "contact") {command = "contact ";} /* TODO: Ugly code alert! */
       let man = virtfs.bin[node][".man"];
 
       availableCommands.push(command + "\t- " + man);
