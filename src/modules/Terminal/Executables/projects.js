@@ -27,10 +27,10 @@ function projects(args) {
     description = " ".repeat(leadingSpaces) + "- " + description;
 
     let projectHTML = (
-      <div id={"project-" + i} className="projects">
-        <div id={"project-no-" + i}>{i} </div>
+      <div key={"projects-" + i} className="projects">
+        <div key={"projects-no-" + i}>{i} </div>
         <a href={url} className="cool-blue" target="_blank">{name}</a>
-        <div id={"project-desc-" + i}>{description}</div>
+        <div key={"projects-desc-" + i} className="projects-description">{description}</div>
       </div>
     );
 
@@ -38,7 +38,7 @@ function projects(args) {
   }
 
   return (
-    <div id="prpjects-output">
+    <div id="projects-output">
       {availableProjects}
     </div>
   )
