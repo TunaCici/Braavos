@@ -48,7 +48,7 @@ function Terminal(props) {
     if (shellPrompt) {
       response = interpreteCmd(shellPrompt);
 
-      /* TODO: Completely fucked up design here.. When is global state mgmt? */
+      /* TODO: Completely fcked up design here.. When is global state mgmt? */
       if (response === "clear") {
         clearBuffer();
         return;
@@ -58,6 +58,9 @@ function Terminal(props) {
         for (let i = 0; i < history.length; i++) {
           response += i + " " + history[i] + "\n";
         }
+      } else if (response === "exit") {
+        window.location.href = "/launchpad";
+        return;
       }
 
       addToBuffer(
@@ -69,10 +72,18 @@ function Terminal(props) {
     }
   }, [history]);
 
-  /* Scroll to bottom of the screen */
+  /* Check if userInput is out of the visibale are, if so scrollIntoView */
   useEffect(() => {
-    if (document.body.scrollHeight > window.innerHeight) {
-      window.scrollTo(0, document.body.scrollHeight);
+    let userInput = document.getElementById("userInput");
+    let terminal = document.getElementById("terminal");
+
+    if (userInput && terminal) {
+      let userInputRect = userInput.getBoundingClientRect();
+      let terminalRect = terminal.getBoundingClientRect();
+
+      if (userInputRect.bottom > terminalRect.bottom) {
+        userInput.scrollIntoView();
+      }
     }
   }, [buffer]);
 
@@ -92,6 +103,10 @@ function Terminal(props) {
     userInput.style.width = newWidth;
 
   }, [iter]);
+
+  useEffect(() => {
+    addToHistory("neofetch");
+  }, []);
 
   const onTerminalClick = (e) => {
     let userInput = document.getElementById("userInput");
