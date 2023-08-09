@@ -57,10 +57,14 @@ function BootSequence(props) {
 
   }, []);
 
-  /* Scroll to bottom of the screen */
+  /* Scroll to bottom of the screen if too many elements */
   useEffect(() => {
-    if (document.body.scrollHeight > window.innerHeight) {
-      window.scrollTo(0, document.body.scrollHeight);
+    const bootScene = document.getElementById("bootScene");
+    const bootSceneHeight = bootScene.clientHeight;
+    const bootSceneScrollHeight = bootScene.scrollHeight;
+    
+    if (bootSceneScrollHeight > bootSceneHeight) {
+      bootScene.scrollTop = bootSceneScrollHeight - bootSceneHeight;
     }
   }, [commandLines]);
 
