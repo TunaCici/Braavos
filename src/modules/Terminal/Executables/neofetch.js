@@ -28,45 +28,47 @@ const darwin = [
 "        .--------:.....::-------:    "
 ];
 
-const linux = [
-  "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░", 
-  "░░▒▓█▓▒░░░░░░░▓▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░", 
-  "░░░▒█▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░", 
-  "░░░▒█▒░░░░░░░▒▓▒░░▒▓▓░▒▓▓▓░░░▒▓▒░░▒▓▓░░▒▓▓▒░░▒▓▒░░", 
-  "░░░▒█▒░░░░░░░░█▓░░░▓█▒░░░█▓░░░█▓░░░▓█░░░░▓█▒▒▓░░░░", 
-  "░░░▒█▒░░░░░░░░█▓░░░▓█░░░░█▓░░░█▓░░░▓█░░░░░▒█▓░░░░░", 
-  "░░░▒█▒░░░░▓▒░░█▓░░░▓█░░░░█▓░░░█▓░░░▓█░░░░▒▓░▓█░░░░", 
-  "░░▒▓▓▓▒▒▒▓▓░░▒▓▓▒░▒▓▓▒░░▒▓▓▒░░▒▓▓▒▒▒▓▒░▒▓▓░░░▓▓▒░░"
+const linux = [                                                                       
+"               .                                            ",
+" -+++++-      +@@-                                          ",
+"   @@@         --                                       ..  ",
+"   @@@       :=*#  .-+*+-+*#*:  .=+#:  -+**  +***+ .+*+-..  ",
+"   @@@       .+@@.  :@@#:.:#@@  .-@@-  .#@@   .%@#..#+      ",
+"   @@@        =@@.   @@*   -@@.  :@@-   #@@     +@@@:       ",
+"  @@@    :=. =@@.   @@*   -@@.  :@@=   #@@     =%%@#        ",
+"   @@@    *@: =@@.   @@*   -@@:  .@@%-::%@@   :%*  *@@:     ",
+" -++++++++++.=++++-.++++= :++++-  :+**=:=+++.++++  =++++    ",
+"                                      ......::::::::::..    ",
+"               ....:::::-----=========++++++++++++++==-:    ",
+"   ..:::--------========================---:::...           ",
+" .---------------======---:::....                           ",
+" :--------------::..                                        ",
+" :-------::.                                                ",
+"  ---:.                                                     ",
+"   . "
 ]
 
 const win32 = [
-  "                                             .....", 
-  "                                   .....@@@@@@@@@@", 
-  "                         ....@@@@@@@@@@@@@@@@@@@@@", 
-  "              ....   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "    ...@@@@@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "                                                  ", 
-  "@@@@@@@@@@@@@@@@@@   @@@@@@@@.....................", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  ".@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "         ..@@@@@@@.  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-  "                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@", 
-  "                             ..@@@@@@@@@@@@@@@@@@@",
-  "                                       ...@@@@@@@@"
+"                              .....:::::",
+"                  ...::::--------------:",
+"  ....:::::-----  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"................  ..................... ",
+"................  ......................",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"----------------  :--------------------:",
+"  .....::::-----  :--------------------:",
+"                  ...:::::-------------:",
+"                               .....:::."
 ];
 
 /* Helper functions */
@@ -104,22 +106,19 @@ function getBrowser() {
   return browser;
 };
 
-const whoamiLine = 4;
-const dashLine = 5;
-const osLine = 6;
-const hostLine = 7;
-const kernelLine = 8;
-const dateLine = 9;
-const timeLine = 10
-const shellLine = 11;
-const themeLine = 12;
-const fontLine = 13;
-const projectLine = 14;
+const whoamiLine = 3;
+const dashLine = 4;
+const osLine = 5;
+const hostLine = 6;
+const kernelLine = 7;
+const dateLine = 8;
+const timeLine = 9
+const shellLine = 10;
+const themeLine = 11;
+const fontLine = 12;
+const projectLine = 13;
 
-const helpLine = 20;
-const enjoyLine = 21;
-
-const whoami = "Hello: " + getBrowser();
+const whoami = "Hello, " + getBrowser();
 const myDash = "-".repeat(36);
 const myOS = "Operating System: " + "Braavos";
 const myHost = "Host: " + getBaseURL();
@@ -128,7 +127,7 @@ const myDate = "Date: " + new Date().toDateString();
 const myTime = "Time: " + new Date().toLocaleTimeString();
 const myShell = "Shell: " + "sh 0.3.x";
 const myTheme = "Theme: " + "dark";
-const myFont = "Font: SF Mono Bold";
+const myFont = "Font: Hack Bold";
 const projectURL = "Project: " + "github.com/TunaCici/Braavos";
 const myHelp = "Type 'help' to get started.";
 const myEnjoy = "Enjoy life!";
@@ -137,7 +136,6 @@ function printDarwin() {
   let lines = [];
   let color = "";
 
-  /* line by line */
   for (let i = 0; i < darwin.length; i++) {
     let lineText = darwin[i];
 
@@ -155,50 +153,51 @@ function printDarwin() {
       color = "cool-blue";
     }
 
-    let leadingSpaces = 8;
+    let leadingSpaces = 4;
 
     switch (i) {
       case whoamiLine:
-        lineText += "".repeat(leadingSpaces) + whoami;
+        lineText += " ".repeat(leadingSpaces) + whoami;
         break;
       case dashLine:
-        lineText += "".repeat(leadingSpaces) + myDash;
+        lineText += " ".repeat(leadingSpaces) + myDash;
         break;
       case osLine:
-        lineText += "".repeat(leadingSpaces) + myOS;
+        lineText += " ".repeat(leadingSpaces) + myOS;
         break;
       case hostLine:
-        lineText += "".repeat(leadingSpaces) + myHost;
+        lineText += " ".repeat(leadingSpaces) + myHost;
         break;
       case kernelLine:
-        lineText += "".repeat(leadingSpaces) + myKernel;
+        lineText += " ".repeat(leadingSpaces) + myKernel;
         break;
       case dateLine:
-        lineText += "".repeat(leadingSpaces) + myDate;
+        lineText += " ".repeat(leadingSpaces) + myDate;
         break;
       case timeLine:
-        lineText += "".repeat(leadingSpaces) + myTime;
+        lineText += " ".repeat(leadingSpaces) + myTime;
         break;
       case shellLine:
-        lineText += "".repeat(leadingSpaces) + myShell;
+        lineText += " ".repeat(leadingSpaces) + myShell;
         break;
       case themeLine:
-        lineText += "".repeat(leadingSpaces) + myTheme;
+        lineText += " ".repeat(leadingSpaces) + myTheme;
         break;
       case fontLine:
-        lineText += "".repeat(leadingSpaces) + myFont;
+        lineText += " ".repeat(leadingSpaces) + myFont;
         break;
       case projectLine:
-        lineText += "".repeat(leadingSpaces) + projectURL;
-        break;
-      case helpLine:
-        lineText += "".repeat(leadingSpaces) + myHelp;
-        break;
-      case enjoyLine:
-        lineText += "".repeat(leadingSpaces) + myEnjoy;
+        lineText += " ".repeat(leadingSpaces) + projectURL;
         break;
       default:
         break;
+    }
+
+    /* Last two lines "gives-gift" & "give-life" */
+    if (i === darwin.length - 3) {
+      lineText += " ".repeat(leadingSpaces) + myHelp;
+    } else if (i === darwin.length - 2) {
+      lineText += " ".repeat(leadingSpaces) + myEnjoy;
     }
 
     lines.push(
@@ -216,9 +215,142 @@ function printDarwin() {
 };
 
 function printLinux() {
+  let lines = [];
+  let color = "";
+
+  for (let i = 0; i < linux.length; i++) {
+    let lineText = linux[i];
+
+    let leadingSpaces = 0;
+
+    if (9 <= i) {
+      color = "cool-yellow";
+    }
+
+    switch (i) {
+      case whoamiLine:
+        lineText += " ".repeat(leadingSpaces) + whoami;
+        break;
+      case dashLine:
+        lineText += " ".repeat(leadingSpaces) + myDash;
+        break;
+      case osLine:
+        lineText += " ".repeat(leadingSpaces) + myOS;
+        break;
+      case hostLine:
+        lineText += " ".repeat(leadingSpaces) + myHost;
+        break;
+      case kernelLine:
+        lineText += " ".repeat(leadingSpaces) + myKernel;
+        break;
+      case dateLine:
+        lineText += " ".repeat(leadingSpaces) + myDate;
+        break;
+      case timeLine:
+        lineText += " ".repeat(leadingSpaces) + myTime;
+        break;
+      case shellLine:
+        lineText += " ".repeat(leadingSpaces) + myShell;
+        break;
+      case themeLine:
+        lineText += " ".repeat(leadingSpaces) + myTheme;
+        break;
+      case fontLine:
+        lineText += " ".repeat(leadingSpaces) + myFont;
+        break;
+      case projectLine:
+        lineText += " ".repeat(leadingSpaces) + projectURL;
+        break;
+      default:
+        break;
+    }
+
+    /* Last two lines "gives-gift" & "give-life" */
+    if (i === linux.length - 3) {
+      lineText += " ".repeat(leadingSpaces) + myHelp;
+    } else if (i === linux.length - 2) {
+      lineText += " ".repeat(leadingSpaces) + myEnjoy;
+    }
+
+    lines.push(
+      <div key={i} className={color}>
+        {lineText}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {lines}
+    </div>
+  );
 };
 
 function printWindows() {
+  let lines = [];
+
+  for (let i = 0; i < win32.length; i++) {
+    let lineText = win32[i];
+
+    let leadingSpaces = 4;
+
+    switch (i) {
+      case whoamiLine:
+        lineText += " ".repeat(leadingSpaces) + whoami;
+        break;
+      case dashLine:
+        lineText += " ".repeat(leadingSpaces) + myDash;
+        break;
+      case osLine:
+        lineText += " ".repeat(leadingSpaces) + myOS;
+        break;
+      case hostLine:
+        lineText += " ".repeat(leadingSpaces) + myHost;
+        break;
+      case kernelLine:
+        lineText += " ".repeat(leadingSpaces) + myKernel;
+        break;
+      case dateLine:
+        lineText += " ".repeat(leadingSpaces) + myDate;
+        break;
+      case timeLine:
+        lineText += " ".repeat(leadingSpaces) + myTime;
+        break;
+      case shellLine:
+        lineText += " ".repeat(leadingSpaces) + myShell;
+        break;
+      case themeLine:
+        lineText += " ".repeat(leadingSpaces) + myTheme;
+        break;
+      case fontLine:
+        lineText += " ".repeat(leadingSpaces) + myFont;
+        break;
+      case projectLine:
+        lineText += " ".repeat(leadingSpaces) + projectURL;
+        break;
+      default:
+        break;
+    }
+
+      /* Last two lines "gives-gift" & "give-life" */
+    if (i === win32.length - 3) {
+      lineText += " ".repeat(leadingSpaces) + myHelp;
+    } else if (i === win32.length - 2) {
+      lineText += " ".repeat(leadingSpaces) + myEnjoy;
+    }
+
+    lines.push(
+      <div key={i} className="cool-blue">
+        {lineText}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {lines}
+    </div>
+  );
 };
 
 
@@ -226,17 +358,17 @@ function neofetch(args) {
   let retHTML = "";
   let os = navigator.userAgent
 
-  if (os.indexOf("Mac OS X") != -1) {
+  if (os.indexOf("Mac OS X") !== -1) {
     os = "darwin";
-  } else if (os.indexOf("Linux") != -1) {
+  } else if (os.indexOf("Linux") !== -1) {
     os = "linux";
-  } else if (os.indexOf("Windows") != -1) {
+  } else if (os.indexOf("Windows") !== -1) {
     os = "win32";
   } else {
     os = "linux";
   }
 
-  if (0 < args) {
+  if (0 < args.length) {
     switch (args[0]) {
       case "darwin":
         os = "darwin";
