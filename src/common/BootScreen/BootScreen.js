@@ -9,20 +9,19 @@ import { BOOT_STATES } from "../../static/enumerations.js";
 import "./BootScreen.css";
 
 function preloadStaticFiles(files, onFileLoaded) {
-  const promises = files.map(file => {
-    return fetch(file)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to load file: ${file}`);
-        }
+  const promises = files.map(async file => {
+    try {
+      const response = await fetch(file);
+      if (!response.ok) {
+        throw new Error(`Failed to load file: ${file}`);
+      }
 
-        onFileLoaded(file);        
-        return response.blob();
-      })
-      .catch(error => {
-        console.error(error);
-        return null;
-      });
+      onFileLoaded(file);
+      return await response.blob();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   });
 
   return Promise.all(promises);
@@ -32,14 +31,24 @@ function BootScreen(props) {
   const [loadedFiles, setLoadedFiles] = useState({});
 
   const staticFiles = [
+    "../static/fonts/hack-regular.woff2",
+    "../static/fonts/hack-regular.woff",
+    "../static/fonts/hack-bold.woff2",
+    "../static/fonts/hack-bold.woff",
+    "../static/fonts/hack-italic.woff2",
+    "../static/fonts/hack-italic.woff",
+    "../static/fonts/hack-bolditalic.woff2",
+    "../static/fonts/hack-bolditalic.woff",
     "../static/rotating_cube.gif",
     "../static/virtual_filesystem.json",
     "../static/common.css",
     "../static/writings.json",
     "../static/projects.json",
-    "../static/tuna_cici_signature.svg",
-    "../static/terminal_icon.svg",
-    "../static/hugo_icon.svg",
+    "../static/terminal_icon.png",
+    "../static/hugo-theme-cactus-logo.png",
+    "../static/tuna_cici_sign_bw.gif",
+    "../static/tuna_cici_sign_bw.svg",
+    "../static/tuna_cici_sign_color.svg"
   ];
 
   function onFileLoaded(file) {
