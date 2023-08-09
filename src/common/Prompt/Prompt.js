@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 /* Modules */
-import CommandLine from "../CommandLine/CommandLine";
+
+/* Static */
 
 /* CSS */
 import "./Prompt.css";
@@ -113,7 +114,7 @@ function Prompt(props) {
         {props.isActive ? (
           <input
           id="userInput"
-          type="text" className="user-input"
+          type="text" className="user-input breathing-space"
           autoFocus={true}
           onChange={onUserInput}
           onKeyDown={onUserKeyDown}

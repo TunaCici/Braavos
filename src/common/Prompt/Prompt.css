@@ -1,5 +1,4 @@
 .prompt {
-
 }
 
 .user-info-container {
@@ -19,18 +18,24 @@
 }
 
 .user-input-container {
-  
+
 }
 
 .user-input {
   width: 1ch;
-  color: #fff;
+  color: #fafafa;
 
-  font-size: 1rem;
+  font-size: inherit;
   font-family: inherit;
+  font-weight: inherit;
 
   border: none;
+  outline: none;
   background-color: transparent;
+}
+
+.breathing-space {
+  margin-bottom: 2rem;
 }
 
 .blinker {
@@ -39,8 +44,8 @@
   width: 0.25rem;
   height: 1rem;
 
-  color: #fff;
-  background: #fff;
+  color: #fafafa;
+  background: #fafafa;
 
   animation: cursor-blink 1s steps(2) infinite;
 }
@@ -51,11 +56,5 @@
   }
   100% {
     opacity: 1;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .user-input {
-    font-size: 0.75rem;
   }
 }
