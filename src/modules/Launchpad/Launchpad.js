@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 
 /* Static assets */
 import Braavos_Terminal_Icon from "../../static/terminal_icon.png";
@@ -14,13 +14,14 @@ import SignatureGIF from "../../static/tuna_cici_sign_bw.gif";
 import "./Launchpad.css";
 
 function Launchpad(props) {
+  const navigate = useNavigate();
 
   const launchApp = (e) => {
     const app = e.currentTarget.dataset.app;
     
     switch (app) {
       case "terminal":
-        window.location.href = "/terminal";
+        navigate("/terminal", { replace: true });
         break;
       case "blog":
         /* TODO: Implement hugo blog (/w cactus theme) */

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import rotating_cube from "../../static/rotating_cube.gif";
 import { BOOT_STATES } from "../../static/enumerations.js";
 
-
 /* CSS */
 import "./BootScreen.css";
 
@@ -30,26 +29,7 @@ function preloadStaticFiles(files, onFileLoaded) {
 function BootScreen(props) {
   const [loadedFiles, setLoadedFiles] = useState({});
 
-  const staticFiles = [
-    "../static/fonts/hack-regular.woff2",
-    "../static/fonts/hack-regular.woff",
-    "../static/fonts/hack-bold.woff2",
-    "../static/fonts/hack-bold.woff",
-    "../static/fonts/hack-italic.woff2",
-    "../static/fonts/hack-italic.woff",
-    "../static/fonts/hack-bolditalic.woff2",
-    "../static/fonts/hack-bolditalic.woff",
-    "../static/rotating_cube.gif",
-    "../static/virtual_filesystem.json",
-    "../static/common.css",
-    "../static/writings.json",
-    "../static/projects.json",
-    "../static/terminal_icon.png",
-    "../static/hugo-theme-cactus-logo.png",
-    "../static/tuna_cici_sign_bw.gif",
-    "../static/tuna_cici_sign_bw.svg",
-    "../static/tuna_cici_sign_color.svg"
-  ];
+  const staticFiles = [];
 
   function onFileLoaded(file) {
     setLoadedFiles(prevState => {
@@ -85,6 +65,13 @@ function BootScreen(props) {
   }, [loadedFiles]);
 
   useEffect(() => {
+    /* Retrieve all files under /static regardless of the file type */
+    function importAll(r) {
+      r.keys().forEach(key => staticFiles.push(r(key)));
+    }
+    
+    importAll(require.context("../../static/", true, /.*/));
+
     preloadStaticFiles(staticFiles, onFileLoaded).then(() => {
       props.setBootState(BOOT_STATES.SUCCESS);
     }).catch(() => {

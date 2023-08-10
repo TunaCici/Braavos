@@ -13,6 +13,7 @@ import Terminal from "./modules/Terminal/Terminal";
 import "./App.css";
 
 function App() {
+  
   /* Initial state values */
   const [BOOT_STATE, setState] = useState(BOOT_STATES.INITIAL);
 
@@ -35,7 +36,6 @@ function App() {
       case BOOT_STATES.STAGE_2:
         break;
       case BOOT_STATES.SUCCESS:
-        window.location.href = "/launchpad";
         break;
       case BOOT_STATES.ERROR:
         break;

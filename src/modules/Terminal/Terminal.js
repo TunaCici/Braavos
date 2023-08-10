@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { interpreteCmd } from "./Interpreter";
+import { Link } from "react-router-dom";
 
 /* Modules */
 import Prompt from "../../common/Prompt/Prompt";
@@ -59,7 +60,7 @@ function Terminal(props) {
           response += i + " " + history[i] + "\n";
         }
       } else if (response === "exit") {
-        window.location.href = "/launchpad";
+        <Link to="/launchpad" />;
         return;
       }
 

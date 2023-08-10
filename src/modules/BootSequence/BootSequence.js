@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 
 /* Static assets */
 import boot_sequence from "../../static/boot_sequence.json";
@@ -12,6 +13,8 @@ import BootScreen from "../../common/BootScreen/BootScreen.js";
 import "./BootSequence.css";
 
 function BootSequence(props) {
+  const navigate = useNavigate();
+
   const [commandLines, setCommandLines] = useState([]);
   const [stage, setStage] = useState(0);
 
@@ -51,8 +54,10 @@ function BootSequence(props) {
       delay += boot_sequence[i].delay;
     }
     
+    /* TODO: Skipt the BootScreen for now. It is pain-in-the-ahh.. */
     setTimeout(() => {
-      props.setBootState(BOOT_STATES.STAGE_2);
+      /* props.setBootState(BOOT_STATES.STAGE_2); */
+      navigate("/launchpad", { replace: true });
     }, delay);
 
   }, []);
