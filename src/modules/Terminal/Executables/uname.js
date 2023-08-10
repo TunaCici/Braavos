@@ -68,7 +68,7 @@ function uname(args) {
         retMsg += "arm" + " ";
         break;
       case "r":
-        retMsg += "0.1.0-alpha" + " ";
+        retMsg += "0.5.0-beta" + " ";
         break;
       case "s":
         retMsg += getBrowser() + " ";
