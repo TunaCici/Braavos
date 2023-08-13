@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker on joonas.fi</title>
-    <link>https://joonas.fi/tags/docker/</link>
+    <link>https://tunacici.com/blog/tags/docker/</link>
     <description>Recent content in docker on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Feb 2021 08:20:00 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/docker/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Feb 2021 08:20:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/docker/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Docker multi-arch image tooling, buildx</title>
-      <link>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</link>
+      <link>https://tunacici.com/blog/2021/02/docker-multi-arch-image-tooling-buildx/</link>
       <pubDate>Tue, 23 Feb 2021 08:20:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</guid>
+      <guid>https://tunacici.com/blog/2021/02/docker-multi-arch-image-tooling-buildx/</guid>
       <description>Multi-arch image means that you can run the same $ docker run joonas/cool-app command on different hardware platforms like PC (amd64) and Raspberry Pi (arm). Recently when publishing said style images for Varasto, I learned quite a lot about the tooling and some tricks. But I was really frustrated about the shortcomings, so I want to share my findings to make it easier for others!
 Tip: lots of what I&amp;rsquo;m writing about is found from this excellent post (which is more superficial, but probably better :D).</description>
     </item>
     
     <item>
       <title>Blog facelift &amp; technical renovation</title>
-      <link>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</link>
+      <link>https://tunacici.com/blog/2021/02/blog-facelift-technical-renovation/</link>
       <pubDate>Mon, 22 Feb 2021 10:15:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</guid>
+      <guid>https://tunacici.com/blog/2021/02/blog-facelift-technical-renovation/</guid>
       <description>My blog has been running on Jekyll since early 2015. I am very grateful for how easy and out-of-the-way it has made running my blog.
 I haven&amp;rsquo;t touched (= updated/maintained) my Jekyll installation even once over that six years and it has just chugged on - letting me focus on content.
 However, I&amp;rsquo;ve built other static sites with Hugo for years, and I knew I wanted to migrate my blog to it at some point.</description>
@@ -30,10 +30,10 @@ However, I&amp;rsquo;ve built other static sites with Hugo for years, and I knew
     
     <item>
       <title>Attach a keyboard to a Docker container</title>
-      <link>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</link>
+      <link>https://tunacici.com/blog/2020/12/attach-a-keyboard-to-a-docker-container/</link>
       <pubDate>Thu, 17 Dec 2020 10:15:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</guid>
+      <guid>https://tunacici.com/blog/2020/12/attach-a-keyboard-to-a-docker-container/</guid>
       <description>I wanted to connect a keyboard-mouse-combo to a virtual remote desktop running inside a Docker container.
 My use case I have a wall-mounted Android tablet displaying always-on content (&amp;ldquo;info screen&amp;rdquo;) in my home:
 For security reasons the tablet can&amp;rsquo;t reach the internet and actually has a VNC viewer that displays a virtual framebuffer from inside a Docker container on my server. Here&amp;rsquo;s the conceptual overview:
@@ -42,10 +42,10 @@ I wanted to attach a keyboard to the &amp;ldquo;tablet&amp;rdquo;.</description>
     
     <item>
       <title>Audio in Docker containers, Linux audio subsystems, Spotifyd</title>
-      <link>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</link>
+      <link>https://tunacici.com/blog/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</link>
       <pubDate>Mon, 14 Dec 2020 08:50:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</guid>
+      <guid>https://tunacici.com/blog/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</guid>
       <description>I wanted to get Spotifyd working in a Docker container. Turns out, audio and containers can be tricky. In this post I&amp;rsquo;ll share what I learned on Linux audio subsystems and considerations on container audio.
 If all you want is to see &amp;ldquo;how to get Spotifyd to work with Docker&amp;rdquo;, see the accompanying Spotifyd Docker image that I released.
 What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (&amp;ldquo;play music on device X&amp;rdquo;) from the Spotify desktop application, Spotify website and Spotify mobile apps.</description>
@@ -53,10 +53,10 @@ What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (
     
     <item>
       <title>How to configure gcplogs (Google Cloud Logging) for Docker</title>
-      <link>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</link>
+      <link>https://tunacici.com/blog/2019/01/06/how-to-configure-gcplogs-for-docker/</link>
       <pubDate>Sun, 06 Jan 2019 12:45:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</guid>
+      <guid>https://tunacici.com/blog/2019/01/06/how-to-configure-gcplogs-for-docker/</guid>
       <description>.. from a perspective where you are not running your VM on a Google datacenter - if you would be, then this would be a bit simpler because the logging driver autodiscovers credentials and more options automatically for you.
 I wrote this because there were bits of advice scattered around, but no single &amp;ldquo;do this to get it working&amp;rdquo; anywhere.
 Terms:
@@ -65,10 +65,10 @@ gcplogs - the built-in plugin of Docker that sends log messages to Stackdriver L
     
     <item>
       <title>Thoughts on Docker</title>
-      <link>https://joonas.fi/2016/06/17/thoughts-on-docker/</link>
+      <link>https://tunacici.com/blog/2016/06/17/thoughts-on-docker/</link>
       <pubDate>Fri, 17 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2016/06/17/thoughts-on-docker/</guid>
+      <guid>https://tunacici.com/blog/2016/06/17/thoughts-on-docker/</guid>
       <description>Now that I&amp;rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&amp;rsquo;s a good time to share my findings.
 tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&amp;rsquo;m solving with my software, instead of the mundane shit I&amp;rsquo;d have to deal with without it (configuring dev, build/testing and production environments + how do I deliver and deploy this to production?</description>
     </item>

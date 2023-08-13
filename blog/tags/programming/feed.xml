@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>programming on joonas.fi</title>
-    <link>https://joonas.fi/tags/programming/</link>
+    <link>https://tunacici.com/blog/tags/programming/</link>
     <description>Recent content in programming on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Mar 2023 07:57:12 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/programming/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Mar 2023 07:57:12 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/programming/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>An approach to protocol reverse-engineering</title>
-      <link>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</link>
+      <link>https://tunacici.com/blog/2023/03/an-approach-to-protocol-reverse-engineering/</link>
       <pubDate>Sun, 12 Mar 2023 07:57:12 +0000</pubDate>
       
-      <guid>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</guid>
+      <guid>https://tunacici.com/blog/2023/03/an-approach-to-protocol-reverse-engineering/</guid>
       <description>This basic principle has worked for me many times, so I figured it might be worth to share the process.
 In this instance I wanted to write a label printer driver in Go. A barebones implementation exists in Python that works to print a test image.
 The idea If I can reach parity with the Python-based implementation (from now on referred to as the reference implementation), I can build on top of a working baseline.</description>
@@ -20,10 +20,10 @@ The idea If I can reach parity with the Python-based implementation (from now on
     
     <item>
       <title>Programming pattern for ensuring a function is called as root</title>
-      <link>https://joonas.fi/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</link>
+      <link>https://tunacici.com/blog/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</link>
       <pubDate>Sat, 12 Feb 2022 14:55:49 +0000</pubDate>
       
-      <guid>https://joonas.fi/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</guid>
+      <guid>https://tunacici.com/blog/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</guid>
       <description>I have recently been writing system-level software that needed many steps with filesystem mounting etc. - things you generally need to do as root.
 For security I wanted to make the program enter root only for the steps that actually need it.
 Starting situation In pseudo it started like this:
@@ -32,10 +32,10 @@ func logic() error { mountFoo() mountBar() return nil } func mountFoo() { dropPr
     
     <item>
       <title>Coding pattern: preventing the use of &#39;0 results&#39; as a loading indicator</title>
-      <link>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</link>
+      <link>https://tunacici.com/blog/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</link>
       <pubDate>Wed, 09 Jun 2021 07:29:32 +0000</pubDate>
       
-      <guid>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</guid>
+      <guid>https://tunacici.com/blog/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</guid>
       <description>The use of 0-results-as-a-loading-indicator is really prevalent. It is horrible UX, as it is directly lying to the user.
 Why is this a problem? &amp;ldquo;0 results&amp;rdquo; and &amp;ldquo;data is being loaded&amp;rdquo; are two different things, so we shouldn&amp;rsquo;t collapse them as the same message to the user.
 Just today I opened Google Drive on Android and the data loading took so many seconds I had time to scratch my head with &amp;ldquo;why is my Drive empty?</description>
@@ -43,20 +43,20 @@ Just today I opened Google Drive on Android and the data loading took so many se
     
     <item>
       <title>Docker multi-arch image tooling, buildx</title>
-      <link>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</link>
+      <link>https://tunacici.com/blog/2021/02/docker-multi-arch-image-tooling-buildx/</link>
       <pubDate>Tue, 23 Feb 2021 08:20:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</guid>
+      <guid>https://tunacici.com/blog/2021/02/docker-multi-arch-image-tooling-buildx/</guid>
       <description>Multi-arch image means that you can run the same $ docker run joonas/cool-app command on different hardware platforms like PC (amd64) and Raspberry Pi (arm). Recently when publishing said style images for Varasto, I learned quite a lot about the tooling and some tricks. But I was really frustrated about the shortcomings, so I want to share my findings to make it easier for others!
 Tip: lots of what I&amp;rsquo;m writing about is found from this excellent post (which is more superficial, but probably better :D).</description>
     </item>
     
     <item>
       <title>Reverse-engineering MIDI devices, AKAI MPK Mini Mk3</title>
-      <link>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</link>
+      <link>https://tunacici.com/blog/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</link>
       <pubDate>Wed, 17 Feb 2021 08:30:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</guid>
+      <guid>https://tunacici.com/blog/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</guid>
       <description>I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make music - but because of the pads and knobs that I can use to control things like jump between workspaces adjust the audio volume in my PC etc.
 What can I do with it? Lots of things! I&amp;rsquo;ve already got implemented:
 Piano keys Various key mappings to:
@@ -65,20 +65,20 @@ Toggle audio between speakers and headphones Set random wallpaper (from a direct
     
     <item>
       <title>Tracking down inefficiencies in parallelization</title>
-      <link>https://joonas.fi/2020/04/tracking-down-inefficiencies-in-parallelization/</link>
+      <link>https://tunacici.com/blog/2020/04/tracking-down-inefficiencies-in-parallelization/</link>
       <pubDate>Fri, 17 Apr 2020 09:15:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/04/tracking-down-inefficiencies-in-parallelization/</guid>
+      <guid>https://tunacici.com/blog/2020/04/tracking-down-inefficiencies-in-parallelization/</guid>
       <description>I was improving performance for Varasto and there was one unit of work that was easily parallelizable (= run on all CPU cores) to gain some speed. I&amp;rsquo;ll share my learnings in graphical tooling to help measure/debug how efficiently your parallelization works.
 go tool trace The graphs I&amp;rsquo;m about to show, Go actually has internal tooling for - go tool trace, to generate (and even show) comparable traces without instrumenting your code.</description>
     </item>
     
     <item>
       <title>Preventing outdated docs links in software projects</title>
-      <link>https://joonas.fi/2020/04/04/preventing-outdated-docs-links-in-software-projects/</link>
+      <link>https://tunacici.com/blog/2020/04/04/preventing-outdated-docs-links-in-software-projects/</link>
       <pubDate>Sat, 04 Apr 2020 11:40:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/04/04/preventing-outdated-docs-links-in-software-projects/</guid>
+      <guid>https://tunacici.com/blog/2020/04/04/preventing-outdated-docs-links-in-software-projects/</guid>
       <description>When I started making documentation for Varasto, I thought about the numerous times I&amp;rsquo;ve seen projects with links to documentation that have resulted in a 404. I think I came up with a cool way to help with the issue.
 tl;dr: typesafe documentation links are checked by the compilers on backend and frontend!
 Motivation To build motivation first, let&amp;rsquo;s first look at the benefits and results!
@@ -87,10 +87,10 @@ In my frontend (TypeScript + React-based) I can link to GitHub&amp;rsquo;s view 
     
     <item>
       <title>Quick primer on SVG paths</title>
-      <link>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</link>
+      <link>https://tunacici.com/blog/2020/04/03/quick-primer-on-svg-paths/</link>
       <pubDate>Fri, 03 Apr 2020 09:15:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</guid>
+      <guid>https://tunacici.com/blog/2020/04/03/quick-primer-on-svg-paths/</guid>
       <description>SVG, or Scalable Vector Graphics, is a file format for vector drawings. I had a problem to solve - I wanted to animate an SVG from JavaScript. I&amp;rsquo;ll describe how and what I learned on how SVG paths work to solve my problem.
 The problem I wanted to animate Varasto&amp;rsquo;s vector logo - to make the &amp;ldquo;hard drive LEDs&amp;rdquo; (the circles on the right) toggleable on/off individually:
 The path to the solution Understanding the structure of the drawing Browsers can draw &amp;amp; debug SVG natively.</description>
@@ -98,10 +98,10 @@ The path to the solution Understanding the structure of the drawing Browsers can
     
     <item>
       <title>Linux kernel probing</title>
-      <link>https://joonas.fi/2020/03/27/linux-kernel-probing/</link>
+      <link>https://tunacici.com/blog/2020/03/27/linux-kernel-probing/</link>
       <pubDate>Fri, 27 Mar 2020 13:00:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/03/27/linux-kernel-probing/</guid>
+      <guid>https://tunacici.com/blog/2020/03/27/linux-kernel-probing/</guid>
       <description>Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend it to some extent with persistent hooks). You can attach not just to syscalls, but also to many functions inside the kernel (they have to be exported functions though).
 Dynamically means, that you don&amp;rsquo;t have to recompile the kernel and/or restart your computer - it&amp;rsquo;s pretty cool!
 Disclaimer: these are my notes about learning about kprobes today, so I might not know what I&amp;rsquo;m talking about.</description>
@@ -109,10 +109,10 @@ Disclaimer: these are my notes about learning about kprobes today, so I might no
     
     <item>
       <title>Go is not a simple language</title>
-      <link>https://joonas.fi/2020/02/24/go-is-not-a-simple-language/</link>
+      <link>https://tunacici.com/blog/2020/02/24/go-is-not-a-simple-language/</link>
       <pubDate>Mon, 24 Feb 2020 11:37:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2020/02/24/go-is-not-a-simple-language/</guid>
+      <guid>https://tunacici.com/blog/2020/02/24/go-is-not-a-simple-language/</guid>
       <description>I still love Go and it&amp;rsquo;s the best language I&amp;rsquo;ve used - but like in mature relationships, I&amp;rsquo;ve aware of both the good and bad parts of the relationship.
 Go is still, compared to many popular languages, simpler language - but many times when people claim Go is a simple language what is being implied is that Go is minimalistic &amp;amp; it scoffs at unnecessary features.
 This post is about where Go fails at minimalism.</description>
@@ -120,10 +120,10 @@ This post is about where Go fails at minimalism.</description>
     
     <item>
       <title>How to configure gcplogs (Google Cloud Logging) for Docker</title>
-      <link>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</link>
+      <link>https://tunacici.com/blog/2019/01/06/how-to-configure-gcplogs-for-docker/</link>
       <pubDate>Sun, 06 Jan 2019 12:45:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</guid>
+      <guid>https://tunacici.com/blog/2019/01/06/how-to-configure-gcplogs-for-docker/</guid>
       <description>.. from a perspective where you are not running your VM on a Google datacenter - if you would be, then this would be a bit simpler because the logging driver autodiscovers credentials and more options automatically for you.
 I wrote this because there were bits of advice scattered around, but no single &amp;ldquo;do this to get it working&amp;rdquo; anywhere.
 Terms:
@@ -132,10 +132,10 @@ gcplogs - the built-in plugin of Docker that sends log messages to Stackdriver L
     
     <item>
       <title>An idea to fix Go´s logging mess</title>
-      <link>https://joonas.fi/2018/12/04/an-idea-to-fix-gos-logging-mess/</link>
+      <link>https://tunacici.com/blog/2018/12/04/an-idea-to-fix-gos-logging-mess/</link>
       <pubDate>Tue, 04 Dec 2018 09:30:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2018/12/04/an-idea-to-fix-gos-logging-mess/</guid>
+      <guid>https://tunacici.com/blog/2018/12/04/an-idea-to-fix-gos-logging-mess/</guid>
       <description>I believe I have came up with an acceptable compromise for the logger mess in Go. This is an approach that embraces the Unix philosophy of pipes and plaintext streams.
 TL;DR: If you want to see the end result as a demo, scroll to the &amp;ldquo;Demo code&amp;rdquo; section!
 TL;DR 2: The standard log.Logger is enough, just use it everywhere as pipes and we&amp;rsquo;ll compose more on top of it!
@@ -144,10 +144,10 @@ Defining the problem The problem: different projects choose different logger imp
     
     <item>
       <title>strace is awesome</title>
-      <link>https://joonas.fi/2018/11/30/strace-is-awesome/</link>
+      <link>https://tunacici.com/blog/2018/11/30/strace-is-awesome/</link>
       <pubDate>Fri, 30 Nov 2018 14:30:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2018/11/30/strace-is-awesome/</guid>
+      <guid>https://tunacici.com/blog/2018/11/30/strace-is-awesome/</guid>
       <description>Your periodic reminder that strace is awesome..
 On Windows you basically know which partition a file is hosted on by looking at the drive letter.
 On Linux there&amp;rsquo;s just a global namespace and it is more difficult to know the partition of a given file (although I think the indirection in the Unix design is better).
@@ -157,10 +157,10 @@ $ df /home/vagrant Filesystem 1K-blocks Used Available Use% Mounted on /dev/mapp
     
     <item>
       <title>Chaining should be an operator in the language itself</title>
-      <link>https://joonas.fi/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</link>
+      <link>https://tunacici.com/blog/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</link>
       <pubDate>Fri, 05 Oct 2018 11:45:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</guid>
+      <guid>https://tunacici.com/blog/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</guid>
       <description>What is chaining? jQuery at least popularized this pattern:
 $(&amp;#39;.someElement&amp;#39;) .attr(&amp;#39;title&amp;#39;, &amp;#39;Changing some title&amp;#39;) .text(&amp;#39;here is content for you&amp;#39;) .on(&amp;#39;click&amp;#39;, () =&amp;gt; { alert(&amp;#39;clicked&amp;#39;); }); The above code could also be written like this:
 $(&amp;#39;.someElement&amp;#39;).attr(&amp;#39;title&amp;#39;, &amp;#39;Changing some title&amp;#39;); $(&amp;#39;.someElement&amp;#39;).text(&amp;#39;here is content for you&amp;#39;) $(&amp;#39;.someElement&amp;#39;).on(&amp;#39;click&amp;#39;, () =&amp;gt; { alert(&amp;#39;clicked&amp;#39;); }); Or to not query DOM multiple times, save the reference in a variable:
@@ -169,19 +169,19 @@ const el = $(&amp;#39;.someElement&amp;#39;); el.attr(...); el.text(...); el.on(
     
     <item>
       <title>Quick links</title>
-      <link>https://joonas.fi/2017/06/13/quick-links/</link>
+      <link>https://tunacici.com/blog/2017/06/13/quick-links/</link>
       <pubDate>Tue, 13 Jun 2017 16:26:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2017/06/13/quick-links/</guid>
+      <guid>https://tunacici.com/blog/2017/06/13/quick-links/</guid>
       <description>Why Slack is inappropriate for open source communications A Keepass-like project I&amp;rsquo;m working on My woodworking hero Matthias Wandel made me have an epiphany: how CPU works on the lowest of levels. Addition is basically just chained XOR gates, and a XOR gate is basically just transistors anyway. All this can be explained with wood and marbles! And in the end all higher constructs like 2D, 3D graphics, audio, video can be explained with just simple maths, so basically you now understand all that the CPU does and that it&amp;rsquo;s not magic.</description>
     </item>
     
     <item>
       <title>Implementing your hiring process with C trivia</title>
-      <link>https://joonas.fi/2017/03/30/implementing-your-hiring-process-with-c-trivia/</link>
+      <link>https://tunacici.com/blog/2017/03/30/implementing-your-hiring-process-with-c-trivia/</link>
       <pubDate>Mon, 06 Mar 2017 21:59:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2017/03/30/implementing-your-hiring-process-with-c-trivia/</guid>
+      <guid>https://tunacici.com/blog/2017/03/30/implementing-your-hiring-process-with-c-trivia/</guid>
       <description>I got a newsletter from Toggl (a time-tracking app) that they are hiring and that they had a coding quiz. I decided to take the quiz just for shits and giggles.
 They had two tests I took:
 backend dev frontend dev I failed both tests.
@@ -192,20 +192,20 @@ I think I got most of those right, except for maybe the concurrency question.</d
     
     <item>
       <title>Concurrency in Golang and the importance of using locks</title>
-      <link>https://joonas.fi/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</link>
+      <link>https://tunacici.com/blog/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</link>
       <pubDate>Mon, 20 Feb 2017 20:05:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</guid>
+      <guid>https://tunacici.com/blog/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</guid>
       <description>Have this innocent looking code in Golang:
 func incrementWithoutLocking() int { counter := 0 incrementCounter := func(done chan bool) { for i := 0; i &amp;lt; 1000000; i++ { counter++ } done &amp;lt;- true } // create a channel to synchronize when both goroutines are finished done := make(chan bool) // run two goroutines in parallel, both incrementing the shared counter go incrementCounter(done) go incrementCounter(done) // wait for both to finish &amp;lt;-done &amp;lt;-done return counter } Also note, how easy it is to implement concurrency/parallelism (though they are not the same thing) in Golang!</description>
     </item>
     
     <item>
       <title>Problems with Microsoft Azure´s networking</title>
-      <link>https://joonas.fi/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</link>
+      <link>https://tunacici.com/blog/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</link>
       <pubDate>Mon, 23 Jan 2017 15:56:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</guid>
+      <guid>https://tunacici.com/blog/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</guid>
       <description>UPDATE, IMPORTANT
 Some of the claims in this post are inaccurate. The ACKed-but-undelivered problem lies either in my router or ISP - not Azure&amp;rsquo;s fault.
 Until I research this topic more and update the article, these problems still stand:
@@ -214,10 +214,10 @@ Azure has a forced artificial limit, disconnecting session with &amp;gt;= 4 minu
     
     <item>
       <title>The problem with &#34;cute coding&#34;</title>
-      <link>https://joonas.fi/2016/12/30/the-problem-with-cute-coding/</link>
+      <link>https://tunacici.com/blog/2016/12/30/the-problem-with-cute-coding/</link>
       <pubDate>Fri, 30 Dec 2016 14:42:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2016/12/30/the-problem-with-cute-coding/</guid>
+      <guid>https://tunacici.com/blog/2016/12/30/the-problem-with-cute-coding/</guid>
       <description>For lack of a better term, I call this &amp;ldquo;cute coding&amp;rdquo;:
 { ... weekdaysShort : &amp;#39;Sun_Mon_Tue_Wed_Thu_Fri_Sat&amp;#39;.split(&amp;#39;_&amp;#39;), ... } That is essentially the same as:
 weekdaysShort : [ &amp;#39;Sun&amp;#39;, &amp;#39;Mon&amp;#39;, &amp;#39;Tue&amp;#39;, &amp;#39;Wed&amp;#39;, &amp;#39;Thu&amp;#39;, &amp;#39;Fri&amp;#39;, &amp;#39;Sat&amp;#39; ], Sure, it&amp;rsquo;s a bit longer BUT:
@@ -226,10 +226,10 @@ It&amp;rsquo;s cleaner, because it&amp;rsquo;s not a hack. It does NOT incur run
     
     <item>
       <title>Stop using protocol-relative URLs</title>
-      <link>https://joonas.fi/2016/12/27/stop-using-protocol-relative-urls/</link>
+      <link>https://tunacici.com/blog/2016/12/27/stop-using-protocol-relative-urls/</link>
       <pubDate>Tue, 27 Dec 2016 14:48:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2016/12/27/stop-using-protocol-relative-urls/</guid>
+      <guid>https://tunacici.com/blog/2016/12/27/stop-using-protocol-relative-urls/</guid>
       <description>I still see this confusingly often, even with Twitter&amp;rsquo;s timeline embedding feature. Protocol relative URLs look like this:
 &amp;lt;script async src=&amp;#34;//platform.twitter.com/widgets.js&amp;#34; charset=&amp;#34;utf-8&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; There is absolutely no reason to do that (anymore)! Take a look at the following table (perspective = the URL over which user the user opens the page) of the results:
 Scheme in URL Browsed over: HTTP Browsed over: HTTPS Browsed over: Filesystem http =&amp;gt; http =&amp;gt; http =&amp;gt; http https =&amp;gt; https =&amp;gt; https =&amp;gt; https // =&amp;gt; http =&amp;gt; https (broken) As you can see, with protocol-relative the only &amp;ldquo;gain&amp;rdquo; we get (compared to linking via https) is that for non-secure users, they are offered the resource over an insecure channel.</description>
@@ -237,20 +237,20 @@ Scheme in URL Browsed over: HTTP Browsed over: HTTPS Browsed over: Filesystem ht
     
     <item>
       <title>Thoughts on Docker</title>
-      <link>https://joonas.fi/2016/06/17/thoughts-on-docker/</link>
+      <link>https://tunacici.com/blog/2016/06/17/thoughts-on-docker/</link>
       <pubDate>Fri, 17 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2016/06/17/thoughts-on-docker/</guid>
+      <guid>https://tunacici.com/blog/2016/06/17/thoughts-on-docker/</guid>
       <description>Now that I&amp;rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&amp;rsquo;s a good time to share my findings.
 tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&amp;rsquo;m solving with my software, instead of the mundane shit I&amp;rsquo;d have to deal with without it (configuring dev, build/testing and production environments + how do I deliver and deploy this to production?</description>
     </item>
     
     <item>
       <title>AForge.NET is awesome for complex image processing/analysis</title>
-      <link>https://joonas.fi/2015/12/26/aforge.net-is-awesome/</link>
+      <link>https://tunacici.com/blog/2015/12/26/aforge.net-is-awesome/</link>
       <pubDate>Sat, 26 Dec 2015 20:00:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/12/26/aforge.net-is-awesome/</guid>
+      <guid>https://tunacici.com/blog/2015/12/26/aforge.net-is-awesome/</guid>
       <description>I&amp;rsquo;m trying to emulate &amp;ldquo;magic color&amp;rdquo; feature that I saw in Android app called Camscanner (I can highly recommend this).
 I found this wonderful library called AForge.NET for the task - it&amp;rsquo;s awesome!
 Here&amp;rsquo;s the result compared to the original image:
@@ -262,10 +262,10 @@ Wiring up the filter graph And explanation of the filters below:
     
     <item>
       <title>SoundCloud: migrating a monolith to a microservices architecture</title>
-      <link>https://joonas.fi/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</link>
+      <link>https://tunacici.com/blog/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</link>
       <pubDate>Wed, 29 Jul 2015 09:00:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</guid>
+      <guid>https://tunacici.com/blog/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</guid>
       <description>Awesome read! A three-part series:
 pt1. Dealing with the monolith
 pt2. Breaking the monolith
@@ -275,10 +275,10 @@ Bonus read: Prometheus: monitoring at SoundCloud</description>
     
     <item>
       <title>Cyberchallenge from Finnish defence forces</title>
-      <link>https://joonas.fi/2015/07/26/cyberchallenge-from-finnish-defence-forces/</link>
+      <link>https://tunacici.com/blog/2015/07/26/cyberchallenge-from-finnish-defence-forces/</link>
       <pubDate>Sun, 26 Jul 2015 11:25:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/07/26/cyberchallenge-from-finnish-defence-forces/</guid>
+      <guid>https://tunacici.com/blog/2015/07/26/cyberchallenge-from-finnish-defence-forces/</guid>
       <description>Cyberchallenge from Finnish defence forces (edit: changed to archive.org link)
 A colleague of mine found this. A pretty awesome test so see if you&amp;rsquo;ve got the skills (and if you do, my hats off to you!).
 I know I didn&amp;rsquo;t know all of them. Plus, I don&amp;rsquo;t know enough about assembly.</description>
@@ -286,10 +286,10 @@ I know I didn&amp;rsquo;t know all of them. Plus, I don&amp;rsquo;t know enough 
     
     <item>
       <title>TCP proxy in node.js</title>
-      <link>https://joonas.fi/2015/07/14/tcp-proxy-in-nodejs/</link>
+      <link>https://tunacici.com/blog/2015/07/14/tcp-proxy-in-nodejs/</link>
       <pubDate>Tue, 14 Jul 2015 19:03:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/07/14/tcp-proxy-in-nodejs/</guid>
+      <guid>https://tunacici.com/blog/2015/07/14/tcp-proxy-in-nodejs/</guid>
       <description>Use like this:
 $ node proxy.js 9001 80 Or forwarding to remote host:
 $ node proxy.js 9001 otherhost:80 Source (save as proxy.js):
@@ -298,10 +298,10 @@ The code used to be pasted here, but apparently Jekyll (the static blog generato
     
     <item>
       <title>Publishing S3 events to SNS or SQS</title>
-      <link>https://joonas.fi/2015/04/18/publishing-s3-events-to-sns-or-sqs/</link>
+      <link>https://tunacici.com/blog/2015/04/18/publishing-s3-events-to-sns-or-sqs/</link>
       <pubDate>Sat, 18 Apr 2015 10:24:41 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/04/18/publishing-s3-events-to-sns-or-sqs/</guid>
+      <guid>https://tunacici.com/blog/2015/04/18/publishing-s3-events-to-sns-or-sqs/</guid>
       <description>In SNS Create a SNS topic, if you haven’t already.
 Go to actions &amp;gt; Edit topic policy
 Add this item to the “Statement” array:
@@ -312,49 +312,49 @@ Remember to also replace the your-s3-bucket-name in the “SourceArn” conditio
     
     <item>
       <title>Microsoft Installer framework (you know, those .msi files)</title>
-      <link>https://joonas.fi/2015/03/11/microsoft-installer-framework-you-know-those/</link>
+      <link>https://tunacici.com/blog/2015/03/11/microsoft-installer-framework-you-know-those/</link>
       <pubDate>Wed, 11 Mar 2015 19:58:23 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/03/11/microsoft-installer-framework-you-know-those/</guid>
+      <guid>https://tunacici.com/blog/2015/03/11/microsoft-installer-framework-you-know-those/</guid>
       <description>Been struggling for an hour with the exact XML structure for creating an empty directory..
 Just goes to confirm that any fool can create complex software, but the real talent is creating something simple and easy-to-use.</description>
     </item>
     
     <item>
       <title>The introduction to Reactive Programming you&#39;ve been missing </title>
-      <link>https://joonas.fi/2014/11/12/the-introduction-to-reactive-programming-youve/</link>
+      <link>https://tunacici.com/blog/2014/11/12/the-introduction-to-reactive-programming-youve/</link>
       <pubDate>Wed, 12 Nov 2014 21:08:14 +0000</pubDate>
       
-      <guid>https://joonas.fi/2014/11/12/the-introduction-to-reactive-programming-youve/</guid>
+      <guid>https://tunacici.com/blog/2014/11/12/the-introduction-to-reactive-programming-youve/</guid>
       <description>The introduction to Reactive Programming you&amp;rsquo;ve been missing.
 This is good stuff.</description>
     </item>
     
     <item>
       <title>Latency numbers every programmer should know</title>
-      <link>https://joonas.fi/2014/10/04/latency-numbers-every-programmer-should-know/</link>
+      <link>https://tunacici.com/blog/2014/10/04/latency-numbers-every-programmer-should-know/</link>
       <pubDate>Sat, 04 Oct 2014 18:56:10 +0000</pubDate>
       
-      <guid>https://joonas.fi/2014/10/04/latency-numbers-every-programmer-should-know/</guid>
+      <guid>https://tunacici.com/blog/2014/10/04/latency-numbers-every-programmer-should-know/</guid>
       <description></description>
     </item>
     
     <item>
       <title>What are the best-kept secrets of great programmers?</title>
-      <link>https://joonas.fi/2014/09/28/what-are-the-best-kept-secrets-of-great/</link>
+      <link>https://tunacici.com/blog/2014/09/28/what-are-the-best-kept-secrets-of-great/</link>
       <pubDate>Sun, 28 Sep 2014 13:40:56 +0000</pubDate>
       
-      <guid>https://joonas.fi/2014/09/28/what-are-the-best-kept-secrets-of-great/</guid>
+      <guid>https://tunacici.com/blog/2014/09/28/what-are-the-best-kept-secrets-of-great/</guid>
       <description>Quora: What are the best-kept secrets of great programmers?
 Most of the time, using inheritance is a bad object oriented design in the long run. It reduces reusability and testability of code. Consider using interfaces instead. See No, inheritance is not the way to achieve code reuse!. Related; Avoid introducing an interface until you are comfortable in your domain. &amp;ldquo;Premature interfacing&amp;rdquo; can also lead to design issues down the road. Deep nested code (both intra-function and inter-function) is 1) harder to maintain, 2) more prone to bugs and 3) harder to reuse.</description>
     </item>
     
     <item>
       <title>StartSSL tips</title>
-      <link>https://joonas.fi/2013/09/01/startssl-tips/</link>
+      <link>https://tunacici.com/blog/2013/09/01/startssl-tips/</link>
       <pubDate>Sun, 01 Sep 2013 15:11:46 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/09/01/startssl-tips/</guid>
+      <guid>https://tunacici.com/blog/2013/09/01/startssl-tips/</guid>
       <description>(this post is mainly my own notes, so it might not be that useful, but I decided to post it anyway so I&amp;rsquo;ll find it later)
 startssl.com
 Renew the client certificate in the browser Validate your email &amp;ldquo;Validations Wizard&amp;rdquo; &amp;gt; Email address validation &amp;gt; startcom.001@sentinel.xs.fi
@@ -365,10 +365,10 @@ Create certificate for your email Certificates wizard &amp;gt; Certificate targe
     
     <item>
       <title>My Sublime Text (2 &amp; 3) config</title>
-      <link>https://joonas.fi/2013/07/27/my-sublime-text-2-3-config/</link>
+      <link>https://tunacici.com/blog/2013/07/27/my-sublime-text-2-3-config/</link>
       <pubDate>Sat, 27 Jul 2013 15:59:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/07/27/my-sublime-text-2-3-config/</guid>
+      <guid>https://tunacici.com/blog/2013/07/27/my-sublime-text-2-3-config/</guid>
       <description>Disable word wrap Preferences -&amp;gt; Settings - user
 &amp;quot;word_wrap&amp;quot;: false, &amp;quot;default_line_ending&amp;quot;: &amp;quot;unix&amp;quot;, &amp;ldquo;Ctrl + tab&amp;rdquo; &amp;amp; &amp;ldquo;Ctrl + shift + tab&amp;rdquo; to toggle tabs to left/right just like browsers: Preferences -&amp;gt; Key bindings - user
 { &amp;quot;keys&amp;quot;: [&amp;quot;ctrl+tab&amp;quot;], &amp;quot;command&amp;quot;: &amp;quot;next_view&amp;quot; }, { &amp;quot;keys&amp;quot;: [&amp;quot;ctrl+shift+tab&amp;quot;], &amp;quot;command&amp;quot;: &amp;quot;prev_view&amp;quot; }, Install package control View -&amp;gt; Show console Paste this (Sublime Text 2):
@@ -377,30 +377,30 @@ import urllib2,os; pf=&#39;Package Control.sublime-package&#39;; ipp=sublime.ins
     
     <item>
       <title>A nice collection of nifty web finds</title>
-      <link>https://joonas.fi/2013/01/27/a-nice-collection-of-nifty-web-finds/</link>
+      <link>https://tunacici.com/blog/2013/01/27/a-nice-collection-of-nifty-web-finds/</link>
       <pubDate>Sun, 27 Jan 2013 12:19:51 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/01/27/a-nice-collection-of-nifty-web-finds/</guid>
+      <guid>https://tunacici.com/blog/2013/01/27/a-nice-collection-of-nifty-web-finds/</guid>
       <description>A nice collection of nifty web finds
 Update: webloyto.com seems to be a lost project. See archive.org representation of it.</description>
     </item>
     
     <item>
       <title>SQL databases are fundamentally non-scalable</title>
-      <link>https://joonas.fi/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</link>
+      <link>https://tunacici.com/blog/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</link>
       <pubDate>Sun, 27 Jan 2013 11:51:46 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</guid>
+      <guid>https://tunacici.com/blog/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</guid>
       <description>“There’s a lot of things I can say about using caching, sharding, and other techniques to take load off the database. But the actual answer is: we don’t. SQL databases are fundamentally non-scalable, and there is no magical pixie dust that we, or anyone, can sprinkle on them to suddenly make them scale.”
 Read more</description>
     </item>
     
     <item>
       <title>Optimizing for happiness (as a programmer)</title>
-      <link>https://joonas.fi/2013/01/27/optimizing-for-happiness-as-a-programmer/</link>
+      <link>https://tunacici.com/blog/2013/01/27/optimizing-for-happiness-as-a-programmer/</link>
       <pubDate>Sun, 27 Jan 2013 11:43:13 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/01/27/optimizing-for-happiness-as-a-programmer/</guid>
+      <guid>https://tunacici.com/blog/2013/01/27/optimizing-for-happiness-as-a-programmer/</guid>
       <description>&amp;ldquo;Anyway, back to shaping our lives. Since we can do our job from anywhere in the world, and only a company that is either ignorant or supremely distrustful of its employees would insist otherwise (Right? RIGHT?), we can live anywhere, and that choice impacts so many other areas of our lives that we should pick a place that works for us, and then sort out the rest.&amp;rdquo;
 Read more</description>
     </item>

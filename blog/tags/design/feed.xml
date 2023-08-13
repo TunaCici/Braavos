@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>design on joonas.fi</title>
-    <link>https://joonas.fi/tags/design/</link>
+    <link>https://tunacici.com/blog/tags/design/</link>
     <description>Recent content in design on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2015 00:23:00 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/design/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Jul 2015 00:23:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/design/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RethinkDB: nice &#34;people&#34; -page</title>
-      <link>https://joonas.fi/2015/07/17/rethinkdb-nice-people-page/</link>
+      <link>https://tunacici.com/blog/2015/07/17/rethinkdb-nice-people-page/</link>
       <pubDate>Fri, 17 Jul 2015 00:23:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2015/07/17/rethinkdb-nice-people-page/</guid>
+      <guid>https://tunacici.com/blog/2015/07/17/rethinkdb-nice-people-page/</guid>
       <description>Nice design, and makes the contributors feel respected.
 (NOTE: I removed many bullets from the list to make all categories fit in one screenshot)
 Unfortunately, nowadays as RethinkDB has gone much more commercial: they don&amp;rsquo;t have &amp;ldquo;people&amp;rdquo; -page anymore.</description>
@@ -20,10 +20,10 @@ Unfortunately, nowadays as RethinkDB has gone much more commercial: they don&amp
     
     <item>
       <title>Nice detail on tumblr email verification</title>
-      <link>https://joonas.fi/2013/01/26/nice-detail-on-tumblr-email-verification/</link>
+      <link>https://tunacici.com/blog/2013/01/26/nice-detail-on-tumblr-email-verification/</link>
       <pubDate>Sat, 26 Jan 2013 14:27:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/2013/01/26/nice-detail-on-tumblr-email-verification/</guid>
+      <guid>https://tunacici.com/blog/2013/01/26/nice-detail-on-tumblr-email-verification/</guid>
       <description></description>
     </item>
     

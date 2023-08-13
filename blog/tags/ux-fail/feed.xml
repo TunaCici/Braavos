@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ux-fail on joonas.fi</title>
-    <link>https://joonas.fi/tags/ux-fail/</link>
+    <link>https://tunacici.com/blog/tags/ux-fail/</link>
     <description>Recent content in ux-fail on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Mar 2022 11:20:06 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/ux-fail/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Mar 2022 11:20:06 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/ux-fail/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Google doesnt tell which requirement I don&#39;t pass</title>
-      <link>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</link>
       <pubDate>Sun, 06 Mar 2022 11:20:06 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</guid>
       <description>There are three requirements outlined, but they don&amp;rsquo;t reveal which one of them I don&amp;rsquo;t pass.
 (I know it&amp;rsquo;s the two-factor thing, but that&amp;rsquo;s horrible UX.)
 Detour: enabling 2FA Now when I went on to enable 2-Factor authentication for my admin account, I didn&amp;rsquo;t initially see it there:
@@ -21,10 +21,10 @@ Above are the two versions of the same page. When &amp;ldquo;2-Step Verification
     
     <item>
       <title>Amazon AWS: hidden limitations</title>
-      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/amazon-aws-hidden-limitations/</link>
       <pubDate>Sat, 12 Feb 2022 11:34:40 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/amazon-aws-hidden-limitations/</guid>
       <description>Amazon Simple Email Service (&amp;ldquo;SES&amp;rdquo;) promises to be able to also receive email.
 I use eu-central-1 (Frankfurt) region for my webservices.
 I was frustrated not being able to find receive-related settings.
@@ -35,10 +35,10 @@ And sure enough, verifying this from UI, the menu item simply disappears when yo
     
     <item>
       <title>Amazon AWS: numbers need units to have meaning</title>
-      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/amazon-aws-no-units/</link>
       <pubDate>Sat, 12 Feb 2022 10:44:49 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/amazon-aws-no-units/</guid>
       <description>From Amazon &amp;ldquo;Simple Email Service&amp;rdquo;:
 I can send one email? One during the lifetime of the universe? One per day? One per second?
 The number has no meaning without a unit.
@@ -48,10 +48,10 @@ They&amp;rsquo;re using different units for numbers right next to each other, wi
     
     <item>
       <title>Chrome web store on mobile</title>
-      <link>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/chrome-web-store-on-mobile/</link>
       <pubDate>Sun, 06 Feb 2022 11:44:55 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/chrome-web-store-on-mobile/</guid>
       <description>Why does it have a button for [ Add to Desktop ] when I visit that page on mobile?
 Why does it not explain why I can&amp;rsquo;t add it on mobile?
 It doesn&amp;rsquo;t seem to care whether I try ..

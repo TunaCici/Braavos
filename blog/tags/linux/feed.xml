@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux on joonas.fi</title>
-    <link>https://joonas.fi/tags/linux/</link>
+    <link>https://tunacici.com/blog/tags/linux/</link>
     <description>Recent content in linux on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Feb 2022 17:31:19 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Feb 2022 17:31:19 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Search and copy emoji</title>
-      <link>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/search-and-copy-emoji/</link>
       <pubDate>Sat, 05 Feb 2022 17:31:19 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/search-and-copy-emoji/</guid>
       <description>The problem When I need some emoji, think ice cream 🍦, my (far from ideal) workflow has been to web search ice cream emoji and hope that the emoji is in search result text somewhere close for easy copying.
 A (bloated) solution I&amp;rsquo;m already using Rofi, so when I came across Rofimoji at first I was excited that this solves my use case.
 But I&amp;rsquo;d like to keep my computer as free from additional bloat as possible.</description>
@@ -20,10 +20,10 @@ But I&amp;rsquo;d like to keep my computer as free from additional bloat as poss
     
     <item>
       <title>File copy progress for any running process</title>
-      <link>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/file-copy-progress-for-any-running-process/</link>
       <pubDate>Sat, 01 Jan 2022 18:31:31 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/file-copy-progress-for-any-running-process/</guid>
       <description>Problem Suppose you have a file copy in progress (or some other long time -taking file operation). It doesn&amp;rsquo;t have a progress bar, and you&amp;rsquo;re left wondering how long it&amp;rsquo;s progressed, and you can&amp;rsquo;t gauge it by comparing source and target file sizes for some reason.
 (Credit: xkcd)
 Solution Turns out, Linux makes this task pretty easy, all you got to do is inspect is the file handle&amp;rsquo;s position.

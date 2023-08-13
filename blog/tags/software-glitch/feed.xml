@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>software-glitch on joonas.fi</title>
-    <link>https://joonas.fi/tags/software-glitch/</link>
+    <link>https://tunacici.com/blog/tags/software-glitch/</link>
     <description>Recent content in software-glitch on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Feb 2022 16:34:47 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/software-glitch/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Feb 2022 16:34:47 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/software-glitch/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Paypal: click does nothing</title>
-      <link>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/paypal-click-does-nothing/</link>
       <pubDate>Sat, 12 Feb 2022 16:34:47 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/paypal-click-does-nothing/</guid>
       <description>All systems have glitches, but with PayPal it is systemic.
 It is astonishing how often something doesn&amp;rsquo;t work in PayPal&amp;rsquo;s system:</description>
     </item>
     
     <item>
       <title>Disqus seems to have gone to shitter</title>
-      <link>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</link>
+      <link>https://tunacici.com/blog/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</link>
       <pubDate>Sat, 12 Feb 2022 14:16:23 +0000</pubDate>
       
-      <guid>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</guid>
+      <guid>https://tunacici.com/blog/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</guid>
       <description>Email notification links not working Clicks from new comment notifications not taking me to the comment, but instead Disqus homepage (?!):
 Signing in is not working Privacy issues The notification links seem to track my clicks:
 Twitter login requests too many privileges:

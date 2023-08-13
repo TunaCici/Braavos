@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Today-i-learneds on joonas.fi</title>
-    <link>https://joonas.fi/today-i-learned/</link>
+    <link>https://tunacici.com/blog/today-i-learned/</link>
     <description>Recent content in Today-i-learneds on joonas.fi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 May 2022 11:24:51 +0000</lastBuildDate><atom:link href="https://joonas.fi/today-i-learned/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 May 2022 11:24:51 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/today-i-learned/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>QMK numpad hack for TKL keyboards</title>
-      <link>https://joonas.fi/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</link>
       <pubDate>Sun, 15 May 2022 11:24:51 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</guid>
       <description>Problem TKL keyboard (&amp;ldquo;tenkeyless&amp;rdquo;) means there is no numpad.
 Sometimes you want a numpad, so it would be great if there was a hack to get one.
 Solution QMK makes this easy.
@@ -23,10 +23,10 @@ I arranged the keys as close as possible to how they are in a &amp;ldquo;numpad-
     
     <item>
       <title>Golang: debugging a running process</title>
-      <link>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/golang-debugging-a-running-process/</link>
       <pubDate>Sat, 26 Feb 2022 09:45:00 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/golang-debugging-a-running-process/</guid>
       <description>About the problem in general Usually one can debug by changing your program code.
 This can be called instrumentation: adding debug instrumentation to aid in learning about the bug, and then running the problematic action again.
 The instrumentation can either be &amp;ldquo;print statements&amp;rdquo; or something more elegant like adding debugger breakpoints, or even building your code unchanged but asking the compiler to add debug symbols.
@@ -35,10 +35,10 @@ But sometimes the problem you&amp;rsquo;re encountering might happen so rarely t
     
     <item>
       <title>Alternative website usage with URL redirect Chrome extension</title>
-      <link>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</link>
       <pubDate>Sun, 06 Feb 2022 12:41:46 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</guid>
       <description>Motivation Some websites have valuable content, but their UIs seem like they&amp;rsquo;re designed to humiliate you by:
 Forcing you to use their mobile app (even if the website itself would be enough for you) Force you to log in Doing whatever they want with your data Great examples are Reddit and Instagram.
 Alternative UI implementations To introduce you to the concept, we take Reddit as an example. Let&amp;rsquo;s decouple Reddit into different components:</description>
@@ -46,10 +46,10 @@ Alternative UI implementations To introduce you to the concept, we take Reddit a
     
     <item>
       <title>Search and copy emoji</title>
-      <link>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/search-and-copy-emoji/</link>
       <pubDate>Sat, 05 Feb 2022 17:31:19 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/search-and-copy-emoji/</guid>
       <description>The problem When I need some emoji, think ice cream 🍦, my (far from ideal) workflow has been to web search ice cream emoji and hope that the emoji is in search result text somewhere close for easy copying.
 A (bloated) solution I&amp;rsquo;m already using Rofi, so when I came across Rofimoji at first I was excited that this solves my use case.
 But I&amp;rsquo;d like to keep my computer as free from additional bloat as possible.</description>
@@ -57,10 +57,10 @@ But I&amp;rsquo;d like to keep my computer as free from additional bloat as poss
     
     <item>
       <title>File copy progress for any running process</title>
-      <link>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</link>
+      <link>https://tunacici.com/blog/today-i-learned/2022/file-copy-progress-for-any-running-process/</link>
       <pubDate>Sat, 01 Jan 2022 18:31:31 +0000</pubDate>
       
-      <guid>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</guid>
+      <guid>https://tunacici.com/blog/today-i-learned/2022/file-copy-progress-for-any-running-process/</guid>
       <description>Problem Suppose you have a file copy in progress (or some other long time -taking file operation). It doesn&amp;rsquo;t have a progress bar, and you&amp;rsquo;re left wondering how long it&amp;rsquo;s progressed, and you can&amp;rsquo;t gauge it by comparing source and target file sizes for some reason.
 (Credit: xkcd)
 Solution Turns out, Linux makes this task pretty easy, all you got to do is inspect is the file handle&amp;rsquo;s position.
