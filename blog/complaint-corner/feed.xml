@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Complaint-corners on joonas.fi</title>
+    <link>https://joonas.fi/complaint-corner/</link>
+    <description>Recent content in Complaint-corners on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Apr 2022 08:09:52 +0000</lastBuildDate><atom:link href="https://joonas.fi/complaint-corner/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Drop.com (former Massdrop) spam</title>
+      <link>https://joonas.fi/complaint-corner/2022/drop-spam/</link>
+      <pubDate>Sat, 09 Apr 2022 08:09:52 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/drop-spam/</guid>
+      <description>I just bought a mechanical keyboard from Drop.
+I didn&amp;rsquo;t sign up for any mailing lists, but here&amp;rsquo;s how they rewarded me after giving them $ 225:
+This is only about a week&amp;rsquo;s worth of emails, that I didn&amp;rsquo;t sign up for.
+To top it off, from the unsubscribe link you&amp;rsquo;ve to separate click to unsubscribe for each different subject:
+This is clearly a dark pattern to punish those who wish to unsubscribe.</description>
+    </item>
+    
+    <item>
+      <title>Google doesnt tell which requirement I don&#39;t pass</title>
+      <link>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</link>
+      <pubDate>Sun, 06 Mar 2022 11:20:06 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</guid>
+      <description>There are three requirements outlined, but they don&amp;rsquo;t reveal which one of them I don&amp;rsquo;t pass.
+(I know it&amp;rsquo;s the two-factor thing, but that&amp;rsquo;s horrible UX.)
+Detour: enabling 2FA Now when I went on to enable 2-Factor authentication for my admin account, I didn&amp;rsquo;t initially see it there:
+Above are the two versions of the same page. When &amp;ldquo;2-Step Verification&amp;rdquo; is missing, it means that you don&amp;rsquo;t have the permission to enable it.</description>
+    </item>
+    
+    <item>
+      <title>Paypal: click does nothing</title>
+      <link>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</link>
+      <pubDate>Sat, 12 Feb 2022 16:34:47 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</guid>
+      <description>All systems have glitches, but with PayPal it is systemic.
+It is astonishing how often something doesn&amp;rsquo;t work in PayPal&amp;rsquo;s system:</description>
+    </item>
+    
+    <item>
+      <title>Disqus seems to have gone to shitter</title>
+      <link>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</link>
+      <pubDate>Sat, 12 Feb 2022 14:16:23 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</guid>
+      <description>Email notification links not working Clicks from new comment notifications not taking me to the comment, but instead Disqus homepage (?!):
+Signing in is not working Privacy issues The notification links seem to track my clicks:
+Twitter login requests too many privileges:
+Summary All systems have problems from time to time, but the amount of issues indicate a systemic problem. Disqus is garbage.
+Need to research better options.</description>
+    </item>
+    
+    <item>
+      <title>Amazon AWS: hidden limitations</title>
+      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</link>
+      <pubDate>Sat, 12 Feb 2022 11:34:40 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</guid>
+      <description>Amazon Simple Email Service (&amp;ldquo;SES&amp;rdquo;) promises to be able to also receive email.
+I use eu-central-1 (Frankfurt) region for my webservices.
+I was frustrated not being able to find receive-related settings.
+It was only after I came across some documentation I that realized the issue might be that not all regions support receiving:
+=&amp;gt; Frankfurt region doesn&amp;rsquo;t support receiving email.
+And sure enough, verifying this from UI, the menu item simply disappears when you&amp;rsquo;re in the wrong region:</description>
+    </item>
+    
+    <item>
+      <title>Amazon AWS: numbers need units to have meaning</title>
+      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</link>
+      <pubDate>Sat, 12 Feb 2022 10:44:49 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</guid>
+      <description>From Amazon &amp;ldquo;Simple Email Service&amp;rdquo;:
+I can send one email? One during the lifetime of the universe? One per day? One per second?
+The number has no meaning without a unit.
+Only after you open the &amp;ldquo;more information&amp;rdquo; link, they tell you that the 200 is per day and the 1 is per second.
+They&amp;rsquo;re using different units for numbers right next to each other, without specifying the unit. 🤡</description>
+    </item>
+    
+    <item>
+      <title>Chrome web store on mobile</title>
+      <link>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</link>
+      <pubDate>Sun, 06 Feb 2022 11:44:55 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</guid>
+      <description>Why does it have a button for [ Add to Desktop ] when I visit that page on mobile?
+Why does it not explain why I can&amp;rsquo;t add it on mobile?
+It doesn&amp;rsquo;t seem to care whether I try ..
+Brave on Android or Chrome on Android .. the result is the same.
+Even more confusing is that when I visit with a desktop, it says:
+Compatible with your device</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web on joonas.fi</title>
+    <link>https://joonas.fi/tags/web/</link>
+    <description>Recent content in web on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 06 Feb 2022 12:41:46 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/web/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Alternative website usage with URL redirect Chrome extension</title>
+      <link>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</link>
+      <pubDate>Sun, 06 Feb 2022 12:41:46 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</guid>
+      <description>Motivation Some websites have valuable content, but their UIs seem like they&amp;rsquo;re designed to humiliate you by:
+Forcing you to use their mobile app (even if the website itself would be enough for you) Force you to log in Doing whatever they want with your data Great examples are Reddit and Instagram.
+Alternative UI implementations To introduce you to the concept, we take Reddit as an example. Let&amp;rsquo;s decouple Reddit into different components:</description>
+    </item>
+    
+  </channel>
+</rss>

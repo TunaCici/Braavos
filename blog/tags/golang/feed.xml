@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on joonas.fi</title>
+    <link>https://joonas.fi/tags/golang/</link>
+    <description>Recent content in golang on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Feb 2022 09:45:00 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/golang/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang: debugging a running process</title>
+      <link>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</link>
+      <pubDate>Sat, 26 Feb 2022 09:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</guid>
+      <description>About the problem in general Usually one can debug by changing your program code.
+This can be called instrumentation: adding debug instrumentation to aid in learning about the bug, and then running the problematic action again.
+The instrumentation can either be &amp;ldquo;print statements&amp;rdquo; or something more elegant like adding debugger breakpoints, or even building your code unchanged but asking the compiler to add debug symbols.
+But sometimes the problem you&amp;rsquo;re encountering might happen so rarely that you can&amp;rsquo;t rebuild (and thus re-run) the binary, but instead you&amp;rsquo;re left with debugging a running process.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> QMK numpad hack for TKL keyboards | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="QMK numpad hack for TKL keyboards" />
+<meta property="og:description" content="Problem TKL keyboard (&ldquo;tenkeyless&rdquo;) means there is no numpad.
+Sometimes you want a numpad, so it would be great if there was a hack to get one.
+Solution QMK makes this easy.
+I made Scroll lock a key that activates the temporary numpad layer, and for good measure I made the numpad light up blue.
+These are the keys in the numpad layer:
+I arranged the keys as close as possible to how they are in a &ldquo;numpad-ful&rdquo; keyboard." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/" /><meta property="article:section" content="today-i-learned" />
+<meta property="article:published_time" content="2022-05-15T11:24:51+00:00" />
+<meta property="article:modified_time" content="2022-05-15T11:24:51+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="QMK numpad hack for TKL keyboards"/>
+<meta name="twitter:description" content="Problem TKL keyboard (&ldquo;tenkeyless&rdquo;) means there is no numpad.
+Sometimes you want a numpad, so it would be great if there was a hack to get one.
+Solution QMK makes this easy.
+I made Scroll lock a key that activates the temporary numpad layer, and for good measure I made the numpad light up blue.
+These are the keys in the numpad layer:
+I arranged the keys as close as possible to how they are in a &ldquo;numpad-ful&rdquo; keyboard."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2022/05/qmk-w/-drop-ctrl-nordic-layout-hack-in-ansi-layout/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&text=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&title=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&is_video=false&description=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=QMK%20numpad%20hack%20for%20TKL%20keyboards&body=Check out this article: https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&title=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&title=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&title=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&title=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&name=QMK%20numpad%20hack%20for%20TKL%20keyboards&description=Problem%20TKL%20keyboard%20%28%26ldquo%3btenkeyless%26rdquo%3b%29%20means%20there%20is%20no%20numpad.%0aSometimes%20you%20want%20a%20numpad%2c%20so%20it%20would%20be%20great%20if%20there%20was%20a%20hack%20to%20get%20one.%0aSolution%20QMK%20makes%20this%20easy.%0aI%20made%20Scroll%20lock%20a%20key%20that%20activates%20the%20temporary%20numpad%20layer%2c%20and%20for%20good%20measure%20I%20made%20the%20numpad%20light%20up%20blue.%0aThese%20are%20the%20keys%20in%20the%20numpad%20layer%3a%0aI%20arranged%20the%20keys%20as%20close%20as%20possible%20to%20how%20they%20are%20in%20a%20%26ldquo%3bnumpad-ful%26rdquo%3b%20keyboard.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2ftoday-i-learned%2f2022%2fqmk-numpad-hack-for-tkl-keyboards%2f&t=QMK%20numpad%20hack%20for%20TKL%20keyboards">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#solution">Solution</a></li>
+    <li><a href="#demonstration">Demonstration</a></li>
+    <li><a href="#code">Code</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        QMK numpad hack for TKL keyboards
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2022-05-15 11:24:51 &#43;0000 UTC" itemprop="datePublished">2022-05-15</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/qmk/" rel="tag">qmk</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <h2 id="problem">Problem</h2>
+<p>TKL keyboard (&ldquo;tenkeyless&rdquo;) means there is no numpad.</p>
+<p>Sometimes you want a numpad, so it would be great if there was a hack to get one.</p>
+<h2 id="solution">Solution</h2>
+<p><a href="https://qmk.fm/">QMK</a> makes this easy.</p>
+<p>I made <code>Scroll lock</code> a key that activates the temporary numpad layer, and for good measure I made the
+numpad light up blue.</p>
+<p>These are the keys in the numpad layer:</p>
+<p><img src="tkl-keypad-hack-keys.png" alt=""></p>
+<p>I arranged the keys as close as possible to how they are in a &ldquo;numpad-ful&rdquo; keyboard.</p>
+<p>(Holding <code>Scroll lock</code> disables the layer)</p>
+<h2 id="demonstration">Demonstration</h2>
+<p>Here&rsquo;s me entering <code>123.4560</code>:</p>
+<video controls preload="auto" width="100%"  class="html-video">
+    <source src="/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/usage.mp4" type="video/mp4" }}>
+  <p></p>
+</video>
+<h2 id="code">Code</h2>
+<p>See <a href="https://github.com/joonas-fi/qmk_firmware/commit/38398114c4a6f0c8fd969395ef66612819b8314f">my example code here</a></p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

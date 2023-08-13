@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> An idea to fix Go´s logging mess | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="An idea to fix Go´s logging mess" />
+<meta property="og:description" content="I believe I have came up with an acceptable compromise for the logger mess in Go. This is an approach that embraces the Unix philosophy of pipes and plaintext streams.
+TL;DR: If you want to see the end result as a demo, scroll to the &ldquo;Demo code&rdquo; section!
+TL;DR 2: The standard log.Logger is enough, just use it everywhere as pipes and we&rsquo;ll compose more on top of it!
+Defining the problem The problem: different projects choose different logger implementations (standard, Logrus, glog, google/logger etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2018/12/04/an-idea-to-fix-gos-logging-mess/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-04T09:30:00+00:00" />
+<meta property="article:modified_time" content="2018-12-04T09:30:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="An idea to fix Go´s logging mess"/>
+<meta name="twitter:description" content="I believe I have came up with an acceptable compromise for the logger mess in Go. This is an approach that embraces the Unix philosophy of pipes and plaintext streams.
+TL;DR: If you want to see the end result as a demo, scroll to the &ldquo;Demo code&rdquo; section!
+TL;DR 2: The standard log.Logger is enough, just use it everywhere as pipes and we&rsquo;ll compose more on top of it!
+Defining the problem The problem: different projects choose different logger implementations (standard, Logrus, glog, google/logger etc."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2018/11/30/strace-is-awesome/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2018/12/10/friendly-reminder-microsoft-still-sucks/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&text=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&is_video=false&description=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&name=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess&description=I%20believe%20I%20have%20came%20up%20with%20an%20acceptable%20compromise%20for%20the%20logger%20mess%20in%20Go.%20This%20is%20an%20approach%20that%20embraces%20the%20Unix%20philosophy%20of%20pipes%20and%20plaintext%20streams.%0aTL%3bDR%3a%20If%20you%20want%20to%20see%20the%20end%20result%20as%20a%20demo%2c%20scroll%20to%20the%20%26ldquo%3bDemo%20code%26rdquo%3b%20section%21%0aTL%3bDR%202%3a%20The%20standard%20log.Logger%20is%20enough%2c%20just%20use%20it%20everywhere%20as%20pipes%20and%20we%26rsquo%3bll%20compose%20more%20on%20top%20of%20it%21%0aDefining%20the%20problem%20The%20problem%3a%20different%20projects%20choose%20different%20logger%20implementations%20%28standard%2c%20Logrus%2c%20glog%2c%20google%2flogger%20etc.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&t=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#defining-the-problem">Defining the problem</a></li>
+    <li><a href="#proposed-fix">Proposed fix</a></li>
+    <li><a href="#demo-code">Demo code</a></li>
+    <li><a href="#recap">Recap</a></li>
+    <li><a href="#other-thoughts">Other thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        An idea to fix Go´s logging mess
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2018-12-04 09:30:00 &#43;0000 UTC" itemprop="datePublished">2018-12-04</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/programming/" rel="tag">programming</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>I believe I have came up with an acceptable compromise for the logger mess in Go. This is
+an approach that embraces the Unix philosophy of pipes and plaintext streams.</p>
+<p>TL;DR: If you want to see the end result as a demo, scroll to the &ldquo;Demo code&rdquo; section!</p>
+<p>TL;DR 2: The standard <code>log.Logger</code> is enough, just use it everywhere as pipes and we&rsquo;ll
+compose more on top of it!</p>
+<h2 id="defining-the-problem">Defining the problem</h2>
+<p>The problem: different projects choose different logger implementations
+(<a href="https://godoc.org/log">standard</a>, <a href="https://github.com/sirupsen/logrus">Logrus</a>,
+<a href="https://github.com/golang/glog">glog</a>,
+<a href="https://github.com/google/logger">google/logger</a> etc.), and since none of them share a
+common interface, that lead us to situation where different packages you import will use
+different logging implementations. I have come across many dependencies where you cannot
+suppress their log output. And nobody likes to have multiple logging implementations in
+one program (bloat &amp; increased attack surface). Current situation is not good.</p>
+<p>This fragmentation is totally understandable, because the
+<a href="https://godoc.org/log">standard log package</a> has many problems:</p>
+<ul>
+<li>No exported interface for competing logger implementations, so all code in the Go
+ecosystem that use the standard logger is coupled to the standard log <em>implementation</em>,
+preventing competition and additional features.</li>
+<li>No log levels (debug, info, error etc.)</li>
+<li>No library-level log prefixes. You can have a log prefix but that is shared across your
+entire application. You can have many loggers with their specific prefixes but that
+then you need to configure all of them in one place, and this breaks down once you have
+dependencies of dependencies.</li>
+<li>No outputting logs to something other than <code>io.Writer</code></li>
+<li>No suppressing output from specific libraries/loggers</li>
+<li>No structured logging (some people want to log key/values or JSON)</li>
+</ul>
+<h2 id="proposed-fix">Proposed fix</h2>
+<p>Have one standard interface in one&rsquo;s package API
+(think <code>NewYourLibrary(conf YourLibraryConfig, logger *log.Logger)</code>) that everybody agrees
+to. Since it would be too difficult for everybody to agree which one of the available
+interfaces should be used, let&rsquo;s use the most idiomatic and conservative choice - the
+standard logger.</p>
+<p>But what, you said that it has all these problems? Yes it has, but there&rsquo;s a way around
+them - just use the logger implementation as a dumb pipe and compose the solutions to the
+problems around the pipe!</p>
+<p>First, let&rsquo;s learn how to use <code>log.Logger</code> as an (log delivery) interface instead of
+strictly as the implementation for both the producer (creates log messages) and the
+consumer (e.g. writes them to stderr). Since <code>log.Logger</code> takes <code>io.Writer</code> as its output,
+we can write <code>io.Writer</code> adapters to capture the log output! The standard logger logs to
+<code>stderr</code> by default but we can pass the messages anywhere else we want. Here&rsquo;s an
+<code>OutputToAnotherLog</code> adapter that pushes the output to another logger, so we can build
+logger hierarchies:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic">// pipes Logger&#39;s output (io.Writer) into another Logger
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">OutputToAnotherLog</span>(another <span style="color:#2c5dcd">*</span>log.Logger) io.Writer {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>anotherLogWriter{another}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> anotherLogWriter <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	another <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (d <span style="color:#2c5dcd">*</span>anotherLogWriter) <span style="color:#ff8000;font-weight:bold">Write</span>(msg []<span style="color:#5918bb;font-weight:bold">byte</span>) (<span style="color:#5918bb;font-weight:bold">int</span>, <span style="color:#5918bb;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#5918bb;font-weight:bold">len</span>(msg), d.another.<span style="color:#ff8000;font-weight:bold">Output</span>(<span style="color:#5918bb;font-weight:bold">2</span>, <span style="color:#5918bb;font-weight:bold">string</span>(msg))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Sidenote:</p>
+<blockquote>
+<p>This is actually somewhat of a hack (that&rsquo;s why I called this approach a compromise),
+but I feel that the net sum is still positive since we all benefit from standardizing on
+<code>log.Logger</code> for source-level compatibility while we still get better features!</p>
+</blockquote>
+<p>Why would I want logger hierarchies - that sounds unnecessary? Good question! Short
+answer: we want to configure the logging once (preferably in your <code>main()</code> or equivalent) -
+the root logger, to output somewhere and all other specializations like prefixes or log
+levels should observe the same settings no matter how deep in the calling hierarchy the
+logger is instantiated - even in a different project&rsquo;s module (dependency of dependency).</p>
+<p>This design follows the same hierarchy concept as the
+<a href="https://godoc.org/context">context package</a>.</p>
+<p>Now that we can have a logger that logs to another logger, we can create a prefix logger
+(composability is awesome!):</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic">// Prefix() creates a new Logger whose output is piped to parent logger with a prefix
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">Prefix</span>(prefix <span style="color:#5918bb;font-weight:bold">string</span>, parent <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>log.Logger {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> log.<span style="color:#ff8000;font-weight:bold">New</span>(<span style="color:#ff8000;font-weight:bold">OutputToAnotherLog</span>(parent), prefix<span style="color:#2c5dcd">+</span><span style="color:#0c6">&#34; &#34;</span>, <span style="color:#5918bb;font-weight:bold">0</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Note: we are using a new instance of the standard logger to attach the prefix.
+This plumbing code is minimal.</p>
+<p>The <code>Prefix</code> logger is a primitive, that can be again composed to build a <code>Leveled</code> logger:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> Leveled <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Debug <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>	Info  <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>	Error <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">Levels</span>(parent <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>Leveled {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>Leveled{
+</span></span><span style="display:flex;"><span>		Debug: <span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;[DEBUG]&#34;</span>, parent),
+</span></span><span style="display:flex;"><span>		Info:  <span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;[INFO]&#34;</span>, parent),
+</span></span><span style="display:flex;"><span>		Error: <span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;[ERROR]&#34;</span>, parent),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now we&rsquo;ve introduced quite many concepts without explanation of why they&rsquo;re useful, I know.
+Let&rsquo;s jump into demo code to show how all of this actually makes sense!</p>
+<h2 id="demo-code">Demo code</h2>
+<p>The <code>logex</code> (&ldquo;logging extensions&rdquo;) package we&rsquo;re referring here is on
+<a href="https://github.com/function61/gokit/tree/master/logex">GitHub</a>. Disclaimer:
+I am not proposing this as production ready, but rather to discuss ideas. That being said,
+since the idea revolves around extending the standard logger and passing standard logger
+instances, it should not be a reckless idea to use this as-is, because the standard logger
+is mature and it works.</p>
+<p>Carrying on, the demo app.. it&rsquo;s an application that has these components:</p>
+<ul>
+<li>Server (uses leveled logging)
+<ul>
+<li>server uses Library A (uses plain logging)</li>
+<li>server uses Library B (uses leveled logging)</li>
+<li>server uses Library C (uses badly behaving, non-configurable by caller, logging)</li>
+</ul>
+</li>
+<li>Client (uses plain logging)</li>
+<li>main function that initializes and runs server and client</li>
+</ul>
+<p>Code of <code>LibraryA</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> LibraryA <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">NewLibraryA</span>(logger <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>LibraryA {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>LibraryA{logger}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (l <span style="color:#2c5dcd">*</span>LibraryA) <span style="color:#ff8000;font-weight:bold">Work</span>() {
+</span></span><span style="display:flex;"><span>	l.log.<span style="color:#ff8000;font-weight:bold">Printf</span>(<span style="color:#0c6">&#34;reticulating %d spline(s)&#34;</span>, <span style="color:#5918bb;font-weight:bold">13</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Code of <code>LibraryB</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> LibraryB <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log <span style="color:#2c5dcd">*</span>logex.Leveled
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">NewLibraryB</span>(log <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>LibraryB {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>LibraryB{
+</span></span><span style="display:flex;"><span>		log: logex.<span style="color:#ff8000;font-weight:bold">Levels</span>(log),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (l <span style="color:#2c5dcd">*</span>LibraryB) <span style="color:#ff8000;font-weight:bold">Work</span>() {
+</span></span><span style="display:flex;"><span>	err <span style="color:#2c5dcd">:=</span> errors.<span style="color:#ff8000;font-weight:bold">New</span>(<span style="color:#0c6">&#34;low voltage in flux capacitor&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	l.log.Error.<span style="color:#ff8000;font-weight:bold">Printf</span>(<span style="color:#0c6">&#34;spline reticulation failed: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Code of <code>LibraryC</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> LibraryC <span style="color:#2c5dcd;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">NewLibraryC</span>() <span style="color:#2c5dcd">*</span>LibraryC {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>LibraryC{}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (l <span style="color:#2c5dcd">*</span>LibraryC) <span style="color:#ff8000;font-weight:bold">Work</span>() {
+</span></span><span style="display:flex;"><span>	log.<span style="color:#ff8000;font-weight:bold">Println</span>(<span style="color:#0c6">&#34;hurr durr I&#39;m a special snowflake&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then the rest of the demo app: server, client and main:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> MyServer <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log  <span style="color:#2c5dcd">*</span>logex.Leveled
+</span></span><span style="display:flex;"><span>	libA <span style="color:#2c5dcd">*</span>LibraryA
+</span></span><span style="display:flex;"><span>	libB <span style="color:#2c5dcd">*</span>LibraryB
+</span></span><span style="display:flex;"><span>	libC <span style="color:#2c5dcd">*</span>LibraryC
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">NewMyServer</span>(log <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>MyServer {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>MyServer{
+</span></span><span style="display:flex;"><span>		log:  logex.<span style="color:#ff8000;font-weight:bold">Levels</span>(log), <span style="color:#0080ff;font-style:italic">// logger used by server
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		libA: <span style="color:#ff8000;font-weight:bold">NewLibraryA</span>(logex.<span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;LibraryA&#34;</span>, log)), <span style="color:#0080ff;font-style:italic">// parent always configures its child loggers&#39; prefix
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		libB: <span style="color:#ff8000;font-weight:bold">NewLibraryB</span>(logex.<span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;LibraryB&#34;</span>, log)),
+</span></span><span style="display:flex;"><span>		libC: <span style="color:#ff8000;font-weight:bold">NewLibraryC</span>(),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (m <span style="color:#2c5dcd">*</span>MyServer) <span style="color:#ff8000;font-weight:bold">Run</span>() {
+</span></span><span style="display:flex;"><span>	m.log.Debug.<span style="color:#ff8000;font-weight:bold">Println</span>(<span style="color:#0c6">&#34;at start of Run()&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">defer</span> m.log.Debug.<span style="color:#ff8000;font-weight:bold">Println</span>(<span style="color:#0c6">&#34;returning from Run()&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	m.libA.<span style="color:#ff8000;font-weight:bold">Work</span>()
+</span></span><span style="display:flex;"><span>	m.libB.<span style="color:#ff8000;font-weight:bold">Work</span>()
+</span></span><span style="display:flex;"><span>	m.libC.<span style="color:#ff8000;font-weight:bold">Work</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	m.log.Error.<span style="color:#ff8000;font-weight:bold">Println</span>(<span style="color:#0c6">&#34;not all workers succeeded&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> MyClient <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (m <span style="color:#2c5dcd">*</span>MyClient) <span style="color:#ff8000;font-weight:bold">Run</span>() {
+</span></span><span style="display:flex;"><span>	m.log.<span style="color:#ff8000;font-weight:bold">Println</span>(<span style="color:#0c6">&#34;ran successfully&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>	rootLogger <span style="color:#2c5dcd">:=</span> log.<span style="color:#ff8000;font-weight:bold">New</span>(os.Stderr, <span style="color:#0c6">&#34;&#34;</span>, log.LstdFlags)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0080ff;font-style:italic">// redirect all badly behaving loggers (uses global log.std) to our own log with a prefix
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>	logex.<span style="color:#ff8000;font-weight:bold">RedirectGlobalStdLog</span>(logex.<span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;__GLOBAL&#34;</span>, rootLogger))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	server <span style="color:#2c5dcd">:=</span> <span style="color:#ff8000;font-weight:bold">NewMyServer</span>(logex.<span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;server&#34;</span>, rootLogger))
+</span></span><span style="display:flex;"><span>	server.<span style="color:#ff8000;font-weight:bold">Run</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	(<span style="color:#2c5dcd">&amp;</span>MyClient{logex.<span style="color:#ff8000;font-weight:bold">Prefix</span>(<span style="color:#0c6">&#34;client&#34;</span>, rootLogger)}).<span style="color:#ff8000;font-weight:bold">Run</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now let&rsquo;s observe the output:</p>
+<pre><code>2018/12/03 13:32:09 server [DEBUG] at start of Run()
+2018/12/03 13:32:09 server LibraryA reticulating 13 spline(s)
+2018/12/03 13:32:09 server LibraryB [ERROR] spline reticulation failed: low voltage in flux capacitor
+2018/12/03 13:32:09 __GLOBAL hurr durr I'm a special snowflake
+2018/12/03 13:32:09 server [ERROR] not all workers succeeded
+2018/12/03 13:32:09 server [DEBUG] returning from Run()
+2018/12/03 13:32:09 client ran successfully
+</code></pre>
+<p>From above output, the logger hierarchy tells it pretty clearly: Library A and B belongs
+to the server.</p>
+<p>It&rsquo;ll probably always be a problem, that some badly behaving packages will have non-configurable
+log output to <code>log.std</code>. If there&rsquo;s only one such package in your project, you can just assume
+that all global log calls belong to LibraryC (in our example):</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>	 func main() {
+</span></span><span style="display:flex;"><span>	        rootLogger := log.New(os.Stderr, &#34;&#34;, log.LstdFlags)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	-       // redirect all badly behaving loggers (uses global log.std) to our own log with a prefix
+</span></span><span style="display:flex;"><span>	-       logex.RedirectGlobalStdLog(logex.Prefix(&#34;__GLOBAL&#34;, rootLogger))
+</span></span><span style="display:flex;"><span>	+       // LibraryC behaves badly and logs to log.std
+</span></span><span style="display:flex;"><span>	+       logex.RedirectGlobalStdLog(logex.Prefix(&#34;server LibraryC&#34;, rootLogger))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	        server := NewMyServer(logex.Prefix(&#34;server&#34;, rootLogger))
+</span></span><span style="display:flex;"><span>	        server.Run()
+</span></span></code></pre></div><p>Output would be now:</p>
+<pre><code>2018/12/03 13:32:09 server [DEBUG] at start of Run()
+2018/12/03 13:32:09 server LibraryA reticulating 13 spline(s)
+2018/12/03 13:32:09 server LibraryB [ERROR] spline reticulation failed: low voltage in flux capacitor
+2018/12/03 13:32:09 server LibraryC hurr durr I'm a special snowflake
+2018/12/03 13:32:09 server [ERROR] not all workers succeeded
+2018/12/03 13:32:09 server [DEBUG] returning from Run()
+2018/12/03 13:32:09 client ran successfully
+</code></pre>
+<p>Also to demonstrate configurability better, our root logger config reflects to all log calls in the program:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>	 func main() {
+</span></span><span style="display:flex;"><span>	-       rootLogger := log.New(os.Stderr, &#34;&#34;, log.LstdFlags)
+</span></span><span style="display:flex;"><span>	+       // don&#39;t use timestamps
+</span></span><span style="display:flex;"><span>	+       rootLogger := log.New(os.Stderr, &#34;&#34;, 0)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	        // LibraryC behaves badly and logs to log.std
+</span></span><span style="display:flex;"><span>	        logex.RedirectGlobalStdLog(logex.Prefix(&#34;server LibraryC&#34;, rootLogger))
+</span></span></code></pre></div><p>Output is now:</p>
+<pre><code>server [DEBUG] at start of Run()
+server LibraryA reticulating 13 spline(s)
+server LibraryB [ERROR] spline reticulation failed: low voltage in flux capacitor
+server LibraryC hurr durr I'm a special snowflake
+server [ERROR] not all workers succeeded
+server [DEBUG] returning from Run()
+client ran successfully
+</code></pre>
+<p>What if we want to suppress <code>LibraryB</code> output? Just pass a <code>Discard</code> logger:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>	        return &amp;MyServer{
+</span></span><span style="display:flex;"><span>	                log:  logex.Levels(log),                          // logger used by server
+</span></span><span style="display:flex;"><span>	                libA: NewLibraryA(logex.Prefix(&#34;LibraryA&#34;, log)), // parent always configures its child logger&#39;s prefix
+</span></span><span style="display:flex;"><span>	-               libB: NewLibraryB(logex.Prefix(&#34;LibraryB&#34;, log)),
+</span></span><span style="display:flex;"><span>	+               libB: NewLibraryB(logex.Discard),
+</span></span><span style="display:flex;"><span>	                libC: NewLibraryC(),
+</span></span><span style="display:flex;"><span>	        }
+</span></span><span style="display:flex;"><span>	 }
+</span></span></code></pre></div><p>Output:</p>
+<pre><code>server [DEBUG] at start of Run()
+server LibraryA reticulating 13 spline(s)
+server LibraryC hurr durr I'm a special snowflake
+server [ERROR] not all workers succeeded
+server [DEBUG] returning from Run()
+client ran successfully
+</code></pre>
+<p>If you&rsquo;re wondering, here&rsquo;s how <code>logex.Discard</code> is implemented:</p>
+<pre><code>var Discard = log.New(ioutil.Discard, &quot;&quot;, 0)
+</code></pre>
+<p><code>ioutil.Discard</code> basically is <code>dev/null</code> but faster (it is <code>io.Writer</code> whose <code>Write()</code>
+does nothing).</p>
+<p>Sidenote:</p>
+<blockquote>
+<p>A well-behaving library should default to a <code>Discard</code> logger if its constructor / options
+doesn&rsquo;t specify a non-nil <code>log.Logger</code>. This way our code could give <code>nil</code> (which is more
+idiomatic Go as the zero value should be meaningful in structs etc.) as the logger to
+suppress the log output.</p>
+</blockquote>
+<p>But what if the logging that we want to discard is from a dependency&rsquo;s dependency, and
+we don&rsquo;t have any control over its injected log facility to use <code>Discard</code>? What if we want
+to filter the logging from <code>main()</code> only in some complex way?</p>
+<p>In an ideal world, all dependencies would be instantiated from your <code>main()</code>, but I know in
+reality.. I guess you could use a <code>regexp</code> just before the root level logger:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>	 func main() {
+</span></span><span style="display:flex;"><span>	        // don&#39;t use timestamps
+</span></span><span style="display:flex;"><span>	-       rootLogger := log.New(os.Stderr, &#34;&#34;, 0)
+</span></span><span style="display:flex;"><span>	+       // only log messages from LibraryA or LibraryB
+</span></span><span style="display:flex;"><span>	+       rootLogger := logex.Filter(
+</span></span><span style="display:flex;"><span>	+               regexp.MustCompile(&#34;(LibraryA|LibraryC)&#34;),
+</span></span><span style="display:flex;"><span>	+               log.New(os.Stderr, &#34;&#34;, 0))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	        // LibraryC behaves badly and logs to log.std
+</span></span><span style="display:flex;"><span>	        logex.RedirectGlobalStdLog(logex.Prefix(&#34;server LibraryC&#34;, rootLogger))
+</span></span></code></pre></div><p>Output:</p>
+<pre><code>server LibraryA reticulating 13 spline(s)
+server LibraryC hurr durr I'm a special snowflake
+</code></pre>
+<p>This filtering idea is similar to <a href="https://github.com/hashicorp/logutils">HashiCorp</a>&rsquo;s
+idea of injecting a filtering proxy at the <code>log.std</code> to filter by log levels.</p>
+<p>You might also realize that the regexp idea could also be used to filter by log level. This
+was just a quick hack to demonstrate that better solutions could quite easily be implemented.</p>
+<p>How about structured logging? Remember, <code>log.Logger</code> should be treated pretty much as a dumb
+pipe, and higher level abstractions could be built on top of it. Log producer (your library)
+and log consumer don&rsquo;t necessarily need to use the exact same concepts. You can internally
+derive more fancy loggers like the <code>Prefix</code>, <code>Leveled</code>, and a fictional <code>KvLogger</code>, from
+the <code>log.Logger</code> that was given to you. Let&rsquo;s change LibraryA a bit:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">NewLibraryA</span>(logger <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>LibraryA {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>LibraryA{<span style="color:#ff8000;font-weight:bold">KvLogger</span>(logger)}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> LibraryA <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log <span style="color:#2c5dcd">*</span>kvLogger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (l <span style="color:#2c5dcd">*</span>LibraryA) <span style="color:#ff8000;font-weight:bold">Work</span>() {
+</span></span><span style="display:flex;"><span>	l.log.<span style="color:#ff8000;font-weight:bold">Print</span>(
+</span></span><span style="display:flex;"><span>		<span style="color:#0c6">&#34;operation&#34;</span>, <span style="color:#0c6">&#34;splineReticulation&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#0c6">&#34;splineCount&#34;</span>, <span style="color:#0c6">&#34;13&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">KvLogger</span>(logger <span style="color:#2c5dcd">*</span>log.Logger) <span style="color:#2c5dcd">*</span>kvLogger {
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#2c5dcd">&amp;</span>kvLogger{logger}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">type</span> kvLogger <span style="color:#2c5dcd;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	log <span style="color:#2c5dcd">*</span>log.Logger
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> (k <span style="color:#2c5dcd">*</span>kvLogger) <span style="color:#ff8000;font-weight:bold">Print</span>(kvs <span style="color:#2c5dcd">...</span><span style="color:#5918bb;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	kvLen <span style="color:#2c5dcd">:=</span> <span style="color:#5918bb;font-weight:bold">len</span>(kvs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	parts <span style="color:#2c5dcd">:=</span> []<span style="color:#5918bb;font-weight:bold">string</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">for</span> i <span style="color:#2c5dcd">:=</span> <span style="color:#5918bb;font-weight:bold">0</span>; i &lt; kvLen; i <span style="color:#2c5dcd">+=</span> <span style="color:#5918bb;font-weight:bold">2</span> {
+</span></span><span style="display:flex;"><span>		parts = <span style="color:#5918bb;font-weight:bold">append</span>(parts, kvs[i]<span style="color:#2c5dcd">+</span><span style="color:#0c6">&#34;=&#34;</span><span style="color:#2c5dcd">+</span>kvs[i<span style="color:#2c5dcd">+</span><span style="color:#5918bb;font-weight:bold">1</span>])
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	k.log.<span style="color:#ff8000;font-weight:bold">Println</span>(strings.<span style="color:#ff8000;font-weight:bold">Join</span>(parts, <span style="color:#0c6">&#34; &#34;</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And the output:</p>
+<pre><code>server LibraryA operation=splineReticulation splineCount=13
+server LibraryC hurr durr I'm a special snowflake
+</code></pre>
+<p>This post is getting long, but I think you get the idea now.</p>
+<h2 id="recap">Recap</h2>
+<p>Let&rsquo;s see what problems this idea has solved:</p>
+<ul>
+<li>Everybody can standardize on one log interface: ✓</li>
+<li>Log levels: ✓ (extend on top of standard logger)</li>
+<li>Library-level log prefixes: ✓ (consumer - the &ldquo;parent&rdquo;, of library decides where the
+library logs and what prefix it has)</li>
+<li>Suppressing output from specific loggers: ✓
+<ul>
+<li>a) well behaving library shouldn&rsquo;t log if given <code>nil</code> as <code>log.Logger</code></li>
+<li>b) pass <code>Discard</code> logger for badly behaving ones or</li>
+<li>c) or filter programmatically from <code>main</code> if you don&rsquo;t have any control</li>
+</ul>
+</li>
+<li>Outputting logs to other than <code>io.Writer</code>: ✓ (writing an adapter was demonstrated)</li>
+<li>Structured logging: ✓ (extend on top of standard logger)</li>
+<li>Handling output from misbehaving libraries: ✓ (output can be redirected and re-prefixed)</li>
+<li>Can benefit (add log prefix) to libraries that only use the plain standard logger
+mechanism without any extensions: ✓
+<ul>
+<li>The library that produces log output via <code>log.Logger</code> isn&rsquo;t aware that its output
+is plugged to a fancy pipeline instead of <code>stderr</code></li>
+</ul>
+</li>
+</ul>
+<p>I&rsquo;d like to hear your thoughts on this in the comments!</p>
+<h2 id="other-thoughts">Other thoughts</h2>
+<p>Many people say &ldquo;libraries shouldn&rsquo;t log&rdquo;, but I think they say it because of the
+mess that we&rsquo;re in, where a library using the standard logger pushes log messages to your
+<code>stderr</code> <em>without your consent</em>. I get it, it&rsquo;s a shitty state we&rsquo;re in, but do you
+seriously think complex libraries like <a href="https://github.com/hashicorp/raft">Raft</a> shouldn&rsquo;t
+log? Good luck in troubleshooting when shit goes wrong.</p>
+<p>I think if a library benefits from logging, it should log, but only if it lets the user
+(who instantiates the library) control all aspects of the logging - it doesn&rsquo;t have to be
+complicated.</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2018\/12\/04\/an-idea-to-fix-gos-logging-mess';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#defining-the-problem">Defining the problem</a></li>
+    <li><a href="#proposed-fix">Proposed fix</a></li>
+    <li><a href="#demo-code">Demo code</a></li>
+    <li><a href="#recap">Recap</a></li>
+    <li><a href="#other-thoughts">Other thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&text=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&is_video=false&description=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&title=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&name=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess&description=I%20believe%20I%20have%20came%20up%20with%20an%20acceptable%20compromise%20for%20the%20logger%20mess%20in%20Go.%20This%20is%20an%20approach%20that%20embraces%20the%20Unix%20philosophy%20of%20pipes%20and%20plaintext%20streams.%0aTL%3bDR%3a%20If%20you%20want%20to%20see%20the%20end%20result%20as%20a%20demo%2c%20scroll%20to%20the%20%26ldquo%3bDemo%20code%26rdquo%3b%20section%21%0aTL%3bDR%202%3a%20The%20standard%20log.Logger%20is%20enough%2c%20just%20use%20it%20everywhere%20as%20pipes%20and%20we%26rsquo%3bll%20compose%20more%20on%20top%20of%20it%21%0aDefining%20the%20problem%20The%20problem%3a%20different%20projects%20choose%20different%20logger%20implementations%20%28standard%2c%20Logrus%2c%20glog%2c%20google%2flogger%20etc.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2018%2f12%2f04%2fan-idea-to-fix-gos-logging-mess%2f&t=An%20idea%20to%20fix%20Go%c2%b4s%20logging%20mess">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

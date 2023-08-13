@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>home automation on joonas.fi</title>
+    <link>https://joonas.fi/tags/home-automation/</link>
+    <description>Recent content in home automation on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Aug 2020 08:00:00 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/home-automation/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Displaying RSS feed with Home Assistant</title>
+      <link>https://joonas.fi/2020/08/displaying-rss-feed-with-home-assistant/</link>
+      <pubDate>Mon, 03 Aug 2020 08:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/08/displaying-rss-feed-with-home-assistant/</guid>
+      <description>I wanted to display news in my Home Assistant dashboard.
+Home Assistant has &amp;ldquo;Feedreader&amp;rdquo; integration which supports getting data from an RSS feed into HA&amp;rsquo;s event bus, but it doesn&amp;rsquo;t mention a way of displaying the entries (or storing them as sensor attributes that would be accessible from UI).
+There&amp;rsquo;s 3rd party integration and an UI component to do the job, but I wanted to do this with as close to vanilla Home Assistant as possible.</description>
+    </item>
+    
+    <item>
+      <title>Home automation ideas &amp; my setup</title>
+      <link>https://joonas.fi/2020/01/19/home-automation-ideas-and-my-setup/</link>
+      <pubDate>Sun, 19 Jan 2020 10:50:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/01/19/home-automation-ideas-and-my-setup/</guid>
+      <description>I&amp;rsquo;ve got so many good automation ideas from other people, so it&amp;rsquo;s fair that I pay it forward by listing my own automations so other people can get ideas! I also describe my setup, gear and my no-cloud policy etc.
+My automations A lazy dump of my automations:
+When nobody&amp;rsquo;s home and I open the apartment door (door/window sensor) and it&amp;rsquo;s dark, a hallway light turns on.
+When the last person leaves the apartment, there&amp;rsquo;s a button next to the apartment door that makes all the lights/devices turn off.</description>
+    </item>
+    
+    <item>
+      <title>IKEA Trådfri bulbs without Trådfri gateway: getting started (complete instructions)</title>
+      <link>https://joonas.fi/2018/12/17/ikea-tradfri-bulbs-without-tradfri-gateway-getting-started/</link>
+      <pubDate>Mon, 17 Dec 2018 11:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/17/ikea-tradfri-bulbs-without-tradfri-gateway-getting-started/</guid>
+      <description>TL;DR; control all Zigbee devices (Philips Hue, Xiaomi smarthome, IKEA Trådfri etc etc.) more securely, more cheaply, more creatively, more robustly, more privately and be in total control!
+You still need some hardware to interface with Zigbee, but using something like Texas Instruments&amp;rsquo; CC2531 brings a lot of benefits. More on this very closely below!
+Why &amp;amp; overview Why would I want a custom Zigbee gateway? Well, it brings us these benefits:</description>
+    </item>
+    
+  </channel>
+</rss>

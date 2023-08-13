@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>joonas.fi</title>
+    <link>https://joonas.fi/</link>
+    <description>Recent content on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Mar 2023 07:57:12 +0000</lastBuildDate><atom:link href="https://joonas.fi/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An approach to protocol reverse-engineering</title>
+      <link>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</link>
+      <pubDate>Sun, 12 Mar 2023 07:57:12 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</guid>
+      <description>This basic principle has worked for me many times, so I figured it might be worth to share the process.
+In this instance I wanted to write a label printer driver in Go. A barebones implementation exists in Python that works to print a test image.
+The idea If I can reach parity with the Python-based implementation (from now on referred to as the reference implementation), I can build on top of a working baseline.</description>
+    </item>
+    
+    <item>
+      <title>QMK numpad hack for TKL keyboards</title>
+      <link>https://joonas.fi/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</link>
+      <pubDate>Sun, 15 May 2022 11:24:51 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/qmk-numpad-hack-for-tkl-keyboards/</guid>
+      <description>Problem TKL keyboard (&amp;ldquo;tenkeyless&amp;rdquo;) means there is no numpad.
+Sometimes you want a numpad, so it would be great if there was a hack to get one.
+Solution QMK makes this easy.
+I made Scroll lock a key that activates the temporary numpad layer, and for good measure I made the numpad light up blue.
+These are the keys in the numpad layer:
+I arranged the keys as close as possible to how they are in a &amp;ldquo;numpad-ful&amp;rdquo; keyboard.</description>
+    </item>
+    
+    <item>
+      <title>QMK w/ Drop CTRL: Nordic layout hack in ANSI layout</title>
+      <link>https://joonas.fi/2022/05/qmk-w/-drop-ctrl-nordic-layout-hack-in-ansi-layout/</link>
+      <pubDate>Sat, 14 May 2022 09:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2022/05/qmk-w/-drop-ctrl-nordic-layout-hack-in-ansi-layout/</guid>
+      <description>I recently bought a Drop CTRL mechanical keyboard. (am not sponsored &amp;amp; I actually dislike the company)
+I debated myself for a long time whether to buy the keyboard, due to these problems:
+it has ANSI layout (I&amp;rsquo;m used to ISO layout), and the keycap labels don&amp;rsquo;t match either so some keys&amp;rsquo; labels won&amp;rsquo;t match what actually comes on screen when I press them. Keycaps can be changed, so I figured if it bothers me I can always solve the mismatching labels problem.</description>
+    </item>
+    
+    <item>
+      <title>Drop.com (former Massdrop) spam</title>
+      <link>https://joonas.fi/complaint-corner/2022/drop-spam/</link>
+      <pubDate>Sat, 09 Apr 2022 08:09:52 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/drop-spam/</guid>
+      <description>I just bought a mechanical keyboard from Drop.
+I didn&amp;rsquo;t sign up for any mailing lists, but here&amp;rsquo;s how they rewarded me after giving them $ 225:
+This is only about a week&amp;rsquo;s worth of emails, that I didn&amp;rsquo;t sign up for.
+To top it off, from the unsubscribe link you&amp;rsquo;ve to separate click to unsubscribe for each different subject:
+This is clearly a dark pattern to punish those who wish to unsubscribe.</description>
+    </item>
+    
+    <item>
+      <title>Google doesnt tell which requirement I don&#39;t pass</title>
+      <link>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</link>
+      <pubDate>Sun, 06 Mar 2022 11:20:06 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/google-doesnt-tell-which-requirement-i-dont-pass/</guid>
+      <description>There are three requirements outlined, but they don&amp;rsquo;t reveal which one of them I don&amp;rsquo;t pass.
+(I know it&amp;rsquo;s the two-factor thing, but that&amp;rsquo;s horrible UX.)
+Detour: enabling 2FA Now when I went on to enable 2-Factor authentication for my admin account, I didn&amp;rsquo;t initially see it there:
+Above are the two versions of the same page. When &amp;ldquo;2-Step Verification&amp;rdquo; is missing, it means that you don&amp;rsquo;t have the permission to enable it.</description>
+    </item>
+    
+    <item>
+      <title>Golang: debugging a running process</title>
+      <link>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</link>
+      <pubDate>Sat, 26 Feb 2022 09:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/golang-debugging-a-running-process/</guid>
+      <description>About the problem in general Usually one can debug by changing your program code.
+This can be called instrumentation: adding debug instrumentation to aid in learning about the bug, and then running the problematic action again.
+The instrumentation can either be &amp;ldquo;print statements&amp;rdquo; or something more elegant like adding debugger breakpoints, or even building your code unchanged but asking the compiler to add debug symbols.
+But sometimes the problem you&amp;rsquo;re encountering might happen so rarely that you can&amp;rsquo;t rebuild (and thus re-run) the binary, but instead you&amp;rsquo;re left with debugging a running process.</description>
+    </item>
+    
+    <item>
+      <title>Paypal: click does nothing</title>
+      <link>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</link>
+      <pubDate>Sat, 12 Feb 2022 16:34:47 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/paypal-click-does-nothing/</guid>
+      <description>All systems have glitches, but with PayPal it is systemic.
+It is astonishing how often something doesn&amp;rsquo;t work in PayPal&amp;rsquo;s system:</description>
+    </item>
+    
+    <item>
+      <title>Programming pattern for ensuring a function is called as root</title>
+      <link>https://joonas.fi/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</link>
+      <pubDate>Sat, 12 Feb 2022 14:55:49 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2022/02/programming-pattern-for-ensuring-a-function-is-called-as-root/</guid>
+      <description>I have recently been writing system-level software that needed many steps with filesystem mounting etc. - things you generally need to do as root.
+For security I wanted to make the program enter root only for the steps that actually need it.
+Starting situation In pseudo it started like this:
+func logic() error { mountFoo() mountBar() return nil } func mountFoo() { dropPrivileges := enterRoot() defer dropPrivileges() // drops privileges when this function is done // do stuff } func mountBar() { dropPrivileges := enterRoot() defer dropPrivileges() // drops privileges when this function is done // do stuff } Now when I had to string multiple root-requiring things together, it became repetitive to inside the function enter root and leave root, just for that to happen right next again.</description>
+    </item>
+    
+    <item>
+      <title>Disqus seems to have gone to shitter</title>
+      <link>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</link>
+      <pubDate>Sat, 12 Feb 2022 14:16:23 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/disqus-seems-to-have-gone-to-shitter/</guid>
+      <description>Email notification links not working Clicks from new comment notifications not taking me to the comment, but instead Disqus homepage (?!):
+Signing in is not working Privacy issues The notification links seem to track my clicks:
+Twitter login requests too many privileges:
+Summary All systems have problems from time to time, but the amount of issues indicate a systemic problem. Disqus is garbage.
+Need to research better options.</description>
+    </item>
+    
+    <item>
+      <title>Amazon AWS: hidden limitations</title>
+      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</link>
+      <pubDate>Sat, 12 Feb 2022 11:34:40 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-hidden-limitations/</guid>
+      <description>Amazon Simple Email Service (&amp;ldquo;SES&amp;rdquo;) promises to be able to also receive email.
+I use eu-central-1 (Frankfurt) region for my webservices.
+I was frustrated not being able to find receive-related settings.
+It was only after I came across some documentation I that realized the issue might be that not all regions support receiving:
+=&amp;gt; Frankfurt region doesn&amp;rsquo;t support receiving email.
+And sure enough, verifying this from UI, the menu item simply disappears when you&amp;rsquo;re in the wrong region:</description>
+    </item>
+    
+    <item>
+      <title>Amazon AWS: numbers need units to have meaning</title>
+      <link>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</link>
+      <pubDate>Sat, 12 Feb 2022 10:44:49 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/amazon-aws-no-units/</guid>
+      <description>From Amazon &amp;ldquo;Simple Email Service&amp;rdquo;:
+I can send one email? One during the lifetime of the universe? One per day? One per second?
+The number has no meaning without a unit.
+Only after you open the &amp;ldquo;more information&amp;rdquo; link, they tell you that the 200 is per day and the 1 is per second.
+They&amp;rsquo;re using different units for numbers right next to each other, without specifying the unit. 🤡</description>
+    </item>
+    
+    <item>
+      <title>Alternative website usage with URL redirect Chrome extension</title>
+      <link>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</link>
+      <pubDate>Sun, 06 Feb 2022 12:41:46 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/alternative-website-usage-with-url-redirect-chrome-extension/</guid>
+      <description>Motivation Some websites have valuable content, but their UIs seem like they&amp;rsquo;re designed to humiliate you by:
+Forcing you to use their mobile app (even if the website itself would be enough for you) Force you to log in Doing whatever they want with your data Great examples are Reddit and Instagram.
+Alternative UI implementations To introduce you to the concept, we take Reddit as an example. Let&amp;rsquo;s decouple Reddit into different components:</description>
+    </item>
+    
+    <item>
+      <title>Chrome web store on mobile</title>
+      <link>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</link>
+      <pubDate>Sun, 06 Feb 2022 11:44:55 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/chrome-web-store-on-mobile/</guid>
+      <description>Why does it have a button for [ Add to Desktop ] when I visit that page on mobile?
+Why does it not explain why I can&amp;rsquo;t add it on mobile?
+It doesn&amp;rsquo;t seem to care whether I try ..
+Brave on Android or Chrome on Android .. the result is the same.
+Even more confusing is that when I visit with a desktop, it says:
+Compatible with your device</description>
+    </item>
+    
+    <item>
+      <title>Search and copy emoji</title>
+      <link>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</link>
+      <pubDate>Sat, 05 Feb 2022 17:31:19 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/search-and-copy-emoji/</guid>
+      <description>The problem When I need some emoji, think ice cream 🍦, my (far from ideal) workflow has been to web search ice cream emoji and hope that the emoji is in search result text somewhere close for easy copying.
+A (bloated) solution I&amp;rsquo;m already using Rofi, so when I came across Rofimoji at first I was excited that this solves my use case.
+But I&amp;rsquo;d like to keep my computer as free from additional bloat as possible.</description>
+    </item>
+    
+    <item>
+      <title>File copy progress for any running process</title>
+      <link>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</link>
+      <pubDate>Sat, 01 Jan 2022 18:31:31 +0000</pubDate>
+      
+      <guid>https://joonas.fi/today-i-learned/2022/file-copy-progress-for-any-running-process/</guid>
+      <description>Problem Suppose you have a file copy in progress (or some other long time -taking file operation). It doesn&amp;rsquo;t have a progress bar, and you&amp;rsquo;re left wondering how long it&amp;rsquo;s progressed, and you can&amp;rsquo;t gauge it by comparing source and target file sizes for some reason.
+(Credit: xkcd)
+Solution Turns out, Linux makes this task pretty easy, all you got to do is inspect is the file handle&amp;rsquo;s position.
+Let&amp;rsquo;s simulate reading my entire SSD content:</description>
+    </item>
+    
+    <item>
+      <title>SAML is insecure by design</title>
+      <link>https://joonas.fi/2021/08/saml-is-insecure-by-design/</link>
+      <pubDate>Tue, 03 Aug 2021 12:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/08/saml-is-insecure-by-design/</guid>
+      <description>What is SAML? Security Assertion Markup Language (SAML) is an open standard for exchanging authentication and authorization data between parties.
+Source: Wikipedia
+SAML is often used for single-sign on (&amp;ldquo;Sign in with Google&amp;rdquo;, &amp;ldquo;Sign in with Twitter&amp;rdquo; etc.). It means when you want to log in to example.com, example.com can trust &amp;amp; use an external authentication provider to assert the user&amp;rsquo;s identity for you. SAML is about communicating these authentication &amp;amp; identity details across organization boundaries (web domains).</description>
+    </item>
+    
+    <item>
+      <title>Stable device path for Linux hwmon interfaces</title>
+      <link>https://joonas.fi/2021/07/stable-device-path-for-linux-hwmon-interfaces/</link>
+      <pubDate>Thu, 15 Jul 2021 08:43:30 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/07/stable-device-path-for-linux-hwmon-interfaces/</guid>
+      <description>The problem /sys/class/hwmon/hwmon2/temp1_input reports your CPU temperature.
+But the next time you reboot, the path might be /sys/class/hwmon/hwmon1/temp1_input.
+=&amp;gt; The path is not stable, so you cannot easily refer to it.
+Example use case where you might need stable paths is use in i3status (it&amp;rsquo;s the status bar in the animation on top of this article).
+The solution Let&amp;rsquo;s write a udev rule to make a stable device path to the CPU temperature.</description>
+    </item>
+    
+    <item>
+      <title>Ping metrics as graphs</title>
+      <link>https://joonas.fi/2021/07/ping-metrics-as-graphs/</link>
+      <pubDate>Sun, 04 Jul 2021 12:56:11 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/07/ping-metrics-as-graphs/</guid>
+      <description>I wanted to see latency graphs for my internet connection, as well as to some various servers/devices:
+Why? Having multiple ping targets gives you a pretty accurate view of the health of your internet connection, and also any networking issues for the target devices themselves.
+If all the lines go up (latency increases), the problem is in your internet connection.
+However, if only one target you&amp;rsquo;re monitoring starts to act up, you know the problem is elsewhere.</description>
+    </item>
+    
+    <item>
+      <title>Coding pattern: preventing the use of &#39;0 results&#39; as a loading indicator</title>
+      <link>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</link>
+      <pubDate>Wed, 09 Jun 2021 07:29:32 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</guid>
+      <description>The use of 0-results-as-a-loading-indicator is really prevalent. It is horrible UX, as it is directly lying to the user.
+Why is this a problem? &amp;ldquo;0 results&amp;rdquo; and &amp;ldquo;data is being loaded&amp;rdquo; are two different things, so we shouldn&amp;rsquo;t collapse them as the same message to the user.
+Just today I opened Google Drive on Android and the data loading took so many seconds I had time to scratch my head with &amp;ldquo;why is my Drive empty?</description>
+    </item>
+    
+    <item>
+      <title>Docker multi-arch image tooling, buildx</title>
+      <link>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</link>
+      <pubDate>Tue, 23 Feb 2021 08:20:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/</guid>
+      <description>Multi-arch image means that you can run the same $ docker run joonas/cool-app command on different hardware platforms like PC (amd64) and Raspberry Pi (arm). Recently when publishing said style images for Varasto, I learned quite a lot about the tooling and some tricks. But I was really frustrated about the shortcomings, so I want to share my findings to make it easier for others!
+Tip: lots of what I&amp;rsquo;m writing about is found from this excellent post (which is more superficial, but probably better :D).</description>
+    </item>
+    
+    <item>
+      <title>Blog facelift &amp; technical renovation</title>
+      <link>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</link>
+      <pubDate>Mon, 22 Feb 2021 10:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</guid>
+      <description>My blog has been running on Jekyll since early 2015. I am very grateful for how easy and out-of-the-way it has made running my blog.
+I haven&amp;rsquo;t touched (= updated/maintained) my Jekyll installation even once over that six years and it has just chugged on - letting me focus on content.
+However, I&amp;rsquo;ve built other static sites with Hugo for years, and I knew I wanted to migrate my blog to it at some point.</description>
+    </item>
+    
+    <item>
+      <title>UEFI, PC boot process and UEFI with QEMU</title>
+      <link>https://joonas.fi/2021/02/uefi-pc-boot-process-and-uefi-with-qemu/</link>
+      <pubDate>Thu, 18 Feb 2021 08:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/uefi-pc-boot-process-and-uefi-with-qemu/</guid>
+      <description>Recently I learned a lot more about UEFI/BIOS than I would&amp;rsquo;ve liked to, when I was configuring my new exotic system&amp;rsquo;s boot process. It just goes to show you that when you step away from the well-traveled path, you&amp;rsquo;re going to run into stupid problems and have to understand deeper about how things work. So I&amp;rsquo;m sharing what I learned.
+Legacy BIOS To better understand UEFI, we must first dig into a little bit of history.</description>
+    </item>
+    
+    <item>
+      <title>Reverse-engineering MIDI devices, AKAI MPK Mini Mk3</title>
+      <link>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</link>
+      <pubDate>Wed, 17 Feb 2021 08:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</guid>
+      <description>I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make music - but because of the pads and knobs that I can use to control things like jump between workspaces adjust the audio volume in my PC etc.
+What can I do with it? Lots of things! I&amp;rsquo;ve already got implemented:
+Piano keys Various key mappings to:
+Toggle audio between speakers and headphones Set random wallpaper (from a directory of curated wallpapers) Open a new empty workspace Drumpads to jump between workspaces There are 8 pads so I can jump between 8 workspaces: (I number my less-often used workspaces above that 8.</description>
+    </item>
+    
+    <item>
+      <title>Locating costly AWS S3 buckets</title>
+      <link>https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/</link>
+      <pubDate>Tue, 16 Feb 2021 14:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/</guid>
+      <description>I recently got a surprisingly large AWS bill which had me immediately realize something was wrong, because I did not host anything that should consume dramatically more resources month-over-month.
+Happy AWS billing day:
+Why is S3 costing so much? The overview just points at S3. The cost explorer had some breakdown options:
+This revealed that it is the (S3) outbound data transfer that is causing this - not stored S3 object count or size.</description>
+    </item>
+    
+    <item>
+      <title>Attach a keyboard to a Docker container</title>
+      <link>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</link>
+      <pubDate>Thu, 17 Dec 2020 10:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</guid>
+      <description>I wanted to connect a keyboard-mouse-combo to a virtual remote desktop running inside a Docker container.
+My use case I have a wall-mounted Android tablet displaying always-on content (&amp;ldquo;info screen&amp;rdquo;) in my home:
+For security reasons the tablet can&amp;rsquo;t reach the internet and actually has a VNC viewer that displays a virtual framebuffer from inside a Docker container on my server. Here&amp;rsquo;s the conceptual overview:
+I wanted to attach a keyboard to the &amp;ldquo;tablet&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Audio in Docker containers, Linux audio subsystems, Spotifyd</title>
+      <link>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</link>
+      <pubDate>Mon, 14 Dec 2020 08:50:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</guid>
+      <description>I wanted to get Spotifyd working in a Docker container. Turns out, audio and containers can be tricky. In this post I&amp;rsquo;ll share what I learned on Linux audio subsystems and considerations on container audio.
+If all you want is to see &amp;ldquo;how to get Spotifyd to work with Docker&amp;rdquo;, see the accompanying Spotifyd Docker image that I released.
+What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (&amp;ldquo;play music on device X&amp;rdquo;) from the Spotify desktop application, Spotify website and Spotify mobile apps.</description>
+    </item>
+    
+    <item>
+      <title>Quantified self: overview &amp; quick links</title>
+      <link>https://joonas.fi/2020/09/quantified-self-overview-quick-links/</link>
+      <pubDate>Wed, 09 Sep 2020 13:20:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/09/quantified-self-overview-quick-links/</guid>
+      <description>Lately I&amp;rsquo;ve been fascinated with the concept of &amp;ldquo;quantified self&amp;rdquo;.
+What does it mean? The quantified self refers both to the cultural phenomenon of self-tracking with technology and to a community of users and makers of self-tracking tools who share an interest in “self-knowledge through numbers.”
+(source: Wikipedia article on &amp;ldquo;Quantified self&amp;rdquo;)
+tl;dr: record numbers (= quantify) about your own life, so you can learn about yourself and track trends over time.</description>
+    </item>
+    
+    <item>
+      <title>Displaying RSS feed with Home Assistant</title>
+      <link>https://joonas.fi/2020/08/displaying-rss-feed-with-home-assistant/</link>
+      <pubDate>Mon, 03 Aug 2020 08:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/08/displaying-rss-feed-with-home-assistant/</guid>
+      <description>I wanted to display news in my Home Assistant dashboard.
+Home Assistant has &amp;ldquo;Feedreader&amp;rdquo; integration which supports getting data from an RSS feed into HA&amp;rsquo;s event bus, but it doesn&amp;rsquo;t mention a way of displaying the entries (or storing them as sensor attributes that would be accessible from UI).
+There&amp;rsquo;s 3rd party integration and an UI component to do the job, but I wanted to do this with as close to vanilla Home Assistant as possible.</description>
+    </item>
+    
+    <item>
+      <title>Restore accidentally deleted/replaced binary of a running process</title>
+      <link>https://joonas.fi/2020/08/restore-accidentally-deleted/replaced-binary-of-a-running-process/</link>
+      <pubDate>Sun, 02 Aug 2020 11:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/08/restore-accidentally-deleted/replaced-binary-of-a-running-process/</guid>
+      <description>I compiled Turbo Bob (a build system) with a bug that prevented entering a build container, and since Turbo Bob is built with itself, I could not build a working binary again - chicken-egg problem.
+(Of course I could download an old release, but I had some unreleased work I was benefiting from that the old binary included, and while Bob builds fine with just Go compiler, I didn&amp;rsquo;t want to install Go tools on my host system only to fix this minor issue.</description>
+    </item>
+    
+    <item>
+      <title>Tracking down inefficiencies in parallelization</title>
+      <link>https://joonas.fi/2020/04/tracking-down-inefficiencies-in-parallelization/</link>
+      <pubDate>Fri, 17 Apr 2020 09:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/04/tracking-down-inefficiencies-in-parallelization/</guid>
+      <description>I was improving performance for Varasto and there was one unit of work that was easily parallelizable (= run on all CPU cores) to gain some speed. I&amp;rsquo;ll share my learnings in graphical tooling to help measure/debug how efficiently your parallelization works.
+go tool trace The graphs I&amp;rsquo;m about to show, Go actually has internal tooling for - go tool trace, to generate (and even show) comparable traces without instrumenting your code.</description>
+    </item>
+    
+    <item>
+      <title>Preventing outdated docs links in software projects</title>
+      <link>https://joonas.fi/2020/04/04/preventing-outdated-docs-links-in-software-projects/</link>
+      <pubDate>Sat, 04 Apr 2020 11:40:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/04/04/preventing-outdated-docs-links-in-software-projects/</guid>
+      <description>When I started making documentation for Varasto, I thought about the numerous times I&amp;rsquo;ve seen projects with links to documentation that have resulted in a 404. I think I came up with a cool way to help with the issue.
+tl;dr: typesafe documentation links are checked by the compilers on backend and frontend!
+Motivation To build motivation first, let&amp;rsquo;s first look at the benefits and results!
+In my frontend (TypeScript + React-based) I can link to GitHub&amp;rsquo;s view of a Markdown doc like this:</description>
+    </item>
+    
+    <item>
+      <title>Quick primer on SVG paths</title>
+      <link>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</link>
+      <pubDate>Fri, 03 Apr 2020 09:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</guid>
+      <description>SVG, or Scalable Vector Graphics, is a file format for vector drawings. I had a problem to solve - I wanted to animate an SVG from JavaScript. I&amp;rsquo;ll describe how and what I learned on how SVG paths work to solve my problem.
+The problem I wanted to animate Varasto&amp;rsquo;s vector logo - to make the &amp;ldquo;hard drive LEDs&amp;rdquo; (the circles on the right) toggleable on/off individually:
+The path to the solution Understanding the structure of the drawing Browsers can draw &amp;amp; debug SVG natively.</description>
+    </item>
+    
+    <item>
+      <title>Linux kernel probing</title>
+      <link>https://joonas.fi/2020/03/27/linux-kernel-probing/</link>
+      <pubDate>Fri, 27 Mar 2020 13:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/03/27/linux-kernel-probing/</guid>
+      <description>Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend it to some extent with persistent hooks). You can attach not just to syscalls, but also to many functions inside the kernel (they have to be exported functions though).
+Dynamically means, that you don&amp;rsquo;t have to recompile the kernel and/or restart your computer - it&amp;rsquo;s pretty cool!
+Disclaimer: these are my notes about learning about kprobes today, so I might not know what I&amp;rsquo;m talking about.</description>
+    </item>
+    
+    <item>
+      <title>COVID-19 and the world´s refusal to blame China</title>
+      <link>https://joonas.fi/2020/03/21/covid-19-and-the-worlds-refusal-to-blame-china/</link>
+      <pubDate>Sat, 21 Mar 2020 18:52:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/03/21/covid-19-and-the-worlds-refusal-to-blame-china/</guid>
+      <description>I didn&amp;rsquo;t really want to write about politics in my blog - in fact I wrote a lengthy, critical post about Trump before his election victory and just wound up leaving it unpublished because I didn&amp;rsquo;t want my blog to be about politics.
+But this situation really grinds my gears to see the world pump out a continuous stream of news articles and individuals discussing about the coronavirus and I don&amp;rsquo;t think I&amp;rsquo;ve seen more than handful individuals or more than one media outlet assign any blame to China.</description>
+    </item>
+    
+    <item>
+      <title>Go is not a simple language</title>
+      <link>https://joonas.fi/2020/02/24/go-is-not-a-simple-language/</link>
+      <pubDate>Mon, 24 Feb 2020 11:37:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/02/24/go-is-not-a-simple-language/</guid>
+      <description>I still love Go and it&amp;rsquo;s the best language I&amp;rsquo;ve used - but like in mature relationships, I&amp;rsquo;ve aware of both the good and bad parts of the relationship.
+Go is still, compared to many popular languages, simpler language - but many times when people claim Go is a simple language what is being implied is that Go is minimalistic &amp;amp; it scoffs at unnecessary features.
+This post is about where Go fails at minimalism.</description>
+    </item>
+    
+    <item>
+      <title>Modem drops internet every now and then? I made a modem rebooter util</title>
+      <link>https://joonas.fi/2020/02/22/modem-rebooter/</link>
+      <pubDate>Sat, 22 Feb 2020 16:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/02/22/modem-rebooter/</guid>
+      <description>My issues are rare enough to warrant switching to another modem, so I just hacked around it by writing a small piece of software that reboots the modem to try to get the connection back up.
+It pings a few known IPs to see if the internet is up, and if it&amp;rsquo;s done for a defined duration, it&amp;rsquo;ll reboot the modem.
+There are drivers for a few different types of modems (since I&amp;rsquo;m using this at a few different locations) - the drivers are called &amp;ldquo;garbage&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Serious security vulnerability in GunDB (and new ones)</title>
+      <link>https://joonas.fi/2020/01/20/serious-security-vulnerability-in-gundb-and-new-ones/</link>
+      <pubDate>Mon, 20 Jan 2020 14:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/01/20/serious-security-vulnerability-in-gundb-and-new-ones/</guid>
+      <description>Last year I discovered a serious security vulnerability (path traversal) that enabled me to read any file on the server GunDB runs in - I was even able to steal AWS credentials from the demo server.
+Discovery I was having a chat with a buddy of mine about how much I dislike JavaScript, and I mentioned someone even built a database product with it. I also remember GunDB having let&amp;rsquo;s say.</description>
+    </item>
+    
+    <item>
+      <title>Home automation ideas &amp; my setup</title>
+      <link>https://joonas.fi/2020/01/19/home-automation-ideas-and-my-setup/</link>
+      <pubDate>Sun, 19 Jan 2020 10:50:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/01/19/home-automation-ideas-and-my-setup/</guid>
+      <description>I&amp;rsquo;ve got so many good automation ideas from other people, so it&amp;rsquo;s fair that I pay it forward by listing my own automations so other people can get ideas! I also describe my setup, gear and my no-cloud policy etc.
+My automations A lazy dump of my automations:
+When nobody&amp;rsquo;s home and I open the apartment door (door/window sensor) and it&amp;rsquo;s dark, a hallway light turns on.
+When the last person leaves the apartment, there&amp;rsquo;s a button next to the apartment door that makes all the lights/devices turn off.</description>
+    </item>
+    
+    <item>
+      <title>Warning about PayPal - disabled my account without warning</title>
+      <link>https://joonas.fi/2020/01/14/warning-about-paypal/</link>
+      <pubDate>Tue, 14 Jan 2020 15:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/01/14/warning-about-paypal/</guid>
+      <description>Summary: PayPal suspended my account without warning and didn&amp;rsquo;t efficiently tell what&amp;rsquo;s wrong or give me tools to fix it, causing me trouble with different vendors, and PayPal&amp;rsquo;s process for resolving this had many conflicting advice and everything was unacceptably confusing.
+In the end I found out they just needed to fulfill some &amp;ldquo;Know your customer&amp;rdquo; EU regulation and ask more info about my business but they did piss-poor job with this.</description>
+    </item>
+    
+    <item>
+      <title>Windows Disk Cleanup throws you into deeper trouble</title>
+      <link>https://joonas.fi/2019/03/20/windows-disk-cleanup-throws-you-into-deeper-trouble/</link>
+      <pubDate>Wed, 20 Mar 2019 10:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2019/03/20/windows-disk-cleanup-throws-you-into-deeper-trouble/</guid>
+      <description>I&amp;rsquo;ve been quite vocal about my distaste for most things Microsoft before, and here comes another rant, so buckle up..
+This morning, my old Win7 computer with a 64 GB C:\ drive was almost out of space. I had like 60 MB left, so it wasn&amp;rsquo;t out just yet. So I went to fire up the Disk Cleanup tool. Upon running it, I discovered that my drive filled up entirely - 0 bytes left.</description>
+    </item>
+    
+    <item>
+      <title>How to configure gcplogs (Google Cloud Logging) for Docker</title>
+      <link>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</link>
+      <pubDate>Sun, 06 Jan 2019 12:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/</guid>
+      <description>.. from a perspective where you are not running your VM on a Google datacenter - if you would be, then this would be a bit simpler because the logging driver autodiscovers credentials and more options automatically for you.
+I wrote this because there were bits of advice scattered around, but no single &amp;ldquo;do this to get it working&amp;rdquo; anywhere.
+Terms:
+gcplogs - the built-in plugin of Docker that sends log messages to Stackdriver Logging Stackdriver Logging - the new name for Google Cloud (Platform) Logging (&amp;ldquo;gcp logs&amp;rdquo;).</description>
+    </item>
+    
+    <item>
+      <title>Pet peeve: &#34;if and only if&#34;</title>
+      <link>https://joonas.fi/2018/12/28/pet-peeve-if-and-only-if/</link>
+      <pubDate>Fri, 28 Dec 2018 11:20:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/28/pet-peeve-if-and-only-if/</guid>
+      <description>I find this to be highly annoying:
+Is plain old &amp;ldquo;if&amp;rdquo; ambiguous? Is &amp;ldquo;if and only if&amp;rdquo; (abbreviated to &amp;ldquo;iff&amp;rdquo;) more powerful than a plain &amp;ldquo;if&amp;rdquo;?
+Consider this statement:
+Joonas is happy if he slept well and ate food
+Translated to code:
+if (sleptWell &amp;amp;&amp;amp; ateFood) { happy = true } Why isn&amp;rsquo;t there an operator in programming languages for &amp;ldquo;iff&amp;rdquo; if &amp;ldquo;if&amp;rdquo; is not good enough? Can &amp;ldquo;if&amp;rdquo; randomly fail unless its more powerful cousin, the &amp;ldquo;iff&amp;rdquo; is used?</description>
+    </item>
+    
+    <item>
+      <title>IKEA Trådfri bulbs without Trådfri gateway: getting started (complete instructions)</title>
+      <link>https://joonas.fi/2018/12/17/ikea-tradfri-bulbs-without-tradfri-gateway-getting-started/</link>
+      <pubDate>Mon, 17 Dec 2018 11:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/17/ikea-tradfri-bulbs-without-tradfri-gateway-getting-started/</guid>
+      <description>TL;DR; control all Zigbee devices (Philips Hue, Xiaomi smarthome, IKEA Trådfri etc etc.) more securely, more cheaply, more creatively, more robustly, more privately and be in total control!
+You still need some hardware to interface with Zigbee, but using something like Texas Instruments&amp;rsquo; CC2531 brings a lot of benefits. More on this very closely below!
+Why &amp;amp; overview Why would I want a custom Zigbee gateway? Well, it brings us these benefits:</description>
+    </item>
+    
+    <item>
+      <title>Friendly reminder: Microsoft still sucks</title>
+      <link>https://joonas.fi/2018/12/10/friendly-reminder-microsoft-still-sucks/</link>
+      <pubDate>Mon, 10 Dec 2018 11:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/10/friendly-reminder-microsoft-still-sucks/</guid>
+      <description>Continuing the series of &amp;ldquo;Microsoft sucks&amp;rdquo; rants.
+Windows 10 update bullshit Windows 10 just updated itself, and once again restarted my computer without asking for permission. I thought I disabled the automatic restarting, (which even requires pro version because, well, M$FT decided home users don&amp;rsquo;t deserve autonomy even for advanced users through registry tweaks) but apparently it takes more than the skills of a software engineer to be able to disable the forced mechanism.</description>
+    </item>
+    
+    <item>
+      <title>An idea to fix Go´s logging mess</title>
+      <link>https://joonas.fi/2018/12/04/an-idea-to-fix-gos-logging-mess/</link>
+      <pubDate>Tue, 04 Dec 2018 09:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/04/an-idea-to-fix-gos-logging-mess/</guid>
+      <description>I believe I have came up with an acceptable compromise for the logger mess in Go. This is an approach that embraces the Unix philosophy of pipes and plaintext streams.
+TL;DR: If you want to see the end result as a demo, scroll to the &amp;ldquo;Demo code&amp;rdquo; section!
+TL;DR 2: The standard log.Logger is enough, just use it everywhere as pipes and we&amp;rsquo;ll compose more on top of it!
+Defining the problem The problem: different projects choose different logger implementations (standard, Logrus, glog, google/logger etc.</description>
+    </item>
+    
+    <item>
+      <title>strace is awesome</title>
+      <link>https://joonas.fi/2018/11/30/strace-is-awesome/</link>
+      <pubDate>Fri, 30 Nov 2018 14:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/11/30/strace-is-awesome/</guid>
+      <description>Your periodic reminder that strace is awesome..
+On Windows you basically know which partition a file is hosted on by looking at the drive letter.
+On Linux there&amp;rsquo;s just a global namespace and it is more difficult to know the partition of a given file (although I think the indirection in the Unix design is better).
+I remembered that $ df can show me this info:
+$ df /home/vagrant Filesystem 1K-blocks Used Available Use% Mounted on /dev/mapper/vagrant--vg-root 64440148 16413800 44729888 27% / Ok sure enough, /dev/mapper/vagrant--vg-root is just what my program needs to fetch - the partition the directory is on (mine happens to be at root mount, but it always isn&amp;rsquo;t the case).</description>
+    </item>
+    
+    <item>
+      <title>GMail´s spam detector failing?</title>
+      <link>https://joonas.fi/2018/11/07/gmails-spam-detector-failing/</link>
+      <pubDate>Wed, 07 Nov 2018 12:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/11/07/gmails-spam-detector-failing/</guid>
+      <description>For quite some time, I&amp;rsquo;ve been having lots of problems with GMail spam detector&amp;rsquo;s false positives.
+Loads of legitimate mail going in spam folder. I&amp;rsquo;m glad I remembered to check the folder, because the above kind of mail is really fatal if you miss it (credit card expiration =&amp;gt; service suspension =&amp;gt; VMs going offline).
+Lately these kinds of mail have gone to spam:
+eBay &amp;ldquo;Help us protect your account&amp;rdquo; mails Scaleway&amp;rsquo;s &amp;ldquo;your credit card is expiring soon&amp;rdquo; Hetzner &amp;ldquo;verify account&amp;rdquo; mail Newsletters from a Finnish retail company (still going to spam even when I consistently mark the false positives as &amp;ldquo;not spam&amp;rdquo;) Alerts from my monitoring system (though this is probably due to there being HTML as text which might seem suspicious) Ugh, I don&amp;rsquo;t know the reason for this, but lately I&amp;rsquo;ve been becoming increasingly annoyed with what Google stands for.</description>
+    </item>
+    
+    <item>
+      <title>I forgot my password to my Unifi controller</title>
+      <link>https://joonas.fi/2018/10/20/i-forgot-my-password-to-my-unifi-controller/</link>
+      <pubDate>Sat, 20 Oct 2018 12:10:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/10/20/i-forgot-my-password-to-my-unifi-controller/</guid>
+      <description>Backstory Recently I purchased some Unifi gear, and I installed the controller software mainly as a test, and thus I did not immediately save the username and password in a password manager but instead I probably wrote it down in Windows Notepad, and Windows 10 being a total dick, just one day restarted losing what I had in notepad.
+Some time passed, and I forgot not only the password, but also the username.</description>
+    </item>
+    
+    <item>
+      <title>#deletefacebook</title>
+      <link>https://joonas.fi/2018/10/08/deletefacebook/</link>
+      <pubDate>Mon, 08 Oct 2018 10:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/10/08/deletefacebook/</guid>
+      <description>.. well I&amp;rsquo;m more like &amp;ldquo;soft-deleting&amp;rdquo; Facebook. I just deleted my Facebook app from my Android phone, and still plan use Facebook on my desktop. But this will decrease my Facebook use significantly:
+Wake up: check Facebook on phone Waiting on something: check Facebook on Phone Going to sleep: check Facebook on phone Why? I want to do this, even if just symbolically because I&amp;rsquo;m just one person, to say that I strongly disapprove of what Facebook stands for today.</description>
+    </item>
+    
+    <item>
+      <title>Chaining should be an operator in the language itself</title>
+      <link>https://joonas.fi/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</link>
+      <pubDate>Fri, 05 Oct 2018 11:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/10/05/chaining-should-be-an-operator-in-the-language-itself/</guid>
+      <description>What is chaining? jQuery at least popularized this pattern:
+$(&amp;#39;.someElement&amp;#39;) .attr(&amp;#39;title&amp;#39;, &amp;#39;Changing some title&amp;#39;) .text(&amp;#39;here is content for you&amp;#39;) .on(&amp;#39;click&amp;#39;, () =&amp;gt; { alert(&amp;#39;clicked&amp;#39;); }); The above code could also be written like this:
+$(&amp;#39;.someElement&amp;#39;).attr(&amp;#39;title&amp;#39;, &amp;#39;Changing some title&amp;#39;); $(&amp;#39;.someElement&amp;#39;).text(&amp;#39;here is content for you&amp;#39;) $(&amp;#39;.someElement&amp;#39;).on(&amp;#39;click&amp;#39;, () =&amp;gt; { alert(&amp;#39;clicked&amp;#39;); }); Or to not query DOM multiple times, save the reference in a variable:
+const el = $(&amp;#39;.someElement&amp;#39;); el.attr(...); el.text(...); el.on(...); So the chaining pattern is essentially just for making code shorter/prettier by not having to repeat the subject of the multiple operations that we&amp;rsquo;re doing.</description>
+    </item>
+    
+    <item>
+      <title>Happy 100th birthday, Finland!</title>
+      <link>https://joonas.fi/2017/12/06/happy-100th-birthday-finland/</link>
+      <pubDate>Wed, 06 Dec 2017 21:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/12/06/happy-100th-birthday-finland/</guid>
+      <description>Perkele! Finland just turned 100 years.
+Growing up, I was never quite patriotic. I used to think that Finland is an insignificant country with shitty weather. I still think we have a shitty weather. But the more I&amp;rsquo;ve grown up, the more I&amp;rsquo;ve realized that in the grand scale of things Finland is actually pretty awesome!
+I used to idolize the USA, I think because it&amp;rsquo;s a powerful and wealthy country, a notable portion of aired TV shows in Finland are from the US, and most tech things seemed to come from the US.</description>
+    </item>
+    
+    <item>
+      <title>Quick links</title>
+      <link>https://joonas.fi/2017/06/13/quick-links/</link>
+      <pubDate>Tue, 13 Jun 2017 16:26:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/06/13/quick-links/</guid>
+      <description>Why Slack is inappropriate for open source communications A Keepass-like project I&amp;rsquo;m working on My woodworking hero Matthias Wandel made me have an epiphany: how CPU works on the lowest of levels. Addition is basically just chained XOR gates, and a XOR gate is basically just transistors anyway. All this can be explained with wood and marbles! And in the end all higher constructs like 2D, 3D graphics, audio, video can be explained with just simple maths, so basically you now understand all that the CPU does and that it&amp;rsquo;s not magic.</description>
+    </item>
+    
+    <item>
+      <title>Implementing your hiring process with C trivia</title>
+      <link>https://joonas.fi/2017/03/30/implementing-your-hiring-process-with-c-trivia/</link>
+      <pubDate>Mon, 06 Mar 2017 21:59:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/03/30/implementing-your-hiring-process-with-c-trivia/</guid>
+      <description>I got a newsletter from Toggl (a time-tracking app) that they are hiring and that they had a coding quiz. I decided to take the quiz just for shits and giggles.
+They had two tests I took:
+backend dev frontend dev I failed both tests.
+First test: backend dev Here are the questions and my answers:
+I later checked this as correct.
+I think I got most of those right, except for maybe the concurrency question.</description>
+    </item>
+    
+    <item>
+      <title>Concurrency in Golang and the importance of using locks</title>
+      <link>https://joonas.fi/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</link>
+      <pubDate>Mon, 20 Feb 2017 20:05:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/02/20/concurrency-in-golang-and-the-importance-of-using-locks/</guid>
+      <description>Have this innocent looking code in Golang:
+func incrementWithoutLocking() int { counter := 0 incrementCounter := func(done chan bool) { for i := 0; i &amp;lt; 1000000; i++ { counter++ } done &amp;lt;- true } // create a channel to synchronize when both goroutines are finished done := make(chan bool) // run two goroutines in parallel, both incrementing the shared counter go incrementCounter(done) go incrementCounter(done) // wait for both to finish &amp;lt;-done &amp;lt;-done return counter } Also note, how easy it is to implement concurrency/parallelism (though they are not the same thing) in Golang!</description>
+    </item>
+    
+    <item>
+      <title>Problems with Microsoft Azure´s networking</title>
+      <link>https://joonas.fi/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</link>
+      <pubDate>Mon, 23 Jan 2017 15:56:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/01/23/microsoft-azures-networking-is-fundamentally-broken/</guid>
+      <description>UPDATE, IMPORTANT
+Some of the claims in this post are inaccurate. The ACKed-but-undelivered problem lies either in my router or ISP - not Azure&amp;rsquo;s fault.
+Until I research this topic more and update the article, these problems still stand:
+Azure has a forced artificial limit, disconnecting session with &amp;gt;= 4 minutes of radio silence. There is no technical requirement for this as the IP should have 1:1 mapping to the VM.</description>
+    </item>
+    
+    <item>
+      <title>The problem with &#34;cute coding&#34;</title>
+      <link>https://joonas.fi/2016/12/30/the-problem-with-cute-coding/</link>
+      <pubDate>Fri, 30 Dec 2016 14:42:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/12/30/the-problem-with-cute-coding/</guid>
+      <description>For lack of a better term, I call this &amp;ldquo;cute coding&amp;rdquo;:
+{ ... weekdaysShort : &amp;#39;Sun_Mon_Tue_Wed_Thu_Fri_Sat&amp;#39;.split(&amp;#39;_&amp;#39;), ... } That is essentially the same as:
+weekdaysShort : [ &amp;#39;Sun&amp;#39;, &amp;#39;Mon&amp;#39;, &amp;#39;Tue&amp;#39;, &amp;#39;Wed&amp;#39;, &amp;#39;Thu&amp;#39;, &amp;#39;Fri&amp;#39;, &amp;#39;Sat&amp;#39; ], Sure, it&amp;rsquo;s a bit longer BUT:
+It&amp;rsquo;s cleaner, because it&amp;rsquo;s not a hack. It does NOT incur runtime performance penalty. Intent is 100 % clear, while the &amp;ldquo;cute&amp;rdquo; variant requires you to think and know that split() takes in a string and returns an array.</description>
+    </item>
+    
+    <item>
+      <title>Stop using protocol-relative URLs</title>
+      <link>https://joonas.fi/2016/12/27/stop-using-protocol-relative-urls/</link>
+      <pubDate>Tue, 27 Dec 2016 14:48:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/12/27/stop-using-protocol-relative-urls/</guid>
+      <description>I still see this confusingly often, even with Twitter&amp;rsquo;s timeline embedding feature. Protocol relative URLs look like this:
+&amp;lt;script async src=&amp;#34;//platform.twitter.com/widgets.js&amp;#34; charset=&amp;#34;utf-8&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; There is absolutely no reason to do that (anymore)! Take a look at the following table (perspective = the URL over which user the user opens the page) of the results:
+Scheme in URL Browsed over: HTTP Browsed over: HTTPS Browsed over: Filesystem http =&amp;gt; http =&amp;gt; http =&amp;gt; http https =&amp;gt; https =&amp;gt; https =&amp;gt; https // =&amp;gt; http =&amp;gt; https (broken) As you can see, with protocol-relative the only &amp;ldquo;gain&amp;rdquo; we get (compared to linking via https) is that for non-secure users, they are offered the resource over an insecure channel.</description>
+    </item>
+    
+    <item>
+      <title>Every website will get hacked - how to prepare for it</title>
+      <link>https://joonas.fi/2016/09/23/every-website-will-get-hacked-how-to-prepare-for-it/</link>
+      <pubDate>Fri, 23 Sep 2016 08:29:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/09/23/every-website-will-get-hacked-how-to-prepare-for-it/</guid>
+      <description>Every website will get hacked? Yes. It is starting to look like every website - even the major ones, will get hacked. It is not a question of &amp;ldquo;if&amp;rdquo;, but &amp;ldquo;when&amp;rdquo;.
+Just now in the news is that Yahoo was compromised and the result was a leak of names, usernames, passwords and other personal data of 500 million accounts - almost twice the United States population.
+Here are examples of a few widely known breached websites (up to September 2016 - this list grows constantly):</description>
+    </item>
+    
+    <item>
+      <title>Microsoft, you make miserable software</title>
+      <link>https://joonas.fi/2016/06/23/microsoft-you-make-miserable-software/</link>
+      <pubDate>Thu, 23 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/23/microsoft-you-make-miserable-software/</guid>
+      <description>There are so many reasons that I cannot just let this go anymore, and instead I&amp;rsquo;ll spend my precious time to write this blog post that gives me absolutely nothing in return, except the fact that writing this feels therapeutic.
+Windows 10 bloatware, forced apps When I got my laptop with ~120 GB SSD, these weigh in:
+C:\Windows 17.4 GB C:\Program files + C:\Program files (x86) ~ 0.8 GB (this is after I removed all the unnecessary preinstalled crap)</description>
+    </item>
+    
+    <item>
+      <title>Thoughts on Docker</title>
+      <link>https://joonas.fi/2016/06/17/thoughts-on-docker/</link>
+      <pubDate>Fri, 17 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/17/thoughts-on-docker/</guid>
+      <description>Now that I&amp;rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&amp;rsquo;s a good time to share my findings.
+tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&amp;rsquo;m solving with my software, instead of the mundane shit I&amp;rsquo;d have to deal with without it (configuring dev, build/testing and production environments + how do I deliver and deploy this to production?</description>
+    </item>
+    
+    <item>
+      <title>Don´t use separate domain for mobile</title>
+      <link>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</guid>
+      <description>Unfortunately, redirecting to m. prefix for mobile browsers is quite popular. The downside of this is that when people share a link to the content, and if another person follows the link on a desktop or a laptop, the view is horrible:
+If you want to use separate domain for mobile, at the very least make sure the &amp;ldquo;desktop&amp;rdquo; link takes you to the same content:
+After clicking it, it only takes me to the frontpage of the website:</description>
+    </item>
+    
+    <item>
+      <title>Project: visited destinations on a map</title>
+      <link>https://joonas.fi/2015/12/28/project-visited-destinations-on-a-map/</link>
+      <pubDate>Tue, 29 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/12/28/project-visited-destinations-on-a-map/</guid>
+      <description>I love to travel, and have tried to visit at least a couple of destinations each year.
+Yesterday for fun I prototyped an interactive map that shows the destinations I&amp;rsquo;ve been to:
+It helps to have a tool with which you can pan+zoom and visually see the places you have yet to visit.</description>
+    </item>
+    
+    <item>
+      <title>Chrome: huge cache usage</title>
+      <link>https://joonas.fi/2015/12/27/chrome-huge-cache-usage/</link>
+      <pubDate>Sun, 27 Dec 2015 15:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/12/27/chrome-huge-cache-usage/</guid>
+      <description>I had this issue where Chrome browser was using 20 GB of cache, effectively suffocating my SSD&amp;rsquo;s 60 GB system partition.
+I pinpointed the problem with TreeSize free (highly recommend!).
+There were 32 000+ files:
+Clearing browser history didn&amp;rsquo;t do nothing to the cache folder:
+What worked was closing Chrome, deleting the whole folder (make sure not to use the recycle bin) and starting it up again.
+After a couple of days, the folder was at ~900 files with 300 MB, and clearing the cache now reduces it to 14 files with 6 MB - a level to be expected.</description>
+    </item>
+    
+    <item>
+      <title>AForge.NET is awesome for complex image processing/analysis</title>
+      <link>https://joonas.fi/2015/12/26/aforge.net-is-awesome/</link>
+      <pubDate>Sat, 26 Dec 2015 20:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/12/26/aforge.net-is-awesome/</guid>
+      <description>I&amp;rsquo;m trying to emulate &amp;ldquo;magic color&amp;rdquo; feature that I saw in Android app called Camscanner (I can highly recommend this).
+I found this wonderful library called AForge.NET for the task - it&amp;rsquo;s awesome!
+Here&amp;rsquo;s the result compared to the original image:
+(Notice how dirty the original picture looks)
+Here&amp;rsquo;s how I did it:
+Wiring up the filter graph And explanation of the filters below:
+1. Convert original into greyscale This essentially gets rid of colors, so it&amp;rsquo;s easier to work with thresholds, masks and such.</description>
+    </item>
+    
+    <item>
+      <title>Software that does not suck</title>
+      <link>https://joonas.fi/2015/08/23/software-that-does-not-suck/</link>
+      <pubDate>Sun, 23 Aug 2015 09:47:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/08/23/software-that-does-not-suck/</guid>
+      <description>It&amp;rsquo;s pretty time consuming to research which software you want to use for a specific task. Here I&amp;rsquo;ve compiled a list of my preferences for, in my opinion, the best software for different tasks.
+Included are also software to avoid, along with reasons.
+Web browser Google Chrome Firefox Avoid:
+Edge: given IE&amp;rsquo;s abysmal historical track record, why would I trust Microsoft not to screw up again? Fool me once, shame on you; fool me twice, shame on me.</description>
+    </item>
+    
+    <item>
+      <title>Classic games from my youth</title>
+      <link>https://joonas.fi/2015/08/11/classic-games-from-my-youth/</link>
+      <pubDate>Tue, 11 Aug 2015 10:47:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/08/11/classic-games-from-my-youth/</guid>
+      <description>Here&amp;rsquo;s a summary of my youth, in alphabetical order.
+What are your nostalgic games? :)
+Abuse Aladdin Alien Phobia Alley Cat Apache Strike Arkanoid Battle City (nes) Big Red Racing Blood Blues Brothers Bomberman (nes) Bubble Bobble California Games 2 Cannon Fodder Captain Comic Capture The Flag Carmageddon 2 CD-Man (Pac-man clone) Command &amp;amp; Conquer Cosmo´s Cosmic Adventure Crusader: No Remorse Crystal Caves 3 Cyberdogs Day Of The Tentacle Death Rally Dig Dug Doom Down By The Laituri Duck Tales Duke Nukem 3D Dune 2 Earthworm Jim 1 Full Throttle Genewars God Of Thunder Goonies Grand Theft Auto 2 Heroes Of Might And Magic 2 Hitman Hugo 3: Jungle Of Doom Indiana Jones And The Last Crusade Interstate 76 Invataxi James Pond 2 Jazz Jackrabbit Joust Keen 1-6 Kops Leisure Suit Larry 6 Lemmings License To Kill Liero Lion King Lode Runner Lotus 3 Master Of Magic Mechwarrior 2 Mig 29: Fulcrum Mine Bombers Molez Need For Speed: Hot Pursuit 2 Nox Oddworld: Abe´s Oddysee One Must Fall: 2097 Paperboy Pea Shootin&amp;rsquo; Pete Pipe Mania Pitfall Pontifex 2 Prince Of Persia Quake 1 Raptor-call Of The Shadows Rayman 1 Redneck Rampage Rex Nebular Rise Of The Triad Sam-n-max: hit The Road Secret Agent Mission 2 Serf City Settlers 3 Sim City 2000 Sim Farm Sim Tower Sim Town Ski Or Die Skyroads Slicks N Slides Space Wars Spy Hunter Star Control 2 Star Control 3 Starcraft 1 Star Wars: tie Fighter Street Rod 2 Stunts Supaplex Syndicate Wars Tapan Kaikki Tapper Taso Teenage Mutant Ninja Turtles Terminal Velocity Terra Nova: strike Force Centauri Test Drive 3 The Dig The Incredible Machine Theme Park Time Commando Tomb Raider 2 Transport Tycoon Deluxe Triplane Turmoil Turok: dinosaur Hunter Ufo: Enemy Unknown V2000 Wacky Wheels Warcraft 2 Wings Wolfenstein 3d Worms: World Party </description>
+    </item>
+    
+    <item>
+      <title>Poor tax communication from Digitalocean</title>
+      <link>https://joonas.fi/2015/08/06/poor-tax-communication-from-digitalocean/</link>
+      <pubDate>Thu, 06 Aug 2015 10:03:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/08/06/poor-tax-communication-from-digitalocean/</guid>
+      <description>Tax related issues are never too easy, so in communicating changes to your billing related tax procedures should be explained very clearly.
+I received this email from Digitalocean:
+It somewhat clearly states, that for individuals the price will be increased (&amp;ldquo;will include a VAT charge&amp;rdquo;).
+How about for businesses? Will my price be increased? The words seem like yes (&amp;ldquo;your first invoice with VAT included will be sent&amp;rdquo; [on your next bill]).</description>
+    </item>
+    
+    <item>
+      <title>SoundCloud: migrating a monolith to a microservices architecture</title>
+      <link>https://joonas.fi/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</link>
+      <pubDate>Wed, 29 Jul 2015 09:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/07/29/soundcloud-migrating-a-monolith-to-a-microservices-architecture/</guid>
+      <description>Awesome read! A three-part series:
+pt1. Dealing with the monolith
+pt2. Breaking the monolith
+pt3. Microservices in Scala and Finagle
+Bonus read: Prometheus: monitoring at SoundCloud</description>
+    </item>
+    
+    <item>
+      <title>Cyberchallenge from Finnish defence forces</title>
+      <link>https://joonas.fi/2015/07/26/cyberchallenge-from-finnish-defence-forces/</link>
+      <pubDate>Sun, 26 Jul 2015 11:25:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/07/26/cyberchallenge-from-finnish-defence-forces/</guid>
+      <description>Cyberchallenge from Finnish defence forces (edit: changed to archive.org link)
+A colleague of mine found this. A pretty awesome test so see if you&amp;rsquo;ve got the skills (and if you do, my hats off to you!).
+I know I didn&amp;rsquo;t know all of them. Plus, I don&amp;rsquo;t know enough about assembly.</description>
+    </item>
+    
+    <item>
+      <title>RethinkDB: nice &#34;people&#34; -page</title>
+      <link>https://joonas.fi/2015/07/17/rethinkdb-nice-people-page/</link>
+      <pubDate>Fri, 17 Jul 2015 00:23:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/07/17/rethinkdb-nice-people-page/</guid>
+      <description>Nice design, and makes the contributors feel respected.
+(NOTE: I removed many bullets from the list to make all categories fit in one screenshot)
+Unfortunately, nowadays as RethinkDB has gone much more commercial: they don&amp;rsquo;t have &amp;ldquo;people&amp;rdquo; -page anymore.</description>
+    </item>
+    
+    <item>
+      <title>Spam shit list</title>
+      <link>https://joonas.fi/2015/07/14/spam-shit-list/</link>
+      <pubDate>Tue, 14 Jul 2015 19:03:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/07/14/spam-shit-list/</guid>
+      <description>The following is a list of organisations, who have decided to send me email without my consent:
+seminarium.fi businessacademy.fi www.devexit.fi DevExit Oy suomalainen.com suomalainen kirjakauppa suomalainen.com syo.fi Syotec yrityskirjat.fi intellia.fi / Intellia päättäjät ja vaikuttajat kauppakartano.com springservice.fi / tuotetalo oy </description>
+    </item>
+    
+    <item>
+      <title>TCP proxy in node.js</title>
+      <link>https://joonas.fi/2015/07/14/tcp-proxy-in-nodejs/</link>
+      <pubDate>Tue, 14 Jul 2015 19:03:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/07/14/tcp-proxy-in-nodejs/</guid>
+      <description>Use like this:
+$ node proxy.js 9001 80 Or forwarding to remote host:
+$ node proxy.js 9001 otherhost:80 Source (save as proxy.js):
+The code used to be pasted here, but apparently Jekyll (the static blog generator) has a bug with it, so find the code from my answer at StackOverflow.</description>
+    </item>
+    
+    <item>
+      <title>Publishing S3 events to SNS or SQS</title>
+      <link>https://joonas.fi/2015/04/18/publishing-s3-events-to-sns-or-sqs/</link>
+      <pubDate>Sat, 18 Apr 2015 10:24:41 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/04/18/publishing-s3-events-to-sns-or-sqs/</guid>
+      <description>In SNS Create a SNS topic, if you haven’t already.
+Go to actions &amp;gt; Edit topic policy
+Add this item to the “Statement” array:
+{ &amp;quot;Sid&amp;quot;: &amp;quot;example-statement-ID&amp;quot;, &amp;quot;Effect&amp;quot;: &amp;quot;Allow&amp;quot;, &amp;quot;Principal&amp;quot;: { &amp;quot;Service&amp;quot;: &amp;quot;s3.amazonaws.com&amp;quot; }, &amp;quot;Action&amp;quot;: [ &amp;quot;SNS:Publish&amp;quot; ], &amp;quot;Resource&amp;quot;: &amp;quot;SNS-ARN&amp;quot;, &amp;quot;Condition&amp;quot;: { &amp;quot;ArnLike&amp;quot;: { &amp;quot;aws:SourceArn&amp;quot;: &amp;quot;arn:aws:s3:*:*:your-s3-bucket-name&amp;quot; } } } Note: For “Sid”, you can choose anything, f.ex. “s3-publish-events”
+In the “Resource” you put the ARN of the SNS Topic.
+Remember to also replace the your-s3-bucket-name in the “SourceArn” condition.</description>
+    </item>
+    
+    <item>
+      <title>Microsoft Installer framework (you know, those .msi files)</title>
+      <link>https://joonas.fi/2015/03/11/microsoft-installer-framework-you-know-those/</link>
+      <pubDate>Wed, 11 Mar 2015 19:58:23 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/03/11/microsoft-installer-framework-you-know-those/</guid>
+      <description>Been struggling for an hour with the exact XML structure for creating an empty directory..
+Just goes to confirm that any fool can create complex software, but the real talent is creating something simple and easy-to-use.</description>
+    </item>
+    
+    <item>
+      <title>The introduction to Reactive Programming you&#39;ve been missing </title>
+      <link>https://joonas.fi/2014/11/12/the-introduction-to-reactive-programming-youve/</link>
+      <pubDate>Wed, 12 Nov 2014 21:08:14 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/11/12/the-introduction-to-reactive-programming-youve/</guid>
+      <description>The introduction to Reactive Programming you&amp;rsquo;ve been missing.
+This is good stuff.</description>
+    </item>
+    
+    <item>
+      <title>Latency numbers every programmer should know</title>
+      <link>https://joonas.fi/2014/10/04/latency-numbers-every-programmer-should-know/</link>
+      <pubDate>Sat, 04 Oct 2014 18:56:10 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/10/04/latency-numbers-every-programmer-should-know/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>What is something every person should experience at least once in a lifetime?</title>
+      <link>https://joonas.fi/2014/09/28/what-is-something-every-person-should-experience/</link>
+      <pubDate>Sun, 28 Sep 2014 13:42:16 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/09/28/what-is-something-every-person-should-experience/</guid>
+      <description>Quora: What is something every person should experience at least once in a lifetime?</description>
+    </item>
+    
+    <item>
+      <title>How should a 24-year-old invest time?</title>
+      <link>https://joonas.fi/2014/09/28/how-should-a-24-year-old-invest-time/</link>
+      <pubDate>Sun, 28 Sep 2014 13:41:55 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/09/28/how-should-a-24-year-old-invest-time/</guid>
+      <description>Quora: How should a 24-year-old invest time?</description>
+    </item>
+    
+    <item>
+      <title>What are the best-kept secrets of great programmers?</title>
+      <link>https://joonas.fi/2014/09/28/what-are-the-best-kept-secrets-of-great/</link>
+      <pubDate>Sun, 28 Sep 2014 13:40:56 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/09/28/what-are-the-best-kept-secrets-of-great/</guid>
+      <description>Quora: What are the best-kept secrets of great programmers?
+Most of the time, using inheritance is a bad object oriented design in the long run. It reduces reusability and testability of code. Consider using interfaces instead. See No, inheritance is not the way to achieve code reuse!. Related; Avoid introducing an interface until you are comfortable in your domain. &amp;ldquo;Premature interfacing&amp;rdquo; can also lead to design issues down the road. Deep nested code (both intra-function and inter-function) is 1) harder to maintain, 2) more prone to bugs and 3) harder to reuse.</description>
+    </item>
+    
+    <item>
+      <title>Submarine Cable Map 2014</title>
+      <link>https://joonas.fi/2014/07/21/submarine-cable-map-2014/</link>
+      <pubDate>Mon, 21 Jul 2014 12:25:26 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/07/21/submarine-cable-map-2014/</guid>
+      <description>Click for interactive map Submarine Cable Map 2014</description>
+    </item>
+    
+    <item>
+      <title>StartSSL tips</title>
+      <link>https://joonas.fi/2013/09/01/startssl-tips/</link>
+      <pubDate>Sun, 01 Sep 2013 15:11:46 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/09/01/startssl-tips/</guid>
+      <description>(this post is mainly my own notes, so it might not be that useful, but I decided to post it anyway so I&amp;rsquo;ll find it later)
+startssl.com
+Renew the client certificate in the browser Validate your email &amp;ldquo;Validations Wizard&amp;rdquo; &amp;gt; Email address validation &amp;gt; startcom.001@sentinel.xs.fi
+Check your email for the validation code
+Enter it in the question box
+Create certificate for your email Certificates wizard &amp;gt; Certificate target: S/Mime and authentication</description>
+    </item>
+    
+    <item>
+      <title>My Sublime Text (2 &amp; 3) config</title>
+      <link>https://joonas.fi/2013/07/27/my-sublime-text-2-3-config/</link>
+      <pubDate>Sat, 27 Jul 2013 15:59:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/07/27/my-sublime-text-2-3-config/</guid>
+      <description>Disable word wrap Preferences -&amp;gt; Settings - user
+&amp;quot;word_wrap&amp;quot;: false, &amp;quot;default_line_ending&amp;quot;: &amp;quot;unix&amp;quot;, &amp;ldquo;Ctrl + tab&amp;rdquo; &amp;amp; &amp;ldquo;Ctrl + shift + tab&amp;rdquo; to toggle tabs to left/right just like browsers: Preferences -&amp;gt; Key bindings - user
+{ &amp;quot;keys&amp;quot;: [&amp;quot;ctrl+tab&amp;quot;], &amp;quot;command&amp;quot;: &amp;quot;next_view&amp;quot; }, { &amp;quot;keys&amp;quot;: [&amp;quot;ctrl+shift+tab&amp;quot;], &amp;quot;command&amp;quot;: &amp;quot;prev_view&amp;quot; }, Install package control View -&amp;gt; Show console Paste this (Sublime Text 2):
+import urllib2,os; pf=&#39;Package Control.sublime-package&#39;; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.</description>
+    </item>
+    
+    <item>
+      <title>Learn about Cryptography and Data Security</title>
+      <link>https://joonas.fi/2013/06/30/learn-about-cryptography-and-data-security/</link>
+      <pubDate>Sun, 30 Jun 2013 11:51:34 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/06/30/learn-about-cryptography-and-data-security/</guid>
+      <description>Learn about Cryptography and Data Security
+Note: the lecture about steganography deserves a hat tip; very well explained visually!</description>
+    </item>
+    
+    <item>
+      <title>A nice collection of nifty web finds</title>
+      <link>https://joonas.fi/2013/01/27/a-nice-collection-of-nifty-web-finds/</link>
+      <pubDate>Sun, 27 Jan 2013 12:19:51 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/27/a-nice-collection-of-nifty-web-finds/</guid>
+      <description>A nice collection of nifty web finds
+Update: webloyto.com seems to be a lost project. See archive.org representation of it.</description>
+    </item>
+    
+    <item>
+      <title>SQL databases are fundamentally non-scalable</title>
+      <link>https://joonas.fi/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</link>
+      <pubDate>Sun, 27 Jan 2013 11:51:46 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/27/theres-a-lot-of-things-i-can-say-about-using/</guid>
+      <description>“There’s a lot of things I can say about using caching, sharding, and other techniques to take load off the database. But the actual answer is: we don’t. SQL databases are fundamentally non-scalable, and there is no magical pixie dust that we, or anyone, can sprinkle on them to suddenly make them scale.”
+Read more</description>
+    </item>
+    
+    <item>
+      <title>Optimizing for happiness (as a programmer)</title>
+      <link>https://joonas.fi/2013/01/27/optimizing-for-happiness-as-a-programmer/</link>
+      <pubDate>Sun, 27 Jan 2013 11:43:13 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/27/optimizing-for-happiness-as-a-programmer/</guid>
+      <description>&amp;ldquo;Anyway, back to shaping our lives. Since we can do our job from anywhere in the world, and only a company that is either ignorant or supremely distrustful of its employees would insist otherwise (Right? RIGHT?), we can live anywhere, and that choice impacts so many other areas of our lives that we should pick a place that works for us, and then sort out the rest.&amp;rdquo;
+Read more</description>
+    </item>
+    
+    <item>
+      <title>Windows util to compute MD5 and SHA-1 hashes of files</title>
+      <link>https://joonas.fi/2013/01/27/windows-util-to-compute-md5-and-sha-1-hashes-of/</link>
+      <pubDate>Sun, 27 Jan 2013 11:35:01 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/27/windows-util-to-compute-md5-and-sha-1-hashes-of/</guid>
+      <description>Microsoft’s File Checksum Integrity Verifier</description>
+    </item>
+    
+    <item>
+      <title>Experiment. Fail. Learn. Repeat.</title>
+      <link>https://joonas.fi/2013/01/26/experiment-fail-learn-repeat/</link>
+      <pubDate>Sat, 26 Jan 2013 18:44:18 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/26/experiment-fail-learn-repeat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>putty:[profile] URL handler</title>
+      <link>https://joonas.fi/2013/01/26/putty-profile-protocol-handler/</link>
+      <pubDate>Sat, 26 Jan 2013 14:49:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/26/putty-profile-protocol-handler/</guid>
+      <description>Why: To share clickable shortcuts to PuTTY profiles in version control. Shortcuts to .exes cannot be shared because PuTTY install paths on all machines might not be the same.
+Instructions Download URLConf from http://urlconf.codeplex.com/ (use the .msi installer)
+Run it as an administrator:
+Go to &amp;ldquo;Edit -&amp;gt; New&amp;rdquo;
+Enter details as such: Program:
+C:\Programs\UrlConf\UrlConf.exe Parameters:
+&amp;quot;%1&amp;quot; – &amp;quot;C:\Programs\PuTTY\PuTTY.exe&amp;quot; -load &amp;quot;$h&amp;quot; Obviously, replace paths to UrlConf.exe and PuTTY.exe with your corresponding paths.</description>
+    </item>
+    
+    <item>
+      <title>Nice detail on tumblr email verification</title>
+      <link>https://joonas.fi/2013/01/26/nice-detail-on-tumblr-email-verification/</link>
+      <pubDate>Sat, 26 Jan 2013 14:27:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/26/nice-detail-on-tumblr-email-verification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://joonas.fi/404.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/404.html</guid>
+      <description>404 We can&amp;rsquo;t seem to find this page&amp;rsquo;s pixels. Sorry about that, chief.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://joonas.fi/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/about/</guid>
+      <description>My name is Joonas, and I&amp;rsquo;m a software engineer from Finland. I run function61.com. For my open source work, see the GitHub link on the top of this page.
+My interests are:
+Improving software architecture, EventSourcing / CQRS Homelabbing, home automation and data hoarding Distributed systems, infrastructure software Learning better programming languages (Golang, Rust) Raspberry Pi, Arduino etc. various electronics projects I am inspired by these people:
+Jessie Frazelle (wrote her own &amp;ldquo;even GUI apps are containers&amp;rdquo; -based OS) Michael Stapelberg (&amp;ldquo;My router doesn&amp;rsquo;t work?</description>
+    </item>
+    
+    <item>
+      <title>Hauskoja liikeidea-nimiä</title>
+      <link>https://joonas.fi/fi/sekalaista/hauskoja-liikeidea-nimia/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/fi/sekalaista/hauskoja-liikeidea-nimia/</guid>
+      <description>Ellei erikseen mainittu, niin olen itse keksinyt ideat jostain sairaan mieleni perukoista (saatat huomata ideoissa toistuvan teeman..).
+Myös mustaa huumoria löytyy - tarkoitus ei silti ole loukata ketään.
+P.S. jos löytyi joku kiva nimi ja perustat firman, niin vaadin 50 % tuotoista rojalteiksi.
+Sanaleikit liikeidean ja nimen välillä Logistiikka-alan yritys: Toimitus johtaja Sänkyliike, jossa ostosmusiikkina soitetaan vain Metallicaa: Nothing else mattress Homoeroottinen elokuva: Suomalaista melankolinaa Aikuisviihde-elokuva: Lempiohjelma Kissakahvila: Kattila Pakkotyö-leipomo vankilassa: Pakkopulla Hevostalli: Turvallinen tila Hevosopiston ensimmäinen oppitunti: Turvallisuus Otsatukkiin erikoistunut parturi-kampaamo: Bang gang Kellosepänliike: Tuntikaupalla Deittisivusto: Mitä vittua?</description>
+    </item>
+    
+    <item>
+      <title>Say hello</title>
+      <link>https://joonas.fi/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/contact/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Thanks for contacting me!</title>
+      <link>https://joonas.fi/contact-thanks.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/contact-thanks.html</guid>
+      <description>I will get in touch with you, if your message prompted for response.</description>
+    </item>
+    
+  </channel>
+</rss>

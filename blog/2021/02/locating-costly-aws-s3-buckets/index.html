@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Locating costly AWS S3 buckets | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Locating costly AWS S3 buckets" />
+<meta property="og:description" content="I recently got a surprisingly large AWS bill which had me immediately realize something was wrong, because I did not host anything that should consume dramatically more resources month-over-month.
+Happy AWS billing day:
+Why is S3 costing so much? The overview just points at S3. The cost explorer had some breakdown options:
+This revealed that it is the (S3) outbound data transfer that is causing this - not stored S3 object count or size." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-16T14:30:00+00:00" />
+<meta property="article:modified_time" content="2021-02-16T14:30:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Locating costly AWS S3 buckets"/>
+<meta name="twitter:description" content="I recently got a surprisingly large AWS bill which had me immediately realize something was wrong, because I did not host anything that should consume dramatically more resources month-over-month.
+Happy AWS billing day:
+Why is S3 costing so much? The overview just points at S3. The cost explorer had some breakdown options:
+This revealed that it is the (S3) outbound data transfer that is causing this - not stored S3 object count or size."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&text=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&is_video=false&description=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Locating%20costly%20AWS%20S3%20buckets&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&name=Locating%20costly%20AWS%20S3%20buckets&description=I%20recently%20got%20a%20surprisingly%20large%20AWS%20bill%20which%20had%20me%20immediately%20realize%20something%20was%20wrong%2c%20because%20I%20did%20not%20host%20anything%20that%20should%20consume%20dramatically%20more%20resources%20month-over-month.%0aHappy%20AWS%20billing%20day%3a%0aWhy%20is%20S3%20costing%20so%20much%3f%20The%20overview%20just%20points%20at%20S3.%20The%20cost%20explorer%20had%20some%20breakdown%20options%3a%0aThis%20revealed%20that%20it%20is%20the%20%28S3%29%20outbound%20data%20transfer%20that%20is%20causing%20this%20-%20not%20stored%20S3%20object%20count%20or%20size.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&t=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-is-s3-costing-so-much">Why is S3 costing so much?</a></li>
+    <li><a href="#identifying-the-bucket">Identifying the bucket</a></li>
+    <li><a href="#identifying-which-files-get-downloaded-so-much">Identifying which files get downloaded so much</a></li>
+    <li><a href="#mitigation">Mitigation</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Locating costly AWS S3 buckets
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2021-02-16 14:30:00 &#43;0000 UTC" itemprop="datePublished">2021-02-16</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>I recently got a surprisingly large AWS bill which had me immediately realize something was wrong,
+because I did not host anything that should consume dramatically more resources month-over-month.</p>
+<p><img src="s3bill-upward-trend.png" alt="Monthly AWS bills trending up month-over-month"></p>
+<p>Happy AWS billing day:</p>
+<p><img src="aws-billing-day.gif" alt=""></p>
+<h2 id="why-is-s3-costing-so-much">Why is S3 costing so much?</h2>
+<p>The overview just points at S3. The cost explorer had some breakdown options:</p>
+<p><img src="s3bill-breakdown.png" alt="Cost breakdown showing outbound data transfer as the largest expense"></p>
+<p>This revealed that it is the (S3) outbound data transfer that is causing this - not stored S3 object count or size.</p>
+<h2 id="identifying-the-bucket">Identifying the bucket</h2>
+<p>To my surprise, S3 buckets don&rsquo;t show you metrics for the bandwidth.
+The built-in metrics in the UI only include object count and size:</p>
+<p><img src="s3bill-not-many-metrics.png" alt="S3 UI doesn&rsquo;t have many metrics"></p>
+<p>I have quite many buckets, so I don&rsquo;t even know which bucket is costing me. This felt unfair.</p>
+<p>I tried to search S3 metrics from CloudWatch, but it&rsquo;s become even confusing than before and I
+couldn&rsquo;t find any metrics. I was not sure if there even are metrics for per-bucket data transfer.</p>
+<p>I tried to search the web for identifying costs or bandwidth per S3 bucket, but surprisingly I
+didn&rsquo;t find good results.</p>
+<p>What finally worked was to go and download a usage report as .csv:</p>
+<p><img src="s3bill-customreport.png" alt="AWS UI for fetching custom report"></p>
+<p>And I finally got some statistics:</p>
+<p><img src="s3bill-csv.png" alt="Spreadsheet with per-bucket data transfer statistics"></p>
+<p>It was quite easy to find the outlier bucket, but that bucket has quite a lot of files and now my
+question was which file(s) contribute to the problem the most..</p>
+<h2 id="identifying-which-files-get-downloaded-so-much">Identifying which files get downloaded so much</h2>
+<p>I knew S3 has logging. My bucket did not have logging enabled, so I had to enable S3 request logging
+first to start accumulating the data. The issue was still ongoing, so I knew I will still get useful
+&ldquo;forensics&rdquo; data.</p>
+<p>I came back the next morning to analyze the request data. S3 writes out quite many log files, so I first
+combined all the log files into one, then sorted it (so the requests are in chronological order).
+I excluded many patterns out that weren&rsquo;t GET requests or that contributed noise.</p>
+<p>I didn&rsquo;t have to write any fancy logic to refine it further - there were requests that started standing out.
+Turns out someone was downloading a large .gif every 30 seconds:</p>
+<p><img src="s3bill-accesslog.png" alt="Access log showing repeated requests to the same file"></p>
+<p>The file does not change every minute (it changes every 15 minutes or so), so it was weird seeing
+caching not working and someone downloading the same file over and over again. Twice every minute.
+Every hour, every day, every week and every month. It started adding up to a terabyte range.</p>
+<p>The log line also contained <code>User-Agent</code> that was set to <code>github-camo</code>. A quick web search sure would
+have revealed the same, but I rememered that GitHub camo is
+<a href="https://docs.github.com/en/github/authenticating-to-github/about-anonymized-image-urls">GitHub&rsquo;s anonymization</a>
+proxy for when you view a README file with images in GitHub&rsquo;s web UI.</p>
+<p>Also the IPs belonged to GitHub:</p>
+<p><img src="s3bill-github-ip.png" alt="IP query result showing 140.82.115.155 belongs to GitHub"></p>
+<p>Turns out, someone saw the GIF I&rsquo;m producing valueable and possibly put it in her info display of
+sorts and just directly copied the &ldquo;camoized&rdquo; URL from my project&rsquo;s GitHub README. I didn&rsquo;t know that
+the camo service bypasses caching entirely.</p>
+<h2 id="mitigation">Mitigation</h2>
+<p>I always knew S3 bandwidth is expensive, but I didn&rsquo;t realize it&rsquo;s so expensive a single person mistreating
+an URL of mine could end up costing me so much I&rsquo;ve to react immediately.</p>
+<p>As a mitigation, I:</p>
+<ul>
+<li>
+<p><a href="https://github.com/function61/edgerouter/commit/453246f8f894bce735041147fa5ce8ea3264c2cd#diff-0e04bb42eb7341d8895d0bf65da097f79870189583fc3d426bb60843e55b002f">Put a caching reverse proxy</a>
+in front of my S3 bucket</p>
+<ul>
+<li>The proxy runs on a cheap VM where bandwidth is 100x cheaper than AWS, so even if someobody
+would continue to bypass caching, it doesn&rsquo;t cost me much anymore</li>
+</ul>
+</li>
+<li>
+<p>Changed the GIF file&rsquo;s URL (new filename + through reverse proxy) and replaced the old one with
+a static small GIF saying that the URL has changed - I&rsquo;m a nice guy like that. 😎</p>
+<ul>
+<li>I pondered putting something nasty there but I didn&rsquo;t think the person had malice in their mind
+by just copying that URL.</li>
+</ul>
+</li>
+<li>
+<p>In the GitHub project README where the person found the URL, I put up a warning saying that if you
+want to use the URL, don&rsquo;t use the &ldquo;camo&rdquo; one, but instead use the raw URL so it doesn&rsquo;t bypass caching.</p>
+</li>
+</ul>
+<p>The mitigation started working immediately, as visible from my costs (Feb-06 onwards):</p>
+<p><img src="s3bill-mitigation-confirmation.png" alt=""></p>
+<p>I didn&rsquo;t even have to stress about if the person stopped refreshing the .gif every 30 seconds,
+because I replaced the old file with a smaller notification, and it&rsquo;s not the end of the world now if
+new people still (despite the warning) use the GitHub camo URL that bypasses caching, because now they
+go through my cheaper reverse proxy that forces caching between the origin and my proxy.</p>
+<p>Lesson learned: unless you&rsquo;re an enterprise with deep pockets, AWS bandwidth pricing is robbery in broad daylight.</p>
+<p>You learn from your mistakes.. especially if they cost you money. 😂</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2021\/02\/locating-costly-aws-s3-buckets';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-is-s3-costing-so-much">Why is S3 costing so much?</a></li>
+    <li><a href="#identifying-the-bucket">Identifying the bucket</a></li>
+    <li><a href="#identifying-which-files-get-downloaded-so-much">Identifying which files get downloaded so much</a></li>
+    <li><a href="#mitigation">Mitigation</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&text=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&is_video=false&description=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Locating%20costly%20AWS%20S3%20buckets&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&title=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&name=Locating%20costly%20AWS%20S3%20buckets&description=I%20recently%20got%20a%20surprisingly%20large%20AWS%20bill%20which%20had%20me%20immediately%20realize%20something%20was%20wrong%2c%20because%20I%20did%20not%20host%20anything%20that%20should%20consume%20dramatically%20more%20resources%20month-over-month.%0aHappy%20AWS%20billing%20day%3a%0aWhy%20is%20S3%20costing%20so%20much%3f%20The%20overview%20just%20points%20at%20S3.%20The%20cost%20explorer%20had%20some%20breakdown%20options%3a%0aThis%20revealed%20that%20it%20is%20the%20%28S3%29%20outbound%20data%20transfer%20that%20is%20causing%20this%20-%20not%20stored%20S3%20object%20count%20or%20size.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2flocating-costly-aws-s3-buckets%2f&t=Locating%20costly%20AWS%20S3%20buckets">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

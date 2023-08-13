@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Windows Disk Cleanup throws you into deeper trouble | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Windows Disk Cleanup throws you into deeper trouble" />
+<meta property="og:description" content="I&rsquo;ve been quite vocal about my distaste for most things Microsoft before, and here comes another rant, so buckle up..
+This morning, my old Win7 computer with a 64 GB C:\ drive was almost out of space. I had like 60 MB left, so it wasn&rsquo;t out just yet. So I went to fire up the Disk Cleanup tool. Upon running it, I discovered that my drive filled up entirely - 0 bytes left." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2019/03/20/windows-disk-cleanup-throws-you-into-deeper-trouble/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-03-20T10:30:00+00:00" />
+<meta property="article:modified_time" content="2019-03-20T10:30:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows Disk Cleanup throws you into deeper trouble"/>
+<meta name="twitter:description" content="I&rsquo;ve been quite vocal about my distaste for most things Microsoft before, and here comes another rant, so buckle up..
+This morning, my old Win7 computer with a 64 GB C:\ drive was almost out of space. I had like 60 MB left, so it wasn&rsquo;t out just yet. So I went to fire up the Disk Cleanup tool. Upon running it, I discovered that my drive filled up entirely - 0 bytes left."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2020/01/14/warning-about-paypal/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&text=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&is_video=false&description=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&name=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble&description=I%26rsquo%3bve%20been%20quite%20vocal%20about%20my%20distaste%20for%20most%20things%20Microsoft%20before%2c%20and%20here%20comes%20another%20rant%2c%20so%20buckle%20up..%0aThis%20morning%2c%20my%20old%20Win7%20computer%20with%20a%2064%20GB%20C%3a%5c%20drive%20was%20almost%20out%20of%20space.%20I%20had%20like%2060%20MB%20left%2c%20so%20it%20wasn%26rsquo%3bt%20out%20just%20yet.%20So%20I%20went%20to%20fire%20up%20the%20Disk%20Cleanup%20tool.%20Upon%20running%20it%2c%20I%20discovered%20that%20my%20drive%20filled%20up%20entirely%20-%200%20bytes%20left.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&t=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#technical-analysis">Technical analysis</a></li>
+    <li><a href="#parting-words">Parting words</a></li>
+    <li><a href="#additional-related-reading">Additional, related reading</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Windows Disk Cleanup throws you into deeper trouble
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2019-03-20 10:30:00 &#43;0000 UTC" itemprop="datePublished">2019-03-20</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>I&rsquo;ve been quite vocal about my distaste for most things Microsoft before, and here comes
+another rant, so buckle up..</p>
+<p>This morning, my old Win7 computer with a 64 GB <code>C:\</code> drive was almost out of space. I had
+like 60 MB left, so it wasn&rsquo;t out just yet. So I went to fire up the <code>Disk Cleanup</code> tool.
+Upon running it, I discovered that my drive filled up entirely - 0 bytes left. WTF, I wasn&rsquo;t
+doing anything else than running the Disk Cleanup??!</p>
+<p>Turns out, running Disk Cleanup (with the &ldquo;Clean up system files&rdquo; option) for me actually
+wastes about 127 MB of drive space <em>each time you run Disk Cleanup</em>. I tried running it a
+couple times (each time manually deleting files from my download folder to get free space
+to try to run it again), and witnessed the same problem each time I ran it.</p>
+<p>What&rsquo;s worse is that the space it wastes cannot be freed with the very tool designed to free
+up space. So each time you run it, the deeper grave you dig for yourself!</p>
+<p>You had one job: to free up disk space. You wasted 127 MB of space to tell me that you can
+free only 200 KB of space??!</p>
+<h2 id="demo">Demo</h2>
+<p><img src="windows-disk-cleanup-demo.gif" alt=""></p>
+<h2 id="technical-analysis">Technical analysis</h2>
+<p>(this is from an earlier run than what the above .gif was made of)</p>
+<p>Free space before:</p>
+<p><img src="windows-disk-cleanup-space-free-before.png" alt=""></p>
+<p>And after:</p>
+<p><img src="windows-disk-cleanup-space-free-after.png" alt=""></p>
+<p>=&gt; Lost 127 MB of space</p>
+<p>I fired up <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/procmon">Process Monitor</a>
+during the cleanup to see what&rsquo;s happening.</p>
+<p>During the &ldquo;Windows Update Cleanup&rdquo; phase the Disk Cleanup fires up <code>TrustedInstaller.exe</code>
+which does a metric shit-ton of writes to <code>C:\Windows\Logs\CBS.log</code> (CBS =
+<a href="https://blogs.technet.microsoft.com/askperf/2008/04/23/understanding-component-based-servicing/">Component-based servicing</a>):</p>
+<p><img src="windows-disk-cleanup-trustedinstaller-writes.png" alt=""></p>
+<p>And the last entries:</p>
+<p><img src="windows-disk-cleanup-trustedinstaller-writes2.png" alt=""></p>
+<p>If you take look at the offsets in the <code>Detail</code> column, first write offset is around 754
+million bytes, and the last offset is  876 million bytes. Difference then is about 122 MB
+which aligns well with the 127 MB of lost space I observed earlier.</p>
+<h2 id="parting-words">Parting words</h2>
+<p>I don&rsquo;t know (and I don&rsquo;t care) what TrustedInstaller does to gauge what it can do to free
+up space, but the fact is that Disk Cleanup ultimately is responsible for all its downstream
+components for what they do as part of this process. If your job is to free up disk space -
+you shouldn&rsquo;t do anything to waste even more space if that is the problem to begin with.</p>
+<p>I grade this tool: <a href="https://www.youtube.com/watch?v=3O8J2locx5o">(this video)</a></p>
+<p>Each passing day I find myself agreeing more with this
+<a href="https://web.archive.org/web/20190508005122/https://twitter.com/jessfraz/status/1033631551987359746">observation of @jessfraz</a></p>
+<p>In my more naive days, I tried to keep my Windows installation in very well kept state,
+obsessing over each program installation location, stressing over Windows updates writing
+their directories to root directories of drives they shouldn&rsquo;t write in, cleaning up
+registry etc etc.</p>
+<p>Later I&rsquo;ve realized that you can&rsquo;t keep a Windows installation tidy - it&rsquo;s built on shit,
+so the end result is going to be shit anyway. That&rsquo;s why
+<a href="https://github.com/function61/varasto">I&rsquo;m building a project</a> to minimize the state of
+each of my computer so each computer can easily be re-installed with ease, since the state
+I care about is kept elsewhere. Thanks for the inspiration, Microsoft.</p>
+<h2 id="additional-related-reading">Additional, related reading</h2>
+<ul>
+<li><a href="https://www.computerworld.com/article/3112358/windows-7-log-file-compression-bug-can-fill-up-your-hard-drive.html">Windows 7 log file compression bug can fill up your hard drive</a></li>
+</ul>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2019\/03\/20\/windows-disk-cleanup-throws-you-into-deeper-trouble';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#technical-analysis">Technical analysis</a></li>
+    <li><a href="#parting-words">Parting words</a></li>
+    <li><a href="#additional-related-reading">Additional, related reading</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&text=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&is_video=false&description=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&title=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&name=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble&description=I%26rsquo%3bve%20been%20quite%20vocal%20about%20my%20distaste%20for%20most%20things%20Microsoft%20before%2c%20and%20here%20comes%20another%20rant%2c%20so%20buckle%20up..%0aThis%20morning%2c%20my%20old%20Win7%20computer%20with%20a%2064%20GB%20C%3a%5c%20drive%20was%20almost%20out%20of%20space.%20I%20had%20like%2060%20MB%20left%2c%20so%20it%20wasn%26rsquo%3bt%20out%20just%20yet.%20So%20I%20went%20to%20fire%20up%20the%20Disk%20Cleanup%20tool.%20Upon%20running%20it%2c%20I%20discovered%20that%20my%20drive%20filled%20up%20entirely%20-%200%20bytes%20left.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2019%2f03%2f20%2fwindows-disk-cleanup-throws-you-into-deeper-trouble%2f&t=Windows%20Disk%20Cleanup%20throws%20you%20into%20deeper%20trouble">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

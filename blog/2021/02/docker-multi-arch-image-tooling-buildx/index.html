@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Docker multi-arch image tooling, buildx | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Docker multi-arch image tooling, buildx" />
+<meta property="og:description" content="Multi-arch image means that you can run the same $ docker run joonas/cool-app command on different hardware platforms like PC (amd64) and Raspberry Pi (arm). Recently when publishing said style images for Varasto, I learned quite a lot about the tooling and some tricks. But I was really frustrated about the shortcomings, so I want to share my findings to make it easier for others!
+Tip: lots of what I&rsquo;m writing about is found from this excellent post (which is more superficial, but probably better :D)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2021/02/docker-multi-arch-image-tooling-buildx/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-23T08:20:00+00:00" />
+<meta property="article:modified_time" content="2021-02-23T08:20:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker multi-arch image tooling, buildx"/>
+<meta name="twitter:description" content="Multi-arch image means that you can run the same $ docker run joonas/cool-app command on different hardware platforms like PC (amd64) and Raspberry Pi (arm). Recently when publishing said style images for Varasto, I learned quite a lot about the tooling and some tricks. But I was really frustrated about the shortcomings, so I want to share my findings to make it easier for others!
+Tip: lots of what I&rsquo;m writing about is found from this excellent post (which is more superficial, but probably better :D)."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2021/02/blog-facelift-technical-renovation/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&text=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&is_video=false&description=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Docker%20multi-arch%20image%20tooling%2c%20buildx&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&name=Docker%20multi-arch%20image%20tooling%2c%20buildx&description=Multi-arch%20image%20means%20that%20you%20can%20run%20the%20same%20%24%20docker%20run%20joonas%2fcool-app%20command%20on%20different%20hardware%20platforms%20like%20PC%20%28amd64%29%20and%20Raspberry%20Pi%20%28arm%29.%20Recently%20when%20publishing%20said%20style%20images%20for%20Varasto%2c%20I%20learned%20quite%20a%20lot%20about%20the%20tooling%20and%20some%20tricks.%20But%20I%20was%20really%20frustrated%20about%20the%20shortcomings%2c%20so%20I%20want%20to%20share%20my%20findings%20to%20make%20it%20easier%20for%20others%21%0aTip%3a%20lots%20of%20what%20I%26rsquo%3bm%20writing%20about%20is%20found%20from%20this%20excellent%20post%20%28which%20is%20more%20superficial%2c%20but%20probably%20better%20%3aD%29.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&t=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#manifest-list">Manifest list</a></li>
+    <li><a href="#cross-compilation-is-not-the-same-as-building-cross-architecture-images">Cross compilation is not the same as building cross-architecture images</a></li>
+    <li><a href="#run-machine-code-having-foreign-architecture">Run machine code having foreign architecture</a></li>
+    <li><a href="#building-images-for-foreign-architectures">Building images for foreign architectures</a>
+      <ul>
+        <li><a href="#really-simple-dockerfile">Really simple Dockerfile</a></li>
+        <li><a href="#more-complex-dockerfile">More complex Dockerfile</a></li>
+        <li><a href="#the-road-to-solution">The road to solution</a></li>
+        <li><a href="#solution">Solution</a></li>
+      </ul>
+    </li>
+    <li><a href="#building-images-for-foreign-architectures-1">Building images for foreign architectures</a>
+      <ul>
+        <li><a href="#what-is-buildx">What is buildx</a></li>
+        <li><a href="#why-buildx-avoiding-tag-per-arch">Why buildx (avoiding tag-per-arch)</a></li>
+        <li><a href="#setting-up-buildx">Setting up buildx</a></li>
+        <li><a href="#build-with-buildx">Build with buildx</a></li>
+        <li><a href="#frustrations-with-buildx">Frustrations with buildx</a></li>
+      </ul>
+    </li>
+    <li><a href="#trick-copying-manifest-lists-eg-promoting-a-release-to-latest">Trick: copying manifest lists (e.g. promoting a release to :latest)</a></li>
+    <li><a href="#recap">Recap</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Docker multi-arch image tooling, buildx
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2021-02-23 08:20:00 &#43;0000 UTC" itemprop="datePublished">2021-02-23</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/programming/" rel="tag">programming</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>Multi-arch image means that you can run the same <code>$ docker run joonas/cool-app</code> command on
+different hardware platforms like PC (<code>amd64</code>) and Raspberry Pi (<code>arm</code>). Recently
+when publishing said style images for
+<a href="http://function61.com/varasto">Varasto</a>,  I learned quite a lot about the tooling and some
+tricks. But I was really frustrated about the shortcomings, so I want to share my findings to
+make it easier for others!</p>
+<p><img src="tags.png" alt=""></p>
+<p>Tip: lots of what I&rsquo;m writing about is found from
+<a href="https://mirailabs.io/blog/multiarch-docker-with-buildx/">this excellent post</a>
+(which is more superficial, but probably better :D).</p>
+<h2 id="manifest-list">Manifest list</h2>
+<p>You&rsquo;re probably used to the concept of Docker images. You can think of Docker multi-arch image as
+a virtual image that only consist of metadata - pointers to the concrete images for specific
+architectures:</p>
+<p><img src="manifestlist.png" alt=""></p>
+<p>(Credit: <a href="https://wiki.onap.org/display/DW/Building+a+Platform-Agnostic+Container+Image">image from ONAP.org</a>)</p>
+<p>The manifest list is simple JSON and looks like this:</p>
+<pre><code>$ docker manifest inspect joonas/multitest
+{
+   &quot;schemaVersion&quot;: 2,
+   &quot;mediaType&quot;: &quot;application/vnd.docker.distribution.manifest.list.v2+json&quot;,
+   &quot;manifests&quot;: [
+	  {
+		 &quot;mediaType&quot;: &quot;application/vnd.docker.distribution.manifest.v2+json&quot;,
+		 &quot;size&quot;: 735,
+		 &quot;digest&quot;: &quot;sha256:ed59e219c8c9038bab91d528a4cec0287ca75d441fc6d9dc62c4df3aaf5f6ae8&quot;,
+		 &quot;platform&quot;: {
+			&quot;architecture&quot;: &quot;amd64&quot;,
+			&quot;os&quot;: &quot;linux&quot;
+		 }
+	  },
+	  {
+		 &quot;mediaType&quot;: &quot;application/vnd.docker.distribution.manifest.v2+json&quot;,
+		 &quot;size&quot;: 735,
+		 &quot;digest&quot;: &quot;sha256:4f8fdab999838ba5e5e3193f841fd42f6226934e2260a51f6100515345e27f60&quot;,
+		 &quot;platform&quot;: {
+			&quot;architecture&quot;: &quot;arm&quot;,
+			&quot;os&quot;: &quot;linux&quot;,
+			&quot;variant&quot;: &quot;v7&quot;
+		 }
+	  }
+   ]
+}
+</code></pre>
+<p>NOTE: sometimes manifest lists are confusingly referred to as just &ldquo;manifest&rdquo; (e.g.
+<code>$ docker manifest create</code> actually creates a manifest list), but manifest list and
+manifest are different things:</p>
+<ul>
+<li>Each concrete Docker image has a manifest, so manifest ≈ image.</li>
+<li>So this multi-arch &ldquo;virtual image&rdquo; is a manifest <strong>list</strong> (or an &ldquo;image list&rdquo; if you will).</li>
+</ul>
+<h2 id="cross-compilation-is-not-the-same-as-building-cross-architecture-images">Cross compilation is not the same as building cross-architecture images</h2>
+<p>There are three distinct things at play:</p>
+<ol>
+<li>Cross compiling your binary</li>
+<li>Running binaries having foreign architecture</li>
+<li>Building Docker images for foreign architectures</li>
+</ol>
+<p>2 and 3 are related because most of the time (but not always) 3 requires 2.</p>
+<p>Let&rsquo;s start with cross compilation. Say you&rsquo;re on your local <code>amd64</code>-based PC (or a public
+CI) compiling a Go program. Cross compilation, depending on your language/compiler, can be
+really easy:</p>
+<pre><code>$ GOARCH=amd64 go build -o myapp-amd64
+$ GOARCH=arm go build -o myapp-arm
+</code></pre>
+<p>Your CPU running on <code>amd64</code> just used the Go compiler to produce machine code for <code>amd64</code>
+<strong>and</strong> <code>arm</code> CPUs:</p>
+<p><img src="crosscompilation.png" alt=""></p>
+<p>A Go compiler running on any architecture can <em>produce</em> machine code for foreign architectures.</p>
+<p>Now we&rsquo;ve covered cross compilation. We&rsquo;ll cover 2 and 3 next!</p>
+<h2 id="run-machine-code-having-foreign-architecture">Run machine code having foreign architecture</h2>
+<p>Running <code>amd64</code> programs on my computer (that has an <code>amd64</code> CPU) works:</p>
+<pre><code>$ ./myapp-amd64
+Hello world from amd64
+</code></pre>
+<p>But running <code>arm</code> programs on my computer doesn&rsquo;t work (it has foreign architecture):</p>
+<pre><code>$ ./myapp-arm
+./myapp-arm: cannot execute binary file: Exec format error
+</code></pre>
+<h2 id="building-images-for-foreign-architectures">Building images for foreign architectures</h2>
+<h3 id="really-simple-dockerfile">Really simple Dockerfile</h3>
+<p>Even though you can&rsquo;t run the <code>arm</code> binary, you could still build a really simple <code>Dockerfile</code>:</p>
+<pre><code>FROM --platform=linux/arm/v7 alpine
+CMD [&quot;/myapp&quot;]
+ADD myapp-arm /myapp
+</code></pre>
+<p>The <code>--platform</code> is needed because I&rsquo;m building on <code>amd64</code> and Docker build would pull
+the wrong (builder machine&rsquo;s) architecture version of <code>alpine</code> image.</p>
+<p>(This flag is not needed in <code>buildx</code>, which we&rsquo;ll cover later, because it&rsquo;s
+cross-architecture build aware.)</p>
+<p>Building this succeeds on <em>any</em> architecure.</p>
+<p>The image <strong>works</strong> on an <code>arm</code> based system.</p>
+<p>But the image doesn&rsquo;t work if ran on an <code>amd64</code> system:</p>
+<pre><code>$ docker run --rm -it joonas/myapp-arm
+standard_init_linux.go:211: exec user process caused &quot;exec format error&quot;
+</code></pre>
+<p>This is expected because, like we covered earlier, running the binary needs to match your CPU
+architecture.</p>
+<h3 id="more-complex-dockerfile">More complex Dockerfile</h3>
+<p>In almost any real-world <code>Dockerfile</code> we need more complex things, like <code>RUN</code> instruction.
+This is an instruction which at <strong>build-time</strong> runs binaries.</p>
+<p>This example asks Alpine&rsquo;s package manager to install <code>curl</code>:</p>
+<pre><code>FROM --platform=linux/arm/v7 alpine
+CMD [&quot;/myapp&quot;]
+ADD myapp-arm /myapp
+RUN apk add curl
+</code></pre>
+<p>We only added the <code>RUN ...</code>, and now building the image fails:</p>
+<pre><code>$ docker build -t joonas/myapp-arm .
+...
+Step 4/4 : RUN apk add curl
+ ---&gt; Running in b31128b76d15
+standard_init_linux.go:211: exec user process caused &quot;exec format error&quot;
+The command '/bin/sh -c apk add curl' returned a non-zero code: 1
+</code></pre>
+<p>This doesn&rsquo;t work, because like our-built binary, also other binaries inside Alpine&rsquo;s <code>arm</code>
+image, are of foreign architecture.</p>
+<h3 id="the-road-to-solution">The road to solution</h3>
+<p>Two paths:</p>
+<ol>
+<li>Build each arch image on a different, its native, CPU</li>
+<li>Use tricks to cross-build on <code>amd64</code></li>
+</ol>
+<p>Most of us can&rsquo;t afford (or don&rsquo;t want) to set up a multi-arch cluster of Docker build
+servers, so what tricks we have at our disposal to cross-build on our existing
+architecture?</p>
+<p>You may have heard of virtual machines. Virtual machines are a subcategory of emulators
+that choose to emulate the entire computer.</p>
+<p>A popular solution for quite some time has been to use
+<a href="https://www.qemu.org/docs/master/user/main.html">QEMU&rsquo;s user space emulation</a> <strong>to not
+emulate entire computer</strong>, but to only emulate foreign architecture processor on a Linux
+process level:</p>
+<p><img src="qemu-userland-emulation.png" alt=""></p>
+<p>It&rsquo;s basically a virtualized processor, but inside a single (user-space) process. It doesn&rsquo;t have to
+virtualize full PC hardware - only the CPU and for only a &ldquo;small distance&rdquo; so that it can interact
+with things outside the process via traditional interfaces like kernel syscalls.</p>
+<p>This is the basic premise of it. There have been variations to this basic approach, in
+increasing convenience order:</p>
+<ol>
+<li>Add boilerplate to <code>Dockerfile</code> to enable shell-shim (to redirect shell-based process
+invocations to QEMU) and add QEMU inside your image (this doesn&rsquo;t require config to host
+kernel)
+<ul>
+<li>For example usage see this <a href="https://www.balena.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/">balena.io link</a></li>
+</ul>
+</li>
+<li>Self-installed QEMU &amp; configured <code>binfmt_misc</code>
+<ul>
+<li>For example usage see this <a href="https://www.balena.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/">balena.io link</a>
+(same link as above)</li>
+</ul>
+</li>
+<li>Docker&rsquo;s buildx
+<ul>
+<li>Wraps the option 2 (= QEMU + <code>binfmt_misc</code>) with automation, but also does a bunch more</li>
+</ul>
+</li>
+</ol>
+<p><code>binfmt_misc</code> is Linux kernel&rsquo;s interface for communicating to kernel: &ldquo;if you see an unsupported
+binary type that looks like X =&gt; use interpreter Y to indirectly execute it&rdquo;.</p>
+<p>In this case we&rsquo;ll use <code>binfmt_misc</code> to pipe foreign architecture binaries via QEMU. You
+can read more about <code>binfmt_misc</code> specifically in
+<a href="https://blog.jessfraz.com/post/nerd-sniped-by-binfmt_misc/">JessFraz&rsquo;s blog post</a>.</p>
+<h3 id="solution">Solution</h3>
+<p>I don&rsquo;t like the idea of putting any boilerplate in the <code>Dockerfile</code>, so IMO using
+<code>binfmt_misc</code> is cleanest. Approaches 2 and 3 are both fine, but I ended up with buildx
+for somewhat unrelated reasons - more on this later.</p>
+<h2 id="building-images-for-foreign-architectures-1">Building images for foreign architectures</h2>
+<p>We&rsquo;ll now be covering Docker&rsquo;s buildx more closely.</p>
+<h3 id="what-is-buildx">What is buildx</h3>
+<p>buildx touts itself as a kind of a frontend for <a href="https://github.com/moby/buildkit">BuildKit</a>.
+BuildKit seems to be Docker&rsquo;s next-gen build system with configurable builders, builder clustering,
+cross-architecture image building etc.</p>
+<h3 id="why-buildx-avoiding-tag-per-arch">Why buildx (avoiding tag-per-arch)</h3>
+<p>buildx seems pretty complex, and it&rsquo;s an addon (= not built-in inside Docker) that requires
+<a href="https://github.com/docker/setup-buildx-action">extra steps to setup in CI systems like GitHub actions</a>.</p>
+<p>I originally planned on just adding QEMU download + <code>binfmt_misc</code> support to
+<a href="https://github.com/function61/turbobob">Turbo Bob</a>, have separate <code>Dockerfile</code>s per
+arch, build them manually and then join them into a single manifest list using
+<code>manifest create</code>. No buildx required?</p>
+<p>The problem is that <em>it looks like</em> it&rsquo;s not possible to use <code>manifest create</code> without
+having tag-per-arch in DockerHub.</p>
+<p>Tag-per-arch looks like this:</p>
+<p><img src="tag-per-arch.png" alt=""></p>
+<p>It looks like it really goes against the grain for <code>manifest create</code> to give me what I want.
+I later discovered that while <code>manifest create</code> supports creating manifest list from
+digests, I haven&rsquo;t found out how to <code>docker push</code> with only a digest - only buildx seems
+to support pushing by digest.</p>
+<p>I say this because <code>manifest create</code> requires the <strong>referenced images to already exist</strong>
+in the remote registry (and within the same repo), and web search for &ldquo;docker push by
+digest&rdquo; came practically empty.</p>
+<p>Buildx seems
+to really well support push-by-digest (required for avoiding tag-per-arch) - but it
+<strong>looked</strong> like push-by-digest is available only if you use its full automation. By &ldquo;full
+automation&rdquo; I mean building all arches with a single <code>build</code> command instead of building each one
+manually - maybe even from separate <code>Dockerfile</code>s.</p>
+<p>What&rsquo;s wrong with the full automation? I&rsquo;ll cover that in a separate section later.</p>
+<p>Despite searching it looked like push-by-digest is only usable via full automation, but
+fortunately I later learned via a pro-tip from the dev that
+<a href="https://github.com/docker/buildx/issues/272#issuecomment-645023185">there&rsquo;s a flag</a> for
+it that might be usable with a more broken down and controllable workflow. Though it looks
+like I&rsquo;d still need buildx to use push-by-digest since it looks like native Docker can&rsquo;t
+do it.</p>
+<p>Looks like I need buildx anyway, so maybe just embrace it?</p>
+<h3 id="setting-up-buildx">Setting up buildx</h3>
+<p><a href="https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/">Docker&rsquo;s introductory post</a></p>
+<p>(if trouble) <a href="https://mirailabs.io/blog/multiarch-docker-with-buildx/">This post explains it better</a></p>
+<p>After installing buildx, it might have to be enabled with experimental flag:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">$</span> <span style="color:#5918bb;font-weight:bold">export</span> DOCKER_CLI_EXPERIMENTAL<span style="color:#2c5dcd">=</span>enabled
+</span></span><span style="display:flex;"><span><span style="color:#fff;background-color:#c00">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;background-color:#c00"></span><span style="color:#2c5dcd;font-weight:bold">$</span> docker buildx version
+</span></span></code></pre></div><p>After that works, you might still need to run this command to set up the <code>binfmt_misc</code> configuration
+that we discussed earlier:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">$</span> docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+</span></span></code></pre></div><h3 id="build-with-buildx">Build with buildx</h3>
+<p>Basic format of cross-arch building is:</p>
+<pre tabindex="0"><code>$ docker buildx build \
+	--platform platformA,platformB,.. \
+	--file Dockerfile \
+	--tag yourname/project:latest \
+	.
+</code></pre><h3 id="frustrations-with-buildx">Frustrations with buildx</h3>
+<p>tl;dr: too much automation with assumptions about the build process. In my opinion I had
+about the simplest of use cases one can have:</p>
+<ul>
+<li>I have pre-built binaries:
+<ul>
+<li><code>rel/myapp-amd64</code> and</li>
+<li><code>rel/myapp-arm</code></li>
+</ul>
+</li>
+<li>Shove them inside architecture-specific Alpine base image and call it done</li>
+</ul>
+<p>Still it seemed like
+<a href="https://github.com/docker/buildx/issues/272#issuecomment-644863008">I needed lots of hacks</a>
+to work around the assumptions. The simplest solution I came up with was to use a
+multi-stage build to rename the binary-to-add to a name buildx expected:</p>
+<pre><code>FROM alpine
+
+# need to list this to have it available at all
+# &quot;linux/amd64&quot;, &quot;linux/arm/v7&quot;, etc.
+ARG TARGETARCH
+ARG TARGETVARIANT
+
+ADD &quot;/rel/myapp-$TARGETARCH$TARGETVARIANT&quot; /myapp
+
+CMD [&quot;/myapp&quot;]
+</code></pre>
+<p>I know, I could&rsquo;ve as a hack named my source binaries in my workdir with a name buildx
+expects to support my use case, but I didn&rsquo;t want to do that because I upload the <code>rel/</code>
+directory to GitHub releases as well.</p>
+<p>I also got a
+<a href="https://github.com/docker/buildx/issues/272#issuecomment-645023792">good pro-tip from the dev</a>
+that instead of having to have <strong>my binaries named</strong> <code>linux/amd64</code> and <code>linux/arm/v7</code> I
+get slightly more control with <code>$TARGETARCH</code> and <code>$TARGETVARIANT</code> (though that still
+forces some of my naming convention)</p>
+<p>These variables are documented <a href="https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope">here</a>.</p>
+<p>All my frustration could&rsquo;ve been avoided, if buildx:</p>
+<ul>
+<li>supported separate <code>Dockerfile</code> per arch OR</li>
+<li>supported specifying build-arg per arch OR</li>
+<li>supported mounting my <code>rel/</code> directory inside the build container OR</li>
+<li>supported making &amp; pushing manifest list from local images I built manually with
+<code>$ docker build</code></li>
+</ul>
+<p>To top my frustrations off, it was easy to end up with seemingly-successful buildx
+commands where after build
+<a href="https://github.com/docker/buildx/issues/166#issuecomment-544827163">there simply wasn&rsquo;t a build artefact</a>.
+tl;dr: <code>--output=type=image</code> works as long as you&rsquo;re building for one arch, but if you
+need multi-arch the output silently doesn&rsquo;t go anywhere because local multi-arch images
+are not supported. Currently you simply have to learn these quirks the hard way (I
+would&rsquo;ve preferred an error).</p>
+<h2 id="trick-copying-manifest-lists-eg-promoting-a-release-to-latest">Trick: copying manifest lists (e.g. promoting a release to :latest)</h2>
+<p>When I make commits to my repo, CI builds will make a draft/dev release in Docker registry
+with tags like these:</p>
+<ul>
+<li>joonas/multitest:20200527_1510_4752c84f</li>
+<li>joonas/multitest:20200101_1359_7fd6f47d</li>
+</ul>
+<p>When I want to make an official release, I &ldquo;promote&rdquo; (= copy) an existing tag to the <code>latest</code>
+tag. I.e. I need to make a copy of the manifest list.</p>
+<p>(I can&rsquo;t just pull <code>20200101_1359_7fd6f47d</code>, tag it <code>latest</code> and push it again, because
+<code>$ docker pull</code> doesn&rsquo;t pull the manifest list - rather it resolves the concrete image (= manifest)
+to pull, based on the arch I&rsquo;m pulling for.)</p>
+<p>In this example we&rsquo;ll copy <code>20200527_1510_4752c84f</code> -&gt; <code>latest</code>.</p>
+<p>To copy a manifest, the easiest trick I&rsquo;ve come up with is to inspect existing manifest,
+take note of the digests (see the JSON example at beginning of this post) and use them to create a new manifest:</p>
+<pre><code>$ docker manifest inspect joonas/multitest:20200527_1510_4752c84f
+$ docker manifest create joonas/multitest:latest \
+	joonas/multitest@sha256:ed59e219c8c9038bab91d528a4cec0287ca75d441fc6d9dc62c4df3aaf5f6ae8 \
+	joonas/multitest@sha256:4f8fdab999838ba5e5e3193f841fd42f6226934e2260a51f6100515345e27f60
+$ docker manifest push joonas/multitest:latest
+</code></pre>
+<p>That&rsquo;s it! It&rsquo;s been copied. Of course you can automate this by parsing the JSON and
+extracting the digests to automatically run the create &amp; push commands.</p>
+<h2 id="recap">Recap</h2>
+<p>There were quite many concepts to understand:</p>
+<ul>
+<li>Docker manifest lists (= virtual images) vs. manifests (= images)</li>
+<li>These are different concepts:
+<ul>
+<li>Cross compiling binaries (easy as pie with Go)</li>
+<li>Building Docker images for foreign architectures</li>
+<li>Running binaries for foreign architectures</li>
+</ul>
+</li>
+<li>Image building can be easy (no special tools needed) if you don&rsquo;t need <code>RUN</code>, but usually you do - then
+you need tricks to execute code for foreign architectures.</li>
+<li>QEMU userspace emulation + <code>binfmt_misc</code> is a neat trick to ~easily produce multi-arch images when you need <code>RUN</code> directive</li>
+<li>Tagged images vs digest-only images (buildx is needed to push digest-only images)</li>
+<li>Buildx is one tool more that you need to install and configure on your computer and on CI systems.</li>
+<li>Buildx seems to make many assumptions, and it can get painful if you don&rsquo;t fully embrace its
+&ldquo;this is how you&rsquo;re supposed to hold the tool&rdquo; -model
+<ul>
+<li>I hope buildx becomes more relaxed as it matures</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2021\/02\/docker-multi-arch-image-tooling-buildx';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#manifest-list">Manifest list</a></li>
+    <li><a href="#cross-compilation-is-not-the-same-as-building-cross-architecture-images">Cross compilation is not the same as building cross-architecture images</a></li>
+    <li><a href="#run-machine-code-having-foreign-architecture">Run machine code having foreign architecture</a></li>
+    <li><a href="#building-images-for-foreign-architectures">Building images for foreign architectures</a>
+      <ul>
+        <li><a href="#really-simple-dockerfile">Really simple Dockerfile</a></li>
+        <li><a href="#more-complex-dockerfile">More complex Dockerfile</a></li>
+        <li><a href="#the-road-to-solution">The road to solution</a></li>
+        <li><a href="#solution">Solution</a></li>
+      </ul>
+    </li>
+    <li><a href="#building-images-for-foreign-architectures-1">Building images for foreign architectures</a>
+      <ul>
+        <li><a href="#what-is-buildx">What is buildx</a></li>
+        <li><a href="#why-buildx-avoiding-tag-per-arch">Why buildx (avoiding tag-per-arch)</a></li>
+        <li><a href="#setting-up-buildx">Setting up buildx</a></li>
+        <li><a href="#build-with-buildx">Build with buildx</a></li>
+        <li><a href="#frustrations-with-buildx">Frustrations with buildx</a></li>
+      </ul>
+    </li>
+    <li><a href="#trick-copying-manifest-lists-eg-promoting-a-release-to-latest">Trick: copying manifest lists (e.g. promoting a release to :latest)</a></li>
+    <li><a href="#recap">Recap</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&text=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&is_video=false&description=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Docker%20multi-arch%20image%20tooling%2c%20buildx&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&title=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&name=Docker%20multi-arch%20image%20tooling%2c%20buildx&description=Multi-arch%20image%20means%20that%20you%20can%20run%20the%20same%20%24%20docker%20run%20joonas%2fcool-app%20command%20on%20different%20hardware%20platforms%20like%20PC%20%28amd64%29%20and%20Raspberry%20Pi%20%28arm%29.%20Recently%20when%20publishing%20said%20style%20images%20for%20Varasto%2c%20I%20learned%20quite%20a%20lot%20about%20the%20tooling%20and%20some%20tricks.%20But%20I%20was%20really%20frustrated%20about%20the%20shortcomings%2c%20so%20I%20want%20to%20share%20my%20findings%20to%20make%20it%20easier%20for%20others%21%0aTip%3a%20lots%20of%20what%20I%26rsquo%3bm%20writing%20about%20is%20found%20from%20this%20excellent%20post%20%28which%20is%20more%20superficial%2c%20but%20probably%20better%20%3aD%29.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2fdocker-multi-arch-image-tooling-buildx%2f&t=Docker%20multi-arch%20image%20tooling%2c%20buildx">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

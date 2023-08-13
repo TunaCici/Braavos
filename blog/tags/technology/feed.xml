@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>technology on joonas.fi</title>
+    <link>https://joonas.fi/tags/technology/</link>
+    <description>Recent content in technology on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Mar 2023 07:57:12 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/technology/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An approach to protocol reverse-engineering</title>
+      <link>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</link>
+      <pubDate>Sun, 12 Mar 2023 07:57:12 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2023/03/an-approach-to-protocol-reverse-engineering/</guid>
+      <description>This basic principle has worked for me many times, so I figured it might be worth to share the process.
+In this instance I wanted to write a label printer driver in Go. A barebones implementation exists in Python that works to print a test image.
+The idea If I can reach parity with the Python-based implementation (from now on referred to as the reference implementation), I can build on top of a working baseline.</description>
+    </item>
+    
+    <item>
+      <title>QMK w/ Drop CTRL: Nordic layout hack in ANSI layout</title>
+      <link>https://joonas.fi/2022/05/qmk-w/-drop-ctrl-nordic-layout-hack-in-ansi-layout/</link>
+      <pubDate>Sat, 14 May 2022 09:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2022/05/qmk-w/-drop-ctrl-nordic-layout-hack-in-ansi-layout/</guid>
+      <description>I recently bought a Drop CTRL mechanical keyboard. (am not sponsored &amp;amp; I actually dislike the company)
+I debated myself for a long time whether to buy the keyboard, due to these problems:
+it has ANSI layout (I&amp;rsquo;m used to ISO layout), and the keycap labels don&amp;rsquo;t match either so some keys&amp;rsquo; labels won&amp;rsquo;t match what actually comes on screen when I press them. Keycaps can be changed, so I figured if it bothers me I can always solve the mismatching labels problem.</description>
+    </item>
+    
+    <item>
+      <title>Stable device path for Linux hwmon interfaces</title>
+      <link>https://joonas.fi/2021/07/stable-device-path-for-linux-hwmon-interfaces/</link>
+      <pubDate>Thu, 15 Jul 2021 08:43:30 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/07/stable-device-path-for-linux-hwmon-interfaces/</guid>
+      <description>The problem /sys/class/hwmon/hwmon2/temp1_input reports your CPU temperature.
+But the next time you reboot, the path might be /sys/class/hwmon/hwmon1/temp1_input.
+=&amp;gt; The path is not stable, so you cannot easily refer to it.
+Example use case where you might need stable paths is use in i3status (it&amp;rsquo;s the status bar in the animation on top of this article).
+The solution Let&amp;rsquo;s write a udev rule to make a stable device path to the CPU temperature.</description>
+    </item>
+    
+    <item>
+      <title>Ping metrics as graphs</title>
+      <link>https://joonas.fi/2021/07/ping-metrics-as-graphs/</link>
+      <pubDate>Sun, 04 Jul 2021 12:56:11 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/07/ping-metrics-as-graphs/</guid>
+      <description>I wanted to see latency graphs for my internet connection, as well as to some various servers/devices:
+Why? Having multiple ping targets gives you a pretty accurate view of the health of your internet connection, and also any networking issues for the target devices themselves.
+If all the lines go up (latency increases), the problem is in your internet connection.
+However, if only one target you&amp;rsquo;re monitoring starts to act up, you know the problem is elsewhere.</description>
+    </item>
+    
+    <item>
+      <title>Blog facelift &amp; technical renovation</title>
+      <link>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</link>
+      <pubDate>Mon, 22 Feb 2021 10:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/blog-facelift-technical-renovation/</guid>
+      <description>My blog has been running on Jekyll since early 2015. I am very grateful for how easy and out-of-the-way it has made running my blog.
+I haven&amp;rsquo;t touched (= updated/maintained) my Jekyll installation even once over that six years and it has just chugged on - letting me focus on content.
+However, I&amp;rsquo;ve built other static sites with Hugo for years, and I knew I wanted to migrate my blog to it at some point.</description>
+    </item>
+    
+    <item>
+      <title>UEFI, PC boot process and UEFI with QEMU</title>
+      <link>https://joonas.fi/2021/02/uefi-pc-boot-process-and-uefi-with-qemu/</link>
+      <pubDate>Thu, 18 Feb 2021 08:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/uefi-pc-boot-process-and-uefi-with-qemu/</guid>
+      <description>Recently I learned a lot more about UEFI/BIOS than I would&amp;rsquo;ve liked to, when I was configuring my new exotic system&amp;rsquo;s boot process. It just goes to show you that when you step away from the well-traveled path, you&amp;rsquo;re going to run into stupid problems and have to understand deeper about how things work. So I&amp;rsquo;m sharing what I learned.
+Legacy BIOS To better understand UEFI, we must first dig into a little bit of history.</description>
+    </item>
+    
+    <item>
+      <title>Reverse-engineering MIDI devices, AKAI MPK Mini Mk3</title>
+      <link>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</link>
+      <pubDate>Wed, 17 Feb 2021 08:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/</guid>
+      <description>I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make music - but because of the pads and knobs that I can use to control things like jump between workspaces adjust the audio volume in my PC etc.
+What can I do with it? Lots of things! I&amp;rsquo;ve already got implemented:
+Piano keys Various key mappings to:
+Toggle audio between speakers and headphones Set random wallpaper (from a directory of curated wallpapers) Open a new empty workspace Drumpads to jump between workspaces There are 8 pads so I can jump between 8 workspaces: (I number my less-often used workspaces above that 8.</description>
+    </item>
+    
+    <item>
+      <title>Locating costly AWS S3 buckets</title>
+      <link>https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/</link>
+      <pubDate>Tue, 16 Feb 2021 14:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/</guid>
+      <description>I recently got a surprisingly large AWS bill which had me immediately realize something was wrong, because I did not host anything that should consume dramatically more resources month-over-month.
+Happy AWS billing day:
+Why is S3 costing so much? The overview just points at S3. The cost explorer had some breakdown options:
+This revealed that it is the (S3) outbound data transfer that is causing this - not stored S3 object count or size.</description>
+    </item>
+    
+    <item>
+      <title>Attach a keyboard to a Docker container</title>
+      <link>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</link>
+      <pubDate>Thu, 17 Dec 2020 10:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/</guid>
+      <description>I wanted to connect a keyboard-mouse-combo to a virtual remote desktop running inside a Docker container.
+My use case I have a wall-mounted Android tablet displaying always-on content (&amp;ldquo;info screen&amp;rdquo;) in my home:
+For security reasons the tablet can&amp;rsquo;t reach the internet and actually has a VNC viewer that displays a virtual framebuffer from inside a Docker container on my server. Here&amp;rsquo;s the conceptual overview:
+I wanted to attach a keyboard to the &amp;ldquo;tablet&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Audio in Docker containers, Linux audio subsystems, Spotifyd</title>
+      <link>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</link>
+      <pubDate>Mon, 14 Dec 2020 08:50:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/</guid>
+      <description>I wanted to get Spotifyd working in a Docker container. Turns out, audio and containers can be tricky. In this post I&amp;rsquo;ll share what I learned on Linux audio subsystems and considerations on container audio.
+If all you want is to see &amp;ldquo;how to get Spotifyd to work with Docker&amp;rdquo;, see the accompanying Spotifyd Docker image that I released.
+What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (&amp;ldquo;play music on device X&amp;rdquo;) from the Spotify desktop application, Spotify website and Spotify mobile apps.</description>
+    </item>
+    
+    <item>
+      <title>Quantified self: overview &amp; quick links</title>
+      <link>https://joonas.fi/2020/09/quantified-self-overview-quick-links/</link>
+      <pubDate>Wed, 09 Sep 2020 13:20:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/09/quantified-self-overview-quick-links/</guid>
+      <description>Lately I&amp;rsquo;ve been fascinated with the concept of &amp;ldquo;quantified self&amp;rdquo;.
+What does it mean? The quantified self refers both to the cultural phenomenon of self-tracking with technology and to a community of users and makers of self-tracking tools who share an interest in “self-knowledge through numbers.”
+(source: Wikipedia article on &amp;ldquo;Quantified self&amp;rdquo;)
+tl;dr: record numbers (= quantify) about your own life, so you can learn about yourself and track trends over time.</description>
+    </item>
+    
+    <item>
+      <title>Restore accidentally deleted/replaced binary of a running process</title>
+      <link>https://joonas.fi/2020/08/restore-accidentally-deleted/replaced-binary-of-a-running-process/</link>
+      <pubDate>Sun, 02 Aug 2020 11:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/08/restore-accidentally-deleted/replaced-binary-of-a-running-process/</guid>
+      <description>I compiled Turbo Bob (a build system) with a bug that prevented entering a build container, and since Turbo Bob is built with itself, I could not build a working binary again - chicken-egg problem.
+(Of course I could download an old release, but I had some unreleased work I was benefiting from that the old binary included, and while Bob builds fine with just Go compiler, I didn&amp;rsquo;t want to install Go tools on my host system only to fix this minor issue.</description>
+    </item>
+    
+    <item>
+      <title>Quick primer on SVG paths</title>
+      <link>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</link>
+      <pubDate>Fri, 03 Apr 2020 09:15:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/</guid>
+      <description>SVG, or Scalable Vector Graphics, is a file format for vector drawings. I had a problem to solve - I wanted to animate an SVG from JavaScript. I&amp;rsquo;ll describe how and what I learned on how SVG paths work to solve my problem.
+The problem I wanted to animate Varasto&amp;rsquo;s vector logo - to make the &amp;ldquo;hard drive LEDs&amp;rdquo; (the circles on the right) toggleable on/off individually:
+The path to the solution Understanding the structure of the drawing Browsers can draw &amp;amp; debug SVG natively.</description>
+    </item>
+    
+    <item>
+      <title>Linux kernel probing</title>
+      <link>https://joonas.fi/2020/03/27/linux-kernel-probing/</link>
+      <pubDate>Fri, 27 Mar 2020 13:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/03/27/linux-kernel-probing/</guid>
+      <description>Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend it to some extent with persistent hooks). You can attach not just to syscalls, but also to many functions inside the kernel (they have to be exported functions though).
+Dynamically means, that you don&amp;rsquo;t have to recompile the kernel and/or restart your computer - it&amp;rsquo;s pretty cool!
+Disclaimer: these are my notes about learning about kprobes today, so I might not know what I&amp;rsquo;m talking about.</description>
+    </item>
+    
+    <item>
+      <title>Modem drops internet every now and then? I made a modem rebooter util</title>
+      <link>https://joonas.fi/2020/02/22/modem-rebooter/</link>
+      <pubDate>Sat, 22 Feb 2020 16:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/02/22/modem-rebooter/</guid>
+      <description>My issues are rare enough to warrant switching to another modem, so I just hacked around it by writing a small piece of software that reboots the modem to try to get the connection back up.
+It pings a few known IPs to see if the internet is up, and if it&amp;rsquo;s done for a defined duration, it&amp;rsquo;ll reboot the modem.
+There are drivers for a few different types of modems (since I&amp;rsquo;m using this at a few different locations) - the drivers are called &amp;ldquo;garbage&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Warning about PayPal - disabled my account without warning</title>
+      <link>https://joonas.fi/2020/01/14/warning-about-paypal/</link>
+      <pubDate>Tue, 14 Jan 2020 15:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2020/01/14/warning-about-paypal/</guid>
+      <description>Summary: PayPal suspended my account without warning and didn&amp;rsquo;t efficiently tell what&amp;rsquo;s wrong or give me tools to fix it, causing me trouble with different vendors, and PayPal&amp;rsquo;s process for resolving this had many conflicting advice and everything was unacceptably confusing.
+In the end I found out they just needed to fulfill some &amp;ldquo;Know your customer&amp;rdquo; EU regulation and ask more info about my business but they did piss-poor job with this.</description>
+    </item>
+    
+    <item>
+      <title>Windows Disk Cleanup throws you into deeper trouble</title>
+      <link>https://joonas.fi/2019/03/20/windows-disk-cleanup-throws-you-into-deeper-trouble/</link>
+      <pubDate>Wed, 20 Mar 2019 10:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2019/03/20/windows-disk-cleanup-throws-you-into-deeper-trouble/</guid>
+      <description>I&amp;rsquo;ve been quite vocal about my distaste for most things Microsoft before, and here comes another rant, so buckle up..
+This morning, my old Win7 computer with a 64 GB C:\ drive was almost out of space. I had like 60 MB left, so it wasn&amp;rsquo;t out just yet. So I went to fire up the Disk Cleanup tool. Upon running it, I discovered that my drive filled up entirely - 0 bytes left.</description>
+    </item>
+    
+    <item>
+      <title>Pet peeve: &#34;if and only if&#34;</title>
+      <link>https://joonas.fi/2018/12/28/pet-peeve-if-and-only-if/</link>
+      <pubDate>Fri, 28 Dec 2018 11:20:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/28/pet-peeve-if-and-only-if/</guid>
+      <description>I find this to be highly annoying:
+Is plain old &amp;ldquo;if&amp;rdquo; ambiguous? Is &amp;ldquo;if and only if&amp;rdquo; (abbreviated to &amp;ldquo;iff&amp;rdquo;) more powerful than a plain &amp;ldquo;if&amp;rdquo;?
+Consider this statement:
+Joonas is happy if he slept well and ate food
+Translated to code:
+if (sleptWell &amp;amp;&amp;amp; ateFood) { happy = true } Why isn&amp;rsquo;t there an operator in programming languages for &amp;ldquo;iff&amp;rdquo; if &amp;ldquo;if&amp;rdquo; is not good enough? Can &amp;ldquo;if&amp;rdquo; randomly fail unless its more powerful cousin, the &amp;ldquo;iff&amp;rdquo; is used?</description>
+    </item>
+    
+    <item>
+      <title>Friendly reminder: Microsoft still sucks</title>
+      <link>https://joonas.fi/2018/12/10/friendly-reminder-microsoft-still-sucks/</link>
+      <pubDate>Mon, 10 Dec 2018 11:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/12/10/friendly-reminder-microsoft-still-sucks/</guid>
+      <description>Continuing the series of &amp;ldquo;Microsoft sucks&amp;rdquo; rants.
+Windows 10 update bullshit Windows 10 just updated itself, and once again restarted my computer without asking for permission. I thought I disabled the automatic restarting, (which even requires pro version because, well, M$FT decided home users don&amp;rsquo;t deserve autonomy even for advanced users through registry tweaks) but apparently it takes more than the skills of a software engineer to be able to disable the forced mechanism.</description>
+    </item>
+    
+    <item>
+      <title>GMail´s spam detector failing?</title>
+      <link>https://joonas.fi/2018/11/07/gmails-spam-detector-failing/</link>
+      <pubDate>Wed, 07 Nov 2018 12:30:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/11/07/gmails-spam-detector-failing/</guid>
+      <description>For quite some time, I&amp;rsquo;ve been having lots of problems with GMail spam detector&amp;rsquo;s false positives.
+Loads of legitimate mail going in spam folder. I&amp;rsquo;m glad I remembered to check the folder, because the above kind of mail is really fatal if you miss it (credit card expiration =&amp;gt; service suspension =&amp;gt; VMs going offline).
+Lately these kinds of mail have gone to spam:
+eBay &amp;ldquo;Help us protect your account&amp;rdquo; mails Scaleway&amp;rsquo;s &amp;ldquo;your credit card is expiring soon&amp;rdquo; Hetzner &amp;ldquo;verify account&amp;rdquo; mail Newsletters from a Finnish retail company (still going to spam even when I consistently mark the false positives as &amp;ldquo;not spam&amp;rdquo;) Alerts from my monitoring system (though this is probably due to there being HTML as text which might seem suspicious) Ugh, I don&amp;rsquo;t know the reason for this, but lately I&amp;rsquo;ve been becoming increasingly annoyed with what Google stands for.</description>
+    </item>
+    
+    <item>
+      <title>I forgot my password to my Unifi controller</title>
+      <link>https://joonas.fi/2018/10/20/i-forgot-my-password-to-my-unifi-controller/</link>
+      <pubDate>Sat, 20 Oct 2018 12:10:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/10/20/i-forgot-my-password-to-my-unifi-controller/</guid>
+      <description>Backstory Recently I purchased some Unifi gear, and I installed the controller software mainly as a test, and thus I did not immediately save the username and password in a password manager but instead I probably wrote it down in Windows Notepad, and Windows 10 being a total dick, just one day restarted losing what I had in notepad.
+Some time passed, and I forgot not only the password, but also the username.</description>
+    </item>
+    
+    <item>
+      <title>#deletefacebook</title>
+      <link>https://joonas.fi/2018/10/08/deletefacebook/</link>
+      <pubDate>Mon, 08 Oct 2018 10:45:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2018/10/08/deletefacebook/</guid>
+      <description>.. well I&amp;rsquo;m more like &amp;ldquo;soft-deleting&amp;rdquo; Facebook. I just deleted my Facebook app from my Android phone, and still plan use Facebook on my desktop. But this will decrease my Facebook use significantly:
+Wake up: check Facebook on phone Waiting on something: check Facebook on Phone Going to sleep: check Facebook on phone Why? I want to do this, even if just symbolically because I&amp;rsquo;m just one person, to say that I strongly disapprove of what Facebook stands for today.</description>
+    </item>
+    
+    <item>
+      <title>Quick links</title>
+      <link>https://joonas.fi/2017/06/13/quick-links/</link>
+      <pubDate>Tue, 13 Jun 2017 16:26:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2017/06/13/quick-links/</guid>
+      <description>Why Slack is inappropriate for open source communications A Keepass-like project I&amp;rsquo;m working on My woodworking hero Matthias Wandel made me have an epiphany: how CPU works on the lowest of levels. Addition is basically just chained XOR gates, and a XOR gate is basically just transistors anyway. All this can be explained with wood and marbles! And in the end all higher constructs like 2D, 3D graphics, audio, video can be explained with just simple maths, so basically you now understand all that the CPU does and that it&amp;rsquo;s not magic.</description>
+    </item>
+    
+    <item>
+      <title>Microsoft, you make miserable software</title>
+      <link>https://joonas.fi/2016/06/23/microsoft-you-make-miserable-software/</link>
+      <pubDate>Thu, 23 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/23/microsoft-you-make-miserable-software/</guid>
+      <description>There are so many reasons that I cannot just let this go anymore, and instead I&amp;rsquo;ll spend my precious time to write this blog post that gives me absolutely nothing in return, except the fact that writing this feels therapeutic.
+Windows 10 bloatware, forced apps When I got my laptop with ~120 GB SSD, these weigh in:
+C:\Windows 17.4 GB C:\Program files + C:\Program files (x86) ~ 0.8 GB (this is after I removed all the unnecessary preinstalled crap)</description>
+    </item>
+    
+    <item>
+      <title>Don´t use separate domain for mobile</title>
+      <link>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</guid>
+      <description>Unfortunately, redirecting to m. prefix for mobile browsers is quite popular. The downside of this is that when people share a link to the content, and if another person follows the link on a desktop or a laptop, the view is horrible:
+If you want to use separate domain for mobile, at the very least make sure the &amp;ldquo;desktop&amp;rdquo; link takes you to the same content:
+After clicking it, it only takes me to the frontpage of the website:</description>
+    </item>
+    
+    <item>
+      <title>Chrome: huge cache usage</title>
+      <link>https://joonas.fi/2015/12/27/chrome-huge-cache-usage/</link>
+      <pubDate>Sun, 27 Dec 2015 15:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/12/27/chrome-huge-cache-usage/</guid>
+      <description>I had this issue where Chrome browser was using 20 GB of cache, effectively suffocating my SSD&amp;rsquo;s 60 GB system partition.
+I pinpointed the problem with TreeSize free (highly recommend!).
+There were 32 000+ files:
+Clearing browser history didn&amp;rsquo;t do nothing to the cache folder:
+What worked was closing Chrome, deleting the whole folder (make sure not to use the recycle bin) and starting it up again.
+After a couple of days, the folder was at ~900 files with 300 MB, and clearing the cache now reduces it to 14 files with 6 MB - a level to be expected.</description>
+    </item>
+    
+    <item>
+      <title>Submarine Cable Map 2014</title>
+      <link>https://joonas.fi/2014/07/21/submarine-cable-map-2014/</link>
+      <pubDate>Mon, 21 Jul 2014 12:25:26 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2014/07/21/submarine-cable-map-2014/</guid>
+      <description>Click for interactive map Submarine Cable Map 2014</description>
+    </item>
+    
+    <item>
+      <title>Windows util to compute MD5 and SHA-1 hashes of files</title>
+      <link>https://joonas.fi/2013/01/27/windows-util-to-compute-md5-and-sha-1-hashes-of/</link>
+      <pubDate>Sun, 27 Jan 2013 11:35:01 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/27/windows-util-to-compute-md5-and-sha-1-hashes-of/</guid>
+      <description>Microsoft’s File Checksum Integrity Verifier</description>
+    </item>
+    
+    <item>
+      <title>putty:[profile] URL handler</title>
+      <link>https://joonas.fi/2013/01/26/putty-profile-protocol-handler/</link>
+      <pubDate>Sat, 26 Jan 2013 14:49:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2013/01/26/putty-profile-protocol-handler/</guid>
+      <description>Why: To share clickable shortcuts to PuTTY profiles in version control. Shortcuts to .exes cannot be shared because PuTTY install paths on all machines might not be the same.
+Instructions Download URLConf from http://urlconf.codeplex.com/ (use the .msi installer)
+Run it as an administrator:
+Go to &amp;ldquo;Edit -&amp;gt; New&amp;rdquo;
+Enter details as such: Program:
+C:\Programs\UrlConf\UrlConf.exe Parameters:
+&amp;quot;%1&amp;quot; – &amp;quot;C:\Programs\PuTTY\PuTTY.exe&amp;quot; -load &amp;quot;$h&amp;quot; Obviously, replace paths to UrlConf.exe and PuTTY.exe with your corresponding paths.</description>
+    </item>
+    
+  </channel>
+</rss>

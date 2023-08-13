@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Audio in Docker containers, Linux audio subsystems, Spotifyd | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Audio in Docker containers, Linux audio subsystems, Spotifyd" />
+<meta property="og:description" content="I wanted to get Spotifyd working in a Docker container. Turns out, audio and containers can be tricky. In this post I&rsquo;ll share what I learned on Linux audio subsystems and considerations on container audio.
+If all you want is to see &ldquo;how to get Spotifyd to work with Docker&rdquo;, see the accompanying Spotifyd Docker image that I released.
+What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (&ldquo;play music on device X&rdquo;) from the Spotify desktop application, Spotify website and Spotify mobile apps." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2020/12/audio-in-docker-containers-linux-audio-subsystems-spotifyd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-14T08:50:00+00:00" />
+<meta property="article:modified_time" content="2020-12-14T08:50:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Audio in Docker containers, Linux audio subsystems, Spotifyd"/>
+<meta name="twitter:description" content="I wanted to get Spotifyd working in a Docker container. Turns out, audio and containers can be tricky. In this post I&rsquo;ll share what I learned on Linux audio subsystems and considerations on container audio.
+If all you want is to see &ldquo;how to get Spotifyd to work with Docker&rdquo;, see the accompanying Spotifyd Docker image that I released.
+What is spotifyd? Spotifyd is a headless Spotify that can be remote controlled (&ldquo;play music on device X&rdquo;) from the Spotify desktop application, Spotify website and Spotify mobile apps."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2020/09/quantified-self-overview-quick-links/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2020/12/attach-a-keyboard-to-a-docker-container/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&text=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&is_video=false&description=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&name=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd&description=I%20wanted%20to%20get%20Spotifyd%20working%20in%20a%20Docker%20container.%20Turns%20out%2c%20audio%20and%20containers%20can%20be%20tricky.%20In%20this%20post%20I%26rsquo%3bll%20share%20what%20I%20learned%20on%20Linux%20audio%20subsystems%20and%20considerations%20on%20container%20audio.%0aIf%20all%20you%20want%20is%20to%20see%20%26ldquo%3bhow%20to%20get%20Spotifyd%20to%20work%20with%20Docker%26rdquo%3b%2c%20see%20the%20accompanying%20Spotifyd%20Docker%20image%20that%20I%20released.%0aWhat%20is%20spotifyd%3f%20Spotifyd%20is%20a%20headless%20Spotify%20that%20can%20be%20remote%20controlled%20%28%26ldquo%3bplay%20music%20on%20device%20X%26rdquo%3b%29%20from%20the%20Spotify%20desktop%20application%2c%20Spotify%20website%20and%20Spotify%20mobile%20apps.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&t=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-spotifyd">What is spotifyd?</a></li>
+    <li><a href="#on-linux-audio-subsystems">On Linux audio subsystems</a>
+      <ul>
+        <li><a href="#history">History</a></li>
+        <li><a href="#why-pulseaudio">Why PulseAudio</a></li>
+        <li><a href="#enter-pulseaudio">Enter PulseAudio</a></li>
+      </ul>
+    </li>
+    <li><a href="#containers-and-audio">Containers and audio</a>
+      <ul>
+        <li><a href="#the-problem">The problem</a></li>
+        <li><a href="#how-i-got-to-the-solution">How I got to the solution</a></li>
+        <li><a href="#the-solution">The solution</a></li>
+      </ul>
+    </li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
+      <ul>
+        <li><a href="#start-with-the-small-stuff">Start with the small stuff</a></li>
+      </ul>
+    </li>
+    <li><a href="#bonus-reading">Bonus reading</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Audio in Docker containers, Linux audio subsystems, Spotifyd
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2020-12-14 08:50:00 &#43;0000 UTC" itemprop="datePublished">2020-12-14</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>I wanted to get <a href="https://github.com/Spotifyd/spotifyd">Spotifyd</a> working in a Docker container.
+Turns out, audio and containers can be tricky. In this post I&rsquo;ll share what I learned on Linux
+audio subsystems and considerations on container audio.</p>
+<p>If all you want is to see &ldquo;how to get Spotifyd to work with Docker&rdquo;, see the accompanying
+<a href="https://github.com/joonas-fi/spotifyd-docker">Spotifyd Docker image</a> that I released.</p>
+<h2 id="what-is-spotifyd">What is spotifyd?</h2>
+<p>Spotifyd is a headless Spotify that can be remote controlled (&ldquo;play music on device X&rdquo;) from the
+Spotify desktop application, Spotify website and Spotify mobile apps.</p>
+<p>My use cases include:</p>
+<ul>
+<li>Control the music in my living room hifi setup from a wall-mounted tablet (having Spotify in-browser).</li>
+<li>Have multiple Spotify instances (multiple accounts) running on my HTPC/server. Snap supports
+experimental <a href="https://snapcraft.io/docs/parallel-installs">parallel installs</a>, but I had trouble
+with the official Spotify snap somehow sharing login state where the instances got mixed up and
+thus too often I needed to logout/login.</li>
+<li>Easily toggle music between my work and living room (HTPC/server) computers, since with Docker I
+can guarantee Spotify is always running (even if I&rsquo;m not seeing the frontend).</li>
+</ul>
+<p><img src="wall-tablet-spotify.jpg" alt=""></p>
+<h2 id="on-linux-audio-subsystems">On Linux audio subsystems</h2>
+<h3 id="history">History</h3>
+<p>In the prehistoric times, there was <a href="https://en.wikipedia.org/wiki/Open_Sound_System">OSS (Open Sound System)</a>.
+That was replaced by <a href="https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture">ALSA</a>, and
+now most software is using <a href="https://en.wikipedia.org/wiki/PulseAudio">PulseAudio</a>.</p>
+<p>It&rsquo;s not that simple though, as PulseAudio is higher-level abstraction and it usually uses ALSA
+internally to actually output the audio.</p>
+<h3 id="why-pulseaudio">Why PulseAudio</h3>
+<p>Let&rsquo;s start with what ALSA is. ALSA consists of sorts client/server model. The server is ALSA
+drivers in kernel, and the client being the user space ALSA library in apps like Spotify and Firefox
+to talk to ALSA kernel drivers. Consider one program playing audio:</p>
+<p><img src="linuxaudio-one-client.png" alt=""></p>
+<p>The above works. One weakness in ALSA was that it couldn&rsquo;t support support multiple programs
+simultaneously playing audio:</p>
+<p><img src="linuxaudio-two-clients.png" alt=""></p>
+<p>NOTE: one can configure <a href="https://wiki.archlinux.org/index.php/Advanced_Linux_Sound_Architecture#Dmix">dmix</a>
+for ALSA which provides mixing and thus enables multiple apps outputting audio at once, but this
+doesn&rsquo;t sound like there&rsquo;s first-class support for parallel streams in ALSA. I don&rsquo;t know enough to
+say if this is the reason for the migration to PulseAudio, but PulseAudio is a more modern interface
+and supports per-application volume control, Bluetooth, send audio over network etc.</p>
+<h3 id="enter-pulseaudio">Enter PulseAudio</h3>
+<p>Since the world was already using ALSA, PulseAudio was added as a plugin to the
+ALSA client libraries, so now existing apps who think they&rsquo;re talking to ALSA actually talk
+indirectly to PulseAudio (which supports many inputs natively):</p>
+<p><img src="linuxaudio-pulseaudio-via-alsa.png" alt=""></p>
+<p>You can see from above drawing that existing apps didn&rsquo;t need to be rewritten to use PulseAudio (an
+important driver to adoption). However most toolkits like SDL and Qt support PulseAudio natively, thus
+skipping the unnecessary via-ALSA-client-PulseAudio-proxy layer. Some apps (like Spotifyd) default
+to ALSA and <a href="https://github.com/Spotifyd/spotifyd#pulseaudio">hide native PulseAudio behind a compilation flag</a>.</p>
+<p>In summary:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>User space (&ldquo;client&rdquo;)</th>
+<th>Kernel (&ldquo;server&rdquo;)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before PulseAudio</td>
+<td>ALSA client</td>
+<td>ALSA</td>
+</tr>
+<tr>
+<td>With PulseAudio</td>
+<td>ALSA client -&gt; ALSA-plugin-PulseAudio-client -&gt; PulseAudio -&gt; ALSA client</td>
+<td>ALSA</td>
+</tr>
+<tr>
+<td>With native PulseAudio</td>
+<td>PulseAudio client -&gt; PulseAudio -&gt; ALSA client</td>
+<td>ALSA</td>
+</tr>
+</tbody>
+</table>
+<h2 id="containers-and-audio">Containers and audio</h2>
+<h3 id="the-problem">The problem</h3>
+<p>The previous writing can be summarized to this: you need to know how the app-to-run-in-a-container
+accesses audio. If you can configure it, great, use what suits the best, but sometimes you&rsquo;re stuck
+with PulseAudio-via-ALSA if the app doesn&rsquo;t support native PulseAudio or you don&rsquo;t want to re-compile
+to get it.</p>
+<p>The client-side approaches (assuming your host system uses PulseAudio) summarized:</p>
+<ul>
+<li>ALSA client with ALSA-plugin-PulseAudio-client</li>
+<li>Native PulseAudio</li>
+<li>Use ALSA directly (without PulseAudio)
+<ul>
+<li><a href="https://github.com/jessfraz/dockerfiles/blob/e419219cde770d4ad197167d3dc6549bc9e3c2f8/chrome/stable/Dockerfile#L12">Seems to work for some</a></li>
+<li>Didn&rsquo;t work for me. It might be that my system didn&rsquo;t have dmix configured properly
+(doesn&rsquo;t need it because using PulseAudio?) or it might be that I would have had to configure ALSA
+client in container differently from defaults (= I didn&rsquo;t just know what I was doing).</li>
+</ul>
+</li>
+</ul>
+<p>So because I didn&rsquo;t get raw ALSA device to work and I didn&rsquo;t want to re-compile Spotifyd
+(= can&rsquo;t use native PulseAudio), I was stuck with using the
+&ldquo;ALSA client with ALSA-plugin-PulseAudio-client&rdquo;.</p>
+<p>I needed to map inside the container <strong>both client requirements of ALSA and PulseAudio</strong>.</p>
+<h3 id="how-i-got-to-the-solution">How I got to the solution</h3>
+<p>I had to use lots of <a href="https://joonas.fi/2018/11/30/strace-is-awesome/">strace</a> to understand how
+ALSA-based apps integrate with PulseAudio. Using strace I learned how the ALSA user space library
+loads ALSA&rsquo;s config files (which tell to use PulseAudio plugin) and how the PulseAudio plugin loads
+PulseAudio&rsquo;s config.</p>
+<p>These config files need to be accessible inside the container, and since config file layout varies
+based on Linux distributions, <strong>this is particularly nasty</strong> as there isn&rsquo;t universal
+&ldquo;add these Docker arguments to make audio work&rdquo; switches then.</p>
+<p>strace revealed that <em>in my system</em> config files are loaded in this order:</p>
+<ul>
+<li><code>/usr/share/alsa/alsa.conf</code> is loaded first which has a line for telling to load <code>/etc/alsa/conf.d/*</code></li>
+<li><code>/etc/alsa/conf.d/99-pulse.conf</code> has a line for telling to load <code>/usr/share/alsa/pulse-alsa.conf</code></li>
+</ul>
+<p>There were many other config files, but I&rsquo;m pretty sure these were the most important ones. These
+could be condensed inside the container into a single file
+(<a href="https://github.com/joonas-fi/spotifyd-docker/blob/master/alsa.conf">link</a>) that just tells
+&ldquo;yes yes, just proxy stuff to PulseAudio&rdquo;, but let&rsquo;s stick with this for now to move forward.</p>
+<h3 id="the-solution">The solution</h3>
+<p>I&rsquo;m running Xubuntu and I had to map these inside the container:</p>
+<ul>
+<li><code>/etc/alsa</code> - ALSA config files</li>
+<li><code>/usr/share/alsa</code> - also ALSA config files (because why not have directories and directories of config files?)</li>
+<li><code>/run/user/$UID/pulse/native</code> - PulseAudio&rsquo;s socket</li>
+<li>You need to map PulseAudio user&rsquo;s ID inside the container (Docker&rsquo;s <code>--user</code> flag), because the
+PulseAudio socket can only be accessed by that user. (There might be ways around this like adding Docker
+to the audio group or changing socket permissions or something.)</li>
+</ul>
+<p>These might be optional:</p>
+<ul>
+<li><code>/dev/shm</code>, depends on <code>enable-shm</code> in
+<a href="https://manpages.debian.org/testing/pulseaudio/pulse-client.conf.5.en.html#DIRECTIVES">PulseAudio configuration</a>.
+This is a performance enhancement that uses less memory copying (&ldquo;zero copy&rdquo;).</li>
+<li><code>~/.config/pulse</code>, if I didn&rsquo;t map this I got warning
+<code>Failed to load cookie file from cookie: No such file or directory</code> but audio worked anyway. 🤷</li>
+</ul>
+<p>You also need to install ALSA and PulseAudio client libraries
+(<code>libpulse0 libasound2 libasound2-plugins</code> on Ubuntu/Debian) inside the container.</p>
+<p>Example Docker command:</p>
+<pre><code>$ docker run \
+	-v &quot;/etc/alsa:/etc/alsa&quot; \
+	-v &quot;/usr/share/alsa:/usr/share/alsa&quot; \
+	-v &quot;~/.config/pulse:/.config/pulse&quot; \
+	-v &quot;/run/user/$UID/pulse/native:/run/user/$UID/pulse/native&quot; \
+	--env &quot;PULSE_SERVER=unix:/run/user/$UID/pulse/native&quot; \
+	--user &quot;$(id -u)&quot; \
+	yourimagename
+</code></pre>
+<p>For a concrete example, see <a href="https://github.com/joonas-fi/spotifyd-docker">spotifyd-docker</a>. The
+concrete version omits mapping host config files and <code>PULSE_SERVER</code> ENV var because the container
+has &ldquo;just use PulseAudio socket at hardcoded path&rdquo; -config baked in.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="start-with-the-small-stuff">Start with the small stuff</h3>
+<p>Before you get <code>speaker-test</code> to make sounds, don&rsquo;t overcomplicate by expecting more complex things to work. :)</p>
+<pre><code>$ speaker-test
+</code></pre>
+<p>Don&rsquo;t do as I did where I installed mp3 player and downloaded example mp3 file, before learning there&rsquo;s
+a simpler way&hellip;</p>
+<h2 id="bonus-reading">Bonus reading</h2>
+<ul>
+<li><a href="https://github.com/mviereck/x11docker/wiki/Container-sound:-ALSA-or-Pulseaudio">Container sound: ALSA or Pulseaudio</a> (great overview on options)</li>
+<li><a href="https://stackoverflow.com/a/28995539">run apps using audio in a docker container</a> (StackOverflow answer updated section on PulseAudio socket)</li>
+<li><a href="https://emitbits.io/posts/41650/">spotifyd on k3s</a> (someone had exact same use case as me, but
+it didn&rsquo;t work for me due to my host environment being different I guess)</li>
+<li><a href="http://0pointer.de/blog/projects/guide-to-sound-apis.html">A Guide Through The Linux Sound API Jungle</a> (by PulseAudio&rsquo;s creator)</li>
+</ul>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2020\/12\/audio-in-docker-containers-linux-audio-subsystems-spotifyd';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-spotifyd">What is spotifyd?</a></li>
+    <li><a href="#on-linux-audio-subsystems">On Linux audio subsystems</a>
+      <ul>
+        <li><a href="#history">History</a></li>
+        <li><a href="#why-pulseaudio">Why PulseAudio</a></li>
+        <li><a href="#enter-pulseaudio">Enter PulseAudio</a></li>
+      </ul>
+    </li>
+    <li><a href="#containers-and-audio">Containers and audio</a>
+      <ul>
+        <li><a href="#the-problem">The problem</a></li>
+        <li><a href="#how-i-got-to-the-solution">How I got to the solution</a></li>
+        <li><a href="#the-solution">The solution</a></li>
+      </ul>
+    </li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
+      <ul>
+        <li><a href="#start-with-the-small-stuff">Start with the small stuff</a></li>
+      </ul>
+    </li>
+    <li><a href="#bonus-reading">Bonus reading</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&text=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&is_video=false&description=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&title=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&name=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd&description=I%20wanted%20to%20get%20Spotifyd%20working%20in%20a%20Docker%20container.%20Turns%20out%2c%20audio%20and%20containers%20can%20be%20tricky.%20In%20this%20post%20I%26rsquo%3bll%20share%20what%20I%20learned%20on%20Linux%20audio%20subsystems%20and%20considerations%20on%20container%20audio.%0aIf%20all%20you%20want%20is%20to%20see%20%26ldquo%3bhow%20to%20get%20Spotifyd%20to%20work%20with%20Docker%26rdquo%3b%2c%20see%20the%20accompanying%20Spotifyd%20Docker%20image%20that%20I%20released.%0aWhat%20is%20spotifyd%3f%20Spotifyd%20is%20a%20headless%20Spotify%20that%20can%20be%20remote%20controlled%20%28%26ldquo%3bplay%20music%20on%20device%20X%26rdquo%3b%29%20from%20the%20Spotify%20desktop%20application%2c%20Spotify%20website%20and%20Spotify%20mobile%20apps.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f12%2faudio-in-docker-containers-linux-audio-subsystems-spotifyd%2f&t=Audio%20in%20Docker%20containers%2c%20Linux%20audio%20subsystems%2c%20Spotifyd">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

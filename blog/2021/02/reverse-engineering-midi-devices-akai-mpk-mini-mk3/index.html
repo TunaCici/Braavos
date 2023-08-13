@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Reverse-engineering MIDI devices, AKAI MPK Mini Mk3 | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Reverse-engineering MIDI devices, AKAI MPK Mini Mk3" />
+<meta property="og:description" content="I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make music - but because of the pads and knobs that I can use to control things like jump between workspaces adjust the audio volume in my PC etc.
+What can I do with it? Lots of things! I&rsquo;ve already got implemented:
+Piano keys Various key mappings to:
+Toggle audio between speakers and headphones Set random wallpaper (from a directory of curated wallpapers) Open a new empty workspace Drumpads to jump between workspaces There are 8 pads so I can jump between 8 workspaces: (I number my less-often used workspaces above that 8." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2021/02/reverse-engineering-midi-devices-akai-mpk-mini-mk3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-17T08:30:00+00:00" />
+<meta property="article:modified_time" content="2021-02-17T08:30:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Reverse-engineering MIDI devices, AKAI MPK Mini Mk3"/>
+<meta name="twitter:description" content="I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make music - but because of the pads and knobs that I can use to control things like jump between workspaces adjust the audio volume in my PC etc.
+What can I do with it? Lots of things! I&rsquo;ve already got implemented:
+Piano keys Various key mappings to:
+Toggle audio between speakers and headphones Set random wallpaper (from a directory of curated wallpapers) Open a new empty workspace Drumpads to jump between workspaces There are 8 pads so I can jump between 8 workspaces: (I number my less-often used workspaces above that 8."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2021/02/locating-costly-aws-s3-buckets/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2021/02/uefi-pc-boot-process-and-uefi-with-qemu/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&text=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&is_video=false&description=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&name=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3&description=I%20recently%20bought%20a%20MIDI%20controller%20%2f%20keyboard%20%2f%20drumpad%20combo%20thingie.%20Not%20because%20I%20wanted%20to%20make%20music%20-%20but%20because%20of%20the%20pads%20and%20knobs%20that%20I%20can%20use%20to%20control%20things%20like%20jump%20between%20workspaces%20adjust%20the%20audio%20volume%20in%20my%20PC%20etc.%0aWhat%20can%20I%20do%20with%20it%3f%20Lots%20of%20things%21%20I%26rsquo%3bve%20already%20got%20implemented%3a%0aPiano%20keys%20Various%20key%20mappings%20to%3a%0aToggle%20audio%20between%20speakers%20and%20headphones%20Set%20random%20wallpaper%20%28from%20a%20directory%20of%20curated%20wallpapers%29%20Open%20a%20new%20empty%20workspace%20Drumpads%20to%20jump%20between%20workspaces%20There%20are%208%20pads%20so%20I%20can%20jump%20between%208%20workspaces%3a%20%28I%20number%20my%20less-often%20used%20workspaces%20above%20that%208.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&t=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-can-i-do-with-it">What can I do with it?</a>
+      <ul>
+        <li><a href="#piano-keys">Piano keys</a></li>
+        <li><a href="#drumpads-to-jump-between-workspaces">Drumpads to jump between workspaces</a></li>
+        <li><a href="#control-audio-volume">Control audio volume</a></li>
+        <li><a href="#control-text-editors-column-count">Control text editor&rsquo;s column count</a></li>
+        <li><a href="#control-window-size">Control window size</a></li>
+        <li><a href="#use-a-sustain-pedal-to-trigger-custom-actions">Use a sustain pedal to trigger custom actions</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-got-me-into-this-path-of-even-considering-reverse-engineering">What got me into this path of even considering reverse-engineering</a></li>
+    <li><a href="#why-reverse-engineer">Why reverse-engineer?</a></li>
+    <li><a href="#akais-program-editor">AKAI&rsquo;s program editor</a></li>
+    <li><a href="#how-the-settings-are-technically-changed">How the settings are technically changed</a></li>
+    <li><a href="#capturing-the-sysex-exchange">Capturing the SYSEX exchange</a>
+      <ul>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#linux-alsa">Linux, ALSA</a></li>
+        <li><a href="#linux-wireshark-usb-capture">Linux, Wireshark USB capture</a></li>
+      </ul>
+    </li>
+    <li><a href="#reverse-engineering-the-contents-of-the-sysex-packets">Reverse-engineering the contents of the SYSEX packets</a></li>
+    <li><a href="#finished-support-in-my-software">Finished support in my software</a>
+      <ul>
+        <li><a href="#further-hurdles">Further hurdles</a></li>
+        <li><a href="#usage">Usage</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Reverse-engineering MIDI devices, AKAI MPK Mini Mk3
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2021-02-17 08:30:00 &#43;0000 UTC" itemprop="datePublished">2021-02-17</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/programming/" rel="tag">programming</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>I recently bought a MIDI controller / keyboard / drumpad combo thingie. Not because I wanted to make
+music - but because of the pads and knobs that I can use to control things like jump between workspaces
+adjust the audio volume in my PC etc.</p>
+<p><img src="akai-product.jpeg" alt=""></p>
+<h2 id="what-can-i-do-with-it">What can I do with it?</h2>
+<p>Lots of things! I&rsquo;ve already got implemented:</p>
+<h3 id="piano-keys">Piano keys</h3>
+<p>Various key mappings to:</p>
+<ul>
+<li>Toggle audio between speakers and headphones</li>
+<li>Set random wallpaper (from a directory of curated wallpapers)</li>
+<li>Open a new empty workspace</li>
+</ul>
+<h3 id="drumpads-to-jump-between-workspaces">Drumpads to jump between workspaces</h3>
+<p>There are 8 pads so I can jump between 8 workspaces: (I number my less-often used workspaces above that 8.)</p>
+<p>(Imagine my finger hitting a drumpad)</p>
+<p><img src="akai-drumpads.gif" alt=""></p>
+<p>The drumpads have LEDs that light up when you hit them.. really satisfying feedback. 🤪</p>
+<h3 id="control-audio-volume">Control audio volume</h3>
+<p>(Imagine my fingers twisting a knob)</p>
+<p><img src="akai-control-pc-volume.gif" alt=""></p>
+<p>It&rsquo;s really satisfying having a physical knob to control the volume. Takes me back to the olden days!</p>
+<h3 id="control-text-editors-column-count">Control text editor&rsquo;s column count</h3>
+<p>(Imagine my fingers twisting a knob)</p>
+<p><img src="akai-control-texteditor-column-count.gif" alt=""></p>
+<h3 id="control-window-size">Control window size</h3>
+<p>(Imagine my fingers twisting a knob)</p>
+<p><img src="akai-control-window-size.gif" alt=""></p>
+<h3 id="use-a-sustain-pedal-to-trigger-custom-actions">Use a sustain pedal to trigger custom actions</h3>
+<p>I have this sustain pedal connected to the MIDI controller:</p>
+<p><img src="akai-korg-pedal.jpg" alt=""></p>
+<p>I can use <a href="https://github.com/function61/turbobob">Turbo Bob</a>&rsquo;s triggers to easily run any command
+by pressing my foot:</p>
+<p><img src="akai-pedal-trigger.gif" alt=""></p>
+<p>Yes, I&rsquo;m aware of &ldquo;watches&rdquo; that can do things automatically when a file is changed, but this is more
+powerful.. I&rsquo;ve even used it to <code>$ scp</code>-transfer built binaries to a remote another computer when I
+needed to quickly iterate on something on a remote computer.</p>
+<h2 id="what-got-me-into-this-path-of-even-considering-reverse-engineering">What got me into this path of even considering reverse-engineering</h2>
+<p>I specifically purchased this controller because it had rotary encoders, i.e. &ldquo;endless knobs&rdquo; (so that
+there isn&rsquo;t a physical limit to how much you can turn the knob left/right).</p>
+<p>Turned out they weren&rsquo;t endless out-of-the-box - I was disappointed.
+At first I thought that the software just lazily didn&rsquo;t support that.
+The controller stopped sending signals after it had reached the parameter&rsquo;s <em>software-imposed limit</em>.</p>
+<p>I had an intuition and I tested AKAI&rsquo;s own music software (MPC Beats) and sure enough, it had deeper
+integration with the controller and it configured some of the knobs to relative mode when you opened
+their music program.</p>
+<p>Thus I knew that this is controllable via software / the presets configurator.</p>
+<h2 id="why-reverse-engineer">Why reverse-engineer?</h2>
+<p>I could&rsquo;ve done all this without reverse-engineering the controller&rsquo;s configuration format, but it
+gives me some nice things like:</p>
+<ul>
+<li>
+<p>Not having to worry about/manually change which preset is enabled in the controller, when I enter
+&ldquo;control PC&rdquo; mode - now my program uploads the config on-the-fly - even if I used a music program
+with different settings before switching to PC control mode.</p>
+<ul>
+<li>Presets are basically music programs the controller is supposed to control. They set MIDI channels
+/ MIDI controller numbers related to each pad/knob/key, knob names &amp; modes, knob value ranges etc.</li>
+<li>Usually when you jump from a program to another like from AKAI&rsquo;s music making software MPC Beats
+-&gt; my MIDI mapping bridge, you have to change the program-to-control from the MIDI controller,
+unless the two programs expect the exact same config (highly unlikely) OR the <strong>program can
+configure the controller on-the-fly</strong></li>
+</ul>
+</li>
+<li>
+<p>If I want to assign a knob to some new feature (like adjust volume or window width/height), I don&rsquo;t
+have to jump into AKAI&rsquo;s configurator (that works only on Windows / Mac) to do it manually if I need
+to change the knob mode between absolute/relative</p>
+<ul>
+<li>Absolute means that the knob has min/max values, and after you&rsquo;re at max and you keep turning
+the knob right, the controller doesn&rsquo;t send any more MIDI messages because it&rsquo;s already at max value</li>
+<li>Absolute/relative depends on your parameter. Audio volume works nicely with absolute but
+<strong>only if</strong> the knob is the &ldquo;authoritative&rdquo; source for the level. I.e. if you twist knob to 75 % and
+some program later changes the volume to 25 %, then when you slightly twist the MIDI knob to left,
+the audio suddenly jumps from 25 % to 74 %. If this is your case then relative might work better.
+It also depends if your target parameter supports relative adjustments.</li>
+<li>Relative knob is required if your parameter is not expressible between (min,max), e.g. infinite
+timeline in a video editor, or if your parameter&rsquo;s value range demands precision. If your video
+timeline is an hour (= 3600 seconds), and the knob has 0-127 range then even the tiniest bit of
+absolute knob twisting jumps 28 seconds.</li>
+</ul>
+</li>
+<li>
+<p>Configuration also includes the knob&rsquo;s name (= parameter&rsquo;s name it controls), which is shown when
+you are twisting the knob in the MIDI controller&rsquo;s small OLED display. OTOH I couldn&rsquo;t be bothered
+to jump into the configurator to change those names if/when need to remap knobs in the future, for
+what is essentially a gimmick, but now that I get it for &ldquo;free&rdquo;.. it&rsquo;s nice.</p>
+</li>
+</ul>
+<h2 id="akais-program-editor">AKAI&rsquo;s program editor</h2>
+<p>I discovered you can change the knob settings (name, mode etc.) from the program editor, which:</p>
+<ul>
+<li>Works manually - you&rsquo;ve to open the program to change the settings</li>
+<li>Only works on Windows and Mac</li>
+</ul>
+<p><img src="akai-preset-editor.png" alt=""></p>
+<h2 id="how-the-settings-are-technically-changed">How the settings are technically changed</h2>
+<p>I hypothesized there&rsquo;s MIDI a request going out when you upload settings.
+AKAI&rsquo;s editor had MIDI monitor window:</p>
+<p><img src="akai-preset-editor-midimonitor-load-sysex.png" alt=""></p>
+<p>During my previous MIDI adventures I had heard of
+<a href="https://electronicmusic.fandom.com/wiki/System_exclusive">SYSEX</a> before, remembering it&rsquo;s for sending
+manufacturer-specific data over MIDI. So upon seeing that I immediately had a &ldquo;eureka&rdquo; moment.
+Essentially it&rsquo;s for everything else that MIDI (the standard) hasn&rsquo;t specified.
+Configuration file formats are definitely things that MIDI doesn&rsquo;t have ready-made messages for.</p>
+<p>Manufacturers usually use SYSEX to configure their devices.</p>
+<p>Unfortunately, AKAI&rsquo;s &ldquo;Midi Monitor&rdquo; didn&rsquo;t show the contents of the SYSEX message.</p>
+<h2 id="capturing-the-sysex-exchange">Capturing the SYSEX exchange</h2>
+<p>Knowing the AKAI is configured via MIDI SYSEX packets, I needed to capture the exchange so I could interface with it from my own software.</p>
+<h3 id="windows">Windows</h3>
+<p>I tried to use some dedicated Windows-based MIDI monitor software but it didn&rsquo;t work for capturing
+the SYSEX exchange. Akai&rsquo;s program editor software didn&rsquo;t work when the monitor software was running.</p>
+<h3 id="linux-alsa">Linux, ALSA</h3>
+<p>With Windows I had a dead-end regarding MIDI capture. Enter Linux + WINE. Despite my expectations with
+WINE &amp; exotic software the AKAI&rsquo;s program editor actually worked (after installing some MSVC component),
+with minor visual defects.</p>
+<p>ALSA&rsquo;s built-in MIDI monitor really easily showed incoming MIDI messages:</p>
+<pre><code>$ aseqdump -p 28
+Waiting for data. Press Ctrl+C to end.
+Source  Event                  Ch  Data
+ 28:0   System exclusive           F0 47 00 49 67 01 76 01 50 47 4D 3A 4D 50 43 00 00 00 00 00 00 00 00 00 09 01 00 04 00 00 04 00 00 00 03 00 78 00 00 00 00 02 01 01 24 00 10 25 01 11 26 02 12 27 03 13 28 04 14 29 05 15 2A 06 16 2B 07 17 2C 08 18 2D 09 19 2E 0A 1A 2F 0B 1B 30 0C 1C 31 0D 1D 32 0E 1E 33 0F 1F 00 46 00 7F 51 4C 49 4E 4B 35 00 00 00 00 00 00 00 00 00 00 00 47 00 7F 51 4C 49 4E 4B 36 00 00 00 00 00 00 00 00 00 00 00 48 00 7F 51 4C 49 4E 4B 37 00 00 00 00 00 00 00 00 00 00 00 49 00 7F 51 4C 49 4E 4B 38 00 00 00 00 00 00 00 00 00 00 00 4A 00 7F 51 4C 49 4E 4B 31 00 00 00 00 00 00 00 00 00 00 00 4B 00 7F 51 4C 49 4E 4B 32 00 00 00 00 00 00 00 00 00 00 00 4C 00 7F 51 4C 49 4E 4B 33 00 00 00 00 00 00 00 00 00 00 00 4D 00 7F 51 4C 49 4E 4B 34 00 00 00 00 00 00 00 00 00 00 0C F7
+</code></pre>
+<p>This was for response to &ldquo;read settings&rdquo; for preset slot 1.
+However I did not yet know how to <strong>request</strong> this reading.</p>
+<p>Despite incoming capture being easy, after many web searches, it seems ALSA has no outbound MIDI
+capture support (I needed this for seeing how to &ldquo;write settings&rdquo; or to &ldquo;please read settings&rdquo;).</p>
+<p><a href="https://kmidimon.sourceforge.io/">Drumstick MIDI Monitor</a> seems inbound-only.
+No luck on <a href="https://askubuntu.com/questions/1223229/how-to-monitor-midi-output">Ask Ubuntu</a>.</p>
+<p>There are following scenarios:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Outbound MIDI</th>
+<th>Inbound MIDI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read settings</td>
+<td>SYSEX for &ldquo;read settings&rdquo;</td>
+<td>SYSEX for &ldquo;here are the settings you requested&rdquo;</td>
+</tr>
+<tr>
+<td>Write settings</td>
+<td>SYSEX for &ldquo;write settings&rdquo;</td>
+<td>(As far as I understand, no response needed)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="linux-wireshark-usb-capture">Linux, Wireshark USB capture</h3>
+<p>Knowing our device&rsquo;s MIDI runs on top of USB transport, enter
+<a href="https://wiki.wireshark.org/CaptureSetup/USB">Wireshark USB sniffing</a>.
+For our purposes <code>USBaudio-midi</code> is the USB sub-protocol that we&rsquo;re interested in.</p>
+<p>Enable <code>usbmon</code> module in kernel to enable monitoring USB traffic:</p>
+<pre><code>$ modprobe usbmon 
+</code></pre>
+<p>Wireshark showed multiple <code>usbmon</code> interfaces, at first I didn&rsquo;t understand, but
+<a href="https://www.kernel.org/doc/Documentation/usb/usbmon.txt">upon reading documentation</a> it said:</p>
+<blockquote>
+<p>The character device is usually called /dev/usbmonN, where N is the USB bus
+number. Number zero (/dev/usbmon0) is special and means &ldquo;all buses&rdquo;.
+Note that specific naming policy is set by your Linux distribution.</p>
+</blockquote>
+<p>These correspond to <code>$ lsusb</code> output:</p>
+<pre><code>Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 011: ID 1050:0407 Yubico.com Yubikey 4/5 OTP+U2F+CCID
+Bus 001 Device 013: ID 09e8:0049 AKAI  Professional M.I. Corp. MPK mini 3
+Bus 001 Device 009: ID 1050:0407 Yubico.com Yubikey 4/5 OTP+U2F+CCID
+Bus 001 Device 007: ID 046d:c534 Logitech, Inc. Unifying Receiver
+Bus 001 Device 003: ID 05e3:0610 Genesys Logic, Inc. Hub
+Bus 001 Device 002: ID 19f7:0003 RODE Microphones RODE NT-USB
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</code></pre>
+<p>It shows me that all my interesting devices are on bus 1. Therefore I can use <code>usbmon0</code> or <code>usbmon1</code>.</p>
+<p>At first I was only seeing lots of undissected packages (what are all these <code>URB_BULK</code>&rsquo;s?) with generic USB traffic:</p>
+<p><img src="akai-wireshark-generic-urb-bulk-packets.png" alt=""></p>
+<p>But I&rsquo;m glad I ran into
+<a href="https://bulldogjob.com/news/97-how-i-reverse-engineered-synthesizer-protocol">someone&rsquo;s blog post</a>
+(<a href="https://desowin.org/usbpcap/tour.html">link in blog post</a>) that helped me understand the problem.</p>
+<p>The solution: first start Wireshark monitor on USB bus 1 and <strong>only after</strong> plug in the USB cable of
+AKAI, so Wireshark gets ahold of the USB descriptor and learns how to dissect the USB traffic.</p>
+<p>I guess it&rsquo;s a handshake where the device introduces itself and tells what protocols it speaks (in
+our case: <code>USBaudio-midi</code>).
+These protocol identifiers are not present in subsequent messaging (I guess that makes USB pretty stateful),
+so Wireshark doesn&rsquo;t know what type of data is flowing between the endpoints if it hasn&rsquo;t seen the handshake.
+Makes sense now after understanding more.</p>
+<p>It now works:</p>
+<p><img src="akai-wireshark-outgoing-sysex-message.png" alt=""></p>
+<h2 id="reverse-engineering-the-contents-of-the-sysex-packets">Reverse-engineering the contents of the SYSEX packets</h2>
+<p>So, there are SYSEX messages for each preset slot:</p>
+<ul>
+<li>Write settings</li>
+<li>Read settings</li>
+</ul>
+<p>There also is for reading/writing into &ldquo;RAM slot&rdquo;. It&rsquo;s meant for on-the-fly configuration which is
+wiped if you manually select another preset from the controller (or restart it).</p>
+<p>Hexdumping it reveals it&rsquo;s a pretty straightforward to reverse-engineer:</p>
+<pre><code>00000000  47 00 49 67 01 76 01 50  47 4d 3a 4d 50 43 00 00  |G.Ig.v.PGM:MPC..|
+00000010  00 00 00 00 00 00 00 09  01 00 04 00 00 04 00 00  |................|
+00000020  00 03 00 78 00 00 00 00  02 01 01 24 00 10 25 01  |...x.......$..%.|
+00000030  11 26 02 12 27 03 13 28  04 14 29 05 15 2a 06 16  |.&amp;..'..(..)..*..|
+00000040  2b 07 17 2c 08 18 2d 09  19 2e 0a 1a 2f 0b 1b 30  |+..,..-...../..0|
+00000050  0c 1c 31 0d 1d 32 0e 1e  33 0f 1f 00 46 00 7f 51  |..1..2..3...F..Q|
+00000060  4c 49 4e 4b 35 00 00 00  00 00 00 00 00 00 00 00  |LINK5...........|
+00000070  47 00 7f 51 4c 49 4e 4b  36 00 00 00 00 00 00 00  |G..QLINK6.......|
+00000080  00 00 00 00 48 00 7f 51  4c 49 4e 4b 37 00 00 00  |....H..QLINK7...|
+00000090  00 00 00 00 00 00 00 00  49 00 7f 51 4c 49 4e 4b  |........I..QLINK|
+000000a0  38 00 00 00 00 00 00 00  00 00 00 00 4a 00 7f 51  |8...........J..Q|
+000000b0  4c 49 4e 4b 31 00 00 00  00 00 00 00 00 00 00 00  |LINK1...........|
+000000c0  4b 00 7f 51 4c 49 4e 4b  32 00 00 00 00 00 00 00  |K..QLINK2.......|
+000000d0  00 00 00 00 4c 00 7f 51  4c 49 4e 4b 33 00 00 00  |....L..QLINK3...|
+000000e0  00 00 00 00 00 00 00 00  4d 00 7f 51 4c 49 4e 4b  |........M..QLINK|
+000000f0  34 00 00 00 00 00 00 00  00 00 00 0c              |4...........|
+000000fc
+</code></pre>
+<p>If you compare it to the screenshot of the configurator: these stand out:</p>
+<ul>
+<li>QLINK 1-8. these must be the sections for each knob name and its settings
+<ul>
+<li>Distance between starts of QLINK5 and QLINK6 is 20 bytes</li>
+<li>I tested from UI that knob name max length is 16 bytes</li>
+<li>Absolute/relative mode</li>
+<li>CC/LO/HI should all be one byte long</li>
+</ul>
+</li>
+</ul>
+<p>My process was to use the AKAI program editor:</p>
+<ul>
+<li>
+<p>Capture writing the default configuration to the controller</p>
+</li>
+<li>
+<p>Making a small change to some individual setting and capture writing this configuration</p>
+</li>
+<li>
+<p>Visually inspect the difference in these messages</p>
+</li>
+</ul>
+<p>Here&rsquo;s me comparing a difference when I changed knob 1 mode from absolute to relative:</p>
+<p><img src="akai-hexdump-diff.gif" alt=""></p>
+<p>It&rsquo;s quite easy to just use your eyes to see <strong>where</strong> that setting is stored. A couple of hours later,
+I had reverse-engineered the whole binary file format.</p>
+<h2 id="finished-support-in-my-software">Finished support in my software</h2>
+<h3 id="further-hurdles">Further hurdles</h3>
+<p>I also had hurdles building my own software, where incoming SYSEX messages were discarded by the
+library I was depending on. I traced the bug to some C++ code several layers down, fixed it and
+<a href="https://gitlab.com/gomidi/midi/-/issues/21#note_492461681">helped to get the fix to the above layers</a>.</p>
+<h3 id="usage">Usage</h3>
+<p>Here&rsquo;s how I send the configuration to the MIDI controller:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">func</span> <span style="color:#ff8000;font-weight:bold">akaiSendSettings</span>(ctx context.Context) <span style="color:#5918bb;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	drv, err <span style="color:#2c5dcd">:=</span> driver.<span style="color:#ff8000;font-weight:bold">New</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">if</span> err <span style="color:#2c5dcd">!=</span> <span style="color:#2c5dcd;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	midiOut, err <span style="color:#2c5dcd">:=</span> midi.<span style="color:#ff8000;font-weight:bold">OpenOut</span>(drv, <span style="color:#2c5dcd">-</span><span style="color:#5918bb;font-weight:bold">1</span>, <span style="color:#0c6">&#34;MPK mini 3:MPK mini 3 MIDI 1 28:0&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">if</span> err <span style="color:#2c5dcd">!=</span> <span style="color:#2c5dcd;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">defer</span> midiOut.<span style="color:#ff8000;font-weight:bold">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	msg, err <span style="color:#2c5dcd">:=</span> mpkminimk3.<span style="color:#ff8000;font-weight:bold">CustomSettings</span>(
+</span></span><span style="display:flex;"><span>		<span style="color:#0c6">&#34;Hautomo&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#5918bb;font-weight:bold">10</span>, <span style="color:#0080ff;font-style:italic">// channel for pads TODO: this is -1 for some reason. we actually mean 9
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">AutopopulatePads</span>(<span style="color:#5918bb;font-weight:bold">36</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">AutopopulatePads</span>(<span style="color:#5918bb;font-weight:bold">36</span>), <span style="color:#0080ff;font-style:italic">// TODO
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		<span style="color:#5918bb;font-weight:bold">1</span>,                               <span style="color:#0080ff;font-style:italic">// channel for keys and knobs TODO: is this 1 or 0?
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;KNOB 1&#34;</span>, <span style="color:#5918bb;font-weight:bold">70</span>), <span style="color:#0080ff;font-style:italic">// &#34;K1&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;KNOB 2&#34;</span>, <span style="color:#5918bb;font-weight:bold">71</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobRelative</span>(<span style="color:#0c6">&#34;i3 panel width&#34;</span>, <span style="color:#5918bb;font-weight:bold">72</span>), <span style="color:#0080ff;font-style:italic">// &#34;K3&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;KNOB 4&#34;</span>, <span style="color:#5918bb;font-weight:bold">73</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;KNOB 5&#34;</span>, <span style="color:#5918bb;font-weight:bold">74</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;Sublime cols&#34;</span>, <span style="color:#5918bb;font-weight:bold">75</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobRelative</span>(<span style="color:#0c6">&#34;i3 panel height&#34;</span>, <span style="color:#5918bb;font-weight:bold">76</span>),
+</span></span><span style="display:flex;"><span>		mpkminimk3.<span style="color:#ff8000;font-weight:bold">KnobAbsolute0to127</span>(<span style="color:#0c6">&#34;Volume&#34;</span>, <span style="color:#5918bb;font-weight:bold">77</span>), <span style="color:#0080ff;font-style:italic">// &#34;K8&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"></span>	).<span style="color:#ff8000;font-weight:bold">SysExStore</span>(mpkminimk3.ProgramRAM)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">if</span> _, err <span style="color:#2c5dcd">:=</span> midiOut.<span style="color:#ff8000;font-weight:bold">Write</span>(msg); err <span style="color:#2c5dcd">!=</span> <span style="color:#2c5dcd;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">return</span> fmt.<span style="color:#ff8000;font-weight:bold">Errorf</span>(<span style="color:#0c6">&#34;error sending msg: %w&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is open source code, but is not officially published yet as of me writing this. It will land in
+<a href="https://github.com/function61/hautomo">Hautomo</a> (my home automation software).</p>
+<p>If you&rsquo;re in a hurry and are interested in the code, I have put up the <a href="akai.zip">.zip for download</a>.
+License: do not use in commercial code.</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2021\/02\/reverse-engineering-midi-devices-akai-mpk-mini-mk3';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-can-i-do-with-it">What can I do with it?</a>
+      <ul>
+        <li><a href="#piano-keys">Piano keys</a></li>
+        <li><a href="#drumpads-to-jump-between-workspaces">Drumpads to jump between workspaces</a></li>
+        <li><a href="#control-audio-volume">Control audio volume</a></li>
+        <li><a href="#control-text-editors-column-count">Control text editor&rsquo;s column count</a></li>
+        <li><a href="#control-window-size">Control window size</a></li>
+        <li><a href="#use-a-sustain-pedal-to-trigger-custom-actions">Use a sustain pedal to trigger custom actions</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-got-me-into-this-path-of-even-considering-reverse-engineering">What got me into this path of even considering reverse-engineering</a></li>
+    <li><a href="#why-reverse-engineer">Why reverse-engineer?</a></li>
+    <li><a href="#akais-program-editor">AKAI&rsquo;s program editor</a></li>
+    <li><a href="#how-the-settings-are-technically-changed">How the settings are technically changed</a></li>
+    <li><a href="#capturing-the-sysex-exchange">Capturing the SYSEX exchange</a>
+      <ul>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#linux-alsa">Linux, ALSA</a></li>
+        <li><a href="#linux-wireshark-usb-capture">Linux, Wireshark USB capture</a></li>
+      </ul>
+    </li>
+    <li><a href="#reverse-engineering-the-contents-of-the-sysex-packets">Reverse-engineering the contents of the SYSEX packets</a></li>
+    <li><a href="#finished-support-in-my-software">Finished support in my software</a>
+      <ul>
+        <li><a href="#further-hurdles">Further hurdles</a></li>
+        <li><a href="#usage">Usage</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&text=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&is_video=false&description=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&title=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&name=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3&description=I%20recently%20bought%20a%20MIDI%20controller%20%2f%20keyboard%20%2f%20drumpad%20combo%20thingie.%20Not%20because%20I%20wanted%20to%20make%20music%20-%20but%20because%20of%20the%20pads%20and%20knobs%20that%20I%20can%20use%20to%20control%20things%20like%20jump%20between%20workspaces%20adjust%20the%20audio%20volume%20in%20my%20PC%20etc.%0aWhat%20can%20I%20do%20with%20it%3f%20Lots%20of%20things%21%20I%26rsquo%3bve%20already%20got%20implemented%3a%0aPiano%20keys%20Various%20key%20mappings%20to%3a%0aToggle%20audio%20between%20speakers%20and%20headphones%20Set%20random%20wallpaper%20%28from%20a%20directory%20of%20curated%20wallpapers%29%20Open%20a%20new%20empty%20workspace%20Drumpads%20to%20jump%20between%20workspaces%20There%20are%208%20pads%20so%20I%20can%20jump%20between%208%20workspaces%3a%20%28I%20number%20my%20less-often%20used%20workspaces%20above%20that%208.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2021%2f02%2freverse-engineering-midi-devices-akai-mpk-mini-mk3%2f&t=Reverse-engineering%20MIDI%20devices%2c%20AKAI%20MPK%20Mini%20Mk3">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

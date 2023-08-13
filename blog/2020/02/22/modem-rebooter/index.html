@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Modem drops internet every now and then? I made a modem rebooter util | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Modem drops internet every now and then? I made a modem rebooter util" />
+<meta property="og:description" content="My issues are rare enough to warrant switching to another modem, so I just hacked around it by writing a small piece of software that reboots the modem to try to get the connection back up.
+It pings a few known IPs to see if the internet is up, and if it&rsquo;s done for a defined duration, it&rsquo;ll reboot the modem.
+There are drivers for a few different types of modems (since I&rsquo;m using this at a few different locations) - the drivers are called &ldquo;garbage&rdquo;." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2020/02/22/modem-rebooter/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-22T16:30:00+00:00" />
+<meta property="article:modified_time" content="2020-02-22T16:30:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Modem drops internet every now and then? I made a modem rebooter util"/>
+<meta name="twitter:description" content="My issues are rare enough to warrant switching to another modem, so I just hacked around it by writing a small piece of software that reboots the modem to try to get the connection back up.
+It pings a few known IPs to see if the internet is up, and if it&rsquo;s done for a defined duration, it&rsquo;ll reboot the modem.
+There are drivers for a few different types of modems (since I&rsquo;m using this at a few different locations) - the drivers are called &ldquo;garbage&rdquo;."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2020/01/20/serious-security-vulnerability-in-gundb-and-new-ones/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2020/02/24/go-is-not-a-simple-language/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&text=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&is_video=false&description=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&name=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util&description=My%20issues%20are%20rare%20enough%20to%20warrant%20switching%20to%20another%20modem%2c%20so%20I%20just%20hacked%20around%20it%20by%20writing%20a%20small%20piece%20of%20software%20that%20reboots%20the%20modem%20to%20try%20to%20get%20the%20connection%20back%20up.%0aIt%20pings%20a%20few%20known%20IPs%20to%20see%20if%20the%20internet%20is%20up%2c%20and%20if%20it%26rsquo%3bs%20done%20for%20a%20defined%20duration%2c%20it%26rsquo%3bll%20reboot%20the%20modem.%0aThere%20are%20drivers%20for%20a%20few%20different%20types%20of%20modems%20%28since%20I%26rsquo%3bm%20using%20this%20at%20a%20few%20different%20locations%29%20-%20the%20drivers%20are%20called%20%26ldquo%3bgarbage%26rdquo%3b.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&t=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#code-details-for-nerds">Code details for nerds</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Modem drops internet every now and then? I made a modem rebooter util
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2020-02-22 16:30:00 &#43;0000 UTC" itemprop="datePublished">2020-02-22</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>My issues are rare enough to warrant switching to another modem, so I just hacked around
+it by writing a <a href="https://github.com/joonas-fi/modemrebooter">small piece of software</a> that
+reboots the modem to try to get the connection back up.</p>
+<p>It pings a few known IPs to see if the internet is up, and if it&rsquo;s done for a defined
+duration, it&rsquo;ll reboot the modem.</p>
+<p>There are drivers for a few different types of modems (since I&rsquo;m using this at a few
+different locations) - the drivers are called &ldquo;garbage&rdquo;. 🗑️</p>
+<p>I wanted the code to be somewhat safe, so:</p>
+<ul>
+<li>It doesn&rsquo;t drop my internet connection (by rebooting) because of bugs</li>
+<li>Or won&rsquo;t wait long enough after reboot to let the modem reconnect before trying to reboot again.</li>
+</ul>
+<h2 id="code-details-for-nerds">Code details for nerds</h2>
+<p>I think the
+<a href="https://github.com/joonas-fi/modemrebooter/blob/61bd05ca03170016c27bd55dac321befb6844d33/cmd/modemrebooter/main.go#L37">core code</a>
+is somewhat understandable:</p>
+<pre><code>for {
+	up := internetupdetector.IsInternetUp(ctx)
+	
+	previousState := state
+	
+	if up {
+		state = state.Up()
+	} else {
+		state = state.Down(time.Now())
+	}
+	
+	if state.IsUpDifferentTo(previousState) {
+		if up {
+			logl.Info.Println(&quot;came back UP&quot;)
+		} else {
+			logl.Error.Println(&quot;went DOWN&quot;)
+		}
+	}
+	
+	if up {
+		logl.Debug.Println(&quot;up&quot;)
+	} else {
+		logl.Info.Printf(&quot;down for %s&quot;, time.Since(state.wentDownAt))
+	}
+	
+	if state.ShouldReboot(defaultRebootConfig, time.Now()) {
+		logl.Info.Println(&quot;rebooting modem&quot;)
+		
+		if err := rebooter.Reboot(conf); err != nil {
+			logl.Error.Printf(&quot;reboot failed: %s&quot;, err.Error())
+		} else {
+			logl.Info.Println(&quot;reboot succeeded&quot;)
+			
+			state = state.SuccesfullReboot(time.Now())
+		}
+	}
+	
+	select {
+	case &lt;-ctx.Done():
+		return nil // graceful stop
+	case &lt;-time.After(1 * time.Minute):
+	}
+}
+</code></pre>
+<p>And the <code>ShouldReboot()</code>
+<a href="https://github.com/joonas-fi/modemrebooter/blob/61bd05ca03170016c27bd55dac321befb6844d33/cmd/modemrebooter/state.go">implementation</a>:</p>
+<pre><code>func (s State) ShouldReboot(rc mrtypes.RebootConfig, now time.Time) bool {
+	return !s.wentDownAt.IsZero() &amp;&amp;
+		now.Sub(s.wentDownAt) &gt; rc.RebootAfterDownFor &amp;&amp;
+		now.Sub(s.lastSuccesfullRebootAt) &gt; rc.ModemRecoversIn
+}
+</code></pre>
+<p>There&rsquo;s actually
+<a href="https://github.com/joonas-fi/modemrebooter/blob/61bd05ca03170016c27bd55dac321befb6844d33/cmd/modemrebooter/state_test.go#L16">quite good tests for the logic</a>
+as well. Example:</p>
+<pre><code>// reboot should be only possible at 5 minute mark
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(1)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(2)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(3)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(4)))
+assert.Assert(t, state.ShouldReboot(defaultRebootConfig, tplus(5)))
+
+// now reboot
+state = state.SuccesfullReboot(tplus(5))
+
+// internet keeps being down, but reboot is not possible until &quot;modemRecoversIn&quot;
+// from last reboot
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(5)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(6)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(7)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(8)))
+assert.Assert(t, !state.ShouldReboot(defaultRebootConfig, tplus(9)))
+
+// another reboot after previous reboot
+assert.Assert(t, state.ShouldReboot(defaultRebootConfig, tplus(10)))
+</code></pre>
+<p>p.s. I actually made this some time ago, but I didn&rsquo;t manage to post about it until now.</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2020\/02\/22\/modem-rebooter';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#code-details-for-nerds">Code details for nerds</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&text=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&is_video=false&description=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&title=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&name=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util&description=My%20issues%20are%20rare%20enough%20to%20warrant%20switching%20to%20another%20modem%2c%20so%20I%20just%20hacked%20around%20it%20by%20writing%20a%20small%20piece%20of%20software%20that%20reboots%20the%20modem%20to%20try%20to%20get%20the%20connection%20back%20up.%0aIt%20pings%20a%20few%20known%20IPs%20to%20see%20if%20the%20internet%20is%20up%2c%20and%20if%20it%26rsquo%3bs%20done%20for%20a%20defined%20duration%2c%20it%26rsquo%3bll%20reboot%20the%20modem.%0aThere%20are%20drivers%20for%20a%20few%20different%20types%20of%20modems%20%28since%20I%26rsquo%3bm%20using%20this%20at%20a%20few%20different%20locations%29%20-%20the%20drivers%20are%20called%20%26ldquo%3bgarbage%26rdquo%3b.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f02%2f22%2fmodem-rebooter%2f&t=Modem%20drops%20internet%20every%20now%20and%20then%3f%20I%20made%20a%20modem%20rebooter%20util">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

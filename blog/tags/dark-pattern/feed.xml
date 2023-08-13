@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dark-pattern on joonas.fi</title>
+    <link>https://joonas.fi/tags/dark-pattern/</link>
+    <description>Recent content in dark-pattern on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Apr 2022 08:09:52 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/dark-pattern/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Drop.com (former Massdrop) spam</title>
+      <link>https://joonas.fi/complaint-corner/2022/drop-spam/</link>
+      <pubDate>Sat, 09 Apr 2022 08:09:52 +0000</pubDate>
+      
+      <guid>https://joonas.fi/complaint-corner/2022/drop-spam/</guid>
+      <description>I just bought a mechanical keyboard from Drop.
+I didn&amp;rsquo;t sign up for any mailing lists, but here&amp;rsquo;s how they rewarded me after giving them $ 225:
+This is only about a week&amp;rsquo;s worth of emails, that I didn&amp;rsquo;t sign up for.
+To top it off, from the unsubscribe link you&amp;rsquo;ve to separate click to unsubscribe for each different subject:
+This is clearly a dark pattern to punish those who wish to unsubscribe.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Linux kernel probing | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Linux kernel probing" />
+<meta property="og:description" content="Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend it to some extent with persistent hooks). You can attach not just to syscalls, but also to many functions inside the kernel (they have to be exported functions though).
+Dynamically means, that you don&rsquo;t have to recompile the kernel and/or restart your computer - it&rsquo;s pretty cool!
+Disclaimer: these are my notes about learning about kprobes today, so I might not know what I&rsquo;m talking about." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2020/03/27/linux-kernel-probing/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-27T13:00:00+00:00" />
+<meta property="article:modified_time" content="2020-03-27T13:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux kernel probing"/>
+<meta name="twitter:description" content="Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend it to some extent with persistent hooks). You can attach not just to syscalls, but also to many functions inside the kernel (they have to be exported functions though).
+Dynamically means, that you don&rsquo;t have to recompile the kernel and/or restart your computer - it&rsquo;s pretty cool!
+Disclaimer: these are my notes about learning about kprobes today, so I might not know what I&rsquo;m talking about."/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2020/03/21/covid-19-and-the-worlds-refusal-to-blame-china/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2020/04/03/quick-primer-on-svg-paths/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&text=Linux%20kernel%20probing">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&is_video=false&description=Linux%20kernel%20probing">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Linux%20kernel%20probing&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&name=Linux%20kernel%20probing&description=Kernel%20probes%20allow%20you%20to%20dynamically%20attach%20debug%20points%20to%20the%20kernel%20%28or%20even%20to%20extend%20it%20to%20some%20extent%20with%20persistent%20hooks%29.%20You%20can%20attach%20not%20just%20to%20syscalls%2c%20but%20also%20to%20many%20functions%20inside%20the%20kernel%20%28they%20have%20to%20be%20exported%20functions%20though%29.%0aDynamically%20means%2c%20that%20you%20don%26rsquo%3bt%20have%20to%20recompile%20the%20kernel%20and%2for%20restart%20your%20computer%20-%20it%26rsquo%3bs%20pretty%20cool%21%0aDisclaimer%3a%20these%20are%20my%20notes%20about%20learning%20about%20kprobes%20today%2c%20so%20I%20might%20not%20know%20what%20I%26rsquo%3bm%20talking%20about.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&t=Linux%20kernel%20probing">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#background">Background</a></li>
+    <li><a href="#what-can-i-use-it-for">What can I use it for?</a></li>
+    <li><a href="#prerequisite-tools">Prerequisite tools</a></li>
+    <li><a href="#your-first-program">Your first program</a>
+      <ul>
+        <li><a href="#what-does-the-code-above-do">What does the code above do?</a></li>
+      </ul>
+    </li>
+    <li><a href="#triggering-the-probe">Triggering the probe</a></li>
+    <li><a href="#filtering-or-accessing-function-arguments">Filtering or accessing function arguments</a></li>
+    <li><a href="#attaching-to-generic-functions-not-just-syscalls">Attaching to generic functions (not just syscalls)</a></li>
+    <li><a href="#good-to-know">Good to know</a>
+      <ul>
+        <li><a href="#lifecycle">Lifecycle</a></li>
+        <li><a href="#what-does-ebpf-code-look-like">What does eBPF code look like?</a></li>
+      </ul>
+    </li>
+    <li><a href="#full-example-from-the-animation">Full example from the animation</a></li>
+    <li><a href="#bonus-how-to-test-from-userspace-if-a-program-triggers-a-syscall">(Bonus) How to test, from userspace, if a program triggers a syscall</a></li>
+    <li><a href="#additional-reading">Additional reading</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Linux kernel probing
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2020-03-27 13:00:00 &#43;0000 UTC" itemprop="datePublished">2020-03-27</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/programming/" rel="tag">programming</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/technology/" rel="tag">technology</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>Kernel probes allow you to dynamically attach debug points to the kernel (or even to extend
+it to some extent with persistent hooks). You can attach not just to syscalls, but also to
+many functions inside the kernel (they have to be exported functions though).</p>
+<p>Dynamically means, that you don&rsquo;t have to recompile the kernel and/or restart your computer -
+it&rsquo;s pretty cool!</p>
+<p><img src="kprobe_fuse.gif" alt=""></p>
+<p>Disclaimer: these are my notes about <strong>learning about kprobes today</strong>, so I might not know
+what I&rsquo;m talking about.</p>
+<p><img src="kprobe_southpark.jpg" alt=""></p>
+<h2 id="background">Background</h2>
+<p>Linux kernel probes (kprobe) are implemented using
+<a href="https://en.wikipedia.org/wiki/Berkeley_Packet_Filter">eBPF</a>.</p>
+<p>eBPF is kind of like BPF v2 and apparently people just shorten eBPF to BPF. So in common
+use BPF can mean the &ldquo;classic&rdquo; version or the newer eBPF. (Or technically, the
+legacy/classic BPF was retroactively renamed to cBPF which is not confusing at all.)</p>
+<p>eBPF is also used for many more things like networking stuff - I think it&rsquo;s eventually
+going to be a kind of generic VM inside the kernel for many types of use cases.</p>
+<p>Here&rsquo;s how the pieces interact:</p>
+<p><img src="kprobe_linux_ebpf_internals.png" alt="Drawing: eBPF internals"></p>
+<p>(Drawing credit: <a href="http://www.brendangregg.com/ebpf.html">Brendan Gregg</a> - he has really
+extensive information on eBPF tracing)</p>
+<h2 id="what-can-i-use-it-for">What can I use it for?</h2>
+<p>My use case was debugging why my FUSE implementation deadlocks - so I went on to
+(successfully) insert log statements (&ldquo;now in this function&rdquo;) to the FUSE driver to try to
+understand the code flow which leads to my issue.</p>
+<p>But in this post we&rsquo;re keeping it simple to get you started as quickly as possible.</p>
+<h2 id="prerequisite-tools">Prerequisite tools</h2>
+<p>Instructions taken from here:
+<a href="https://rdelfin.com/blog/post_ebpf_002">eBPF and bcc: Your First Program</a>.</p>
+<p>(I tried reading <a href="https://sematext.com/blog/linux-kernel-observability-ebpf/">sematext&rsquo;s post</a>
+first, but the information was very sparse and I couldn&rsquo;t even match the include paths in
+the compile command to paths in my <code>linux-headers</code> tree)</p>
+<p>tl;dr: here&rsquo;s all that I had to do on Ubuntu:</p>
+<pre><code>$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4052245BD4284CDD
+$ echo &quot;deb https://repo.iovisor.org/apt/$(lsb_release -cs) $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/iovisor.list
+$ sudo apt update
+$ sudo apt install bcc-tools python3-bcc linux-headers-$(uname -r)
+</code></pre>
+<p>About the dependencies:</p>
+<ul>
+<li>IO Visor hosts BCC which is &ldquo;BPF compiler collection&rdquo; (I guess the name is homage to GCC)
+<ul>
+<li>So BCC ≈ eBPF compiler</li>
+</ul>
+</li>
+<li>BCC needs Linux headers to be able to compile your program against <strong>your kernel version</strong>.</li>
+<li><code>python3-bcc</code> is not required to compile BPF programs, but it makes <em>compile + attach +
+process results</em> loop easier.</li>
+</ul>
+<h2 id="your-first-program">Your first program</h2>
+<p>All credit to Ricardo´s article that I based this example on!</p>
+<p>I changed it to include a timestamp and changed the syscall to something that happens
+rarely but which I could trigger easily (<code>syncfs</code>).
+(p.s. <a href="https://filippo.io/linux-syscall-table/">Linux syscall table</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> bcc <span style="color:#2c5dcd;font-weight:bold">import</span> BPF
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> datetime <span style="color:#2c5dcd;font-weight:bold">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BPF_PROGRAM <span style="color:#2c5dcd">=</span> <span style="color:#0c6">r</span><span style="color:#0c6">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">int hello(void *ctx) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	bpf_trace_printk(&#34;syncfs called\n&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	return 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">}
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bpf <span style="color:#2c5dcd">=</span> BPF(text<span style="color:#2c5dcd">=</span>BPF_PROGRAM)
+</span></span><span style="display:flex;"><span>bpf<span style="color:#2c5dcd">.</span>attach_kprobe(event<span style="color:#2c5dcd">=</span>bpf<span style="color:#2c5dcd">.</span>get_syscall_fnname(<span style="color:#0c6">&#34;syncfs&#34;</span>), fn_name<span style="color:#2c5dcd">=</span><span style="color:#0c6">&#34;hello&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#2c5dcd;font-weight:bold">True</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>		(_, _, _, _, _, msg_b) <span style="color:#2c5dcd">=</span> bpf<span style="color:#2c5dcd">.</span>trace_fields()
+</span></span><span style="display:flex;"><span>		msg <span style="color:#2c5dcd">=</span> msg_b<span style="color:#2c5dcd">.</span>decode(<span style="color:#0c6">&#39;utf8&#39;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#5918bb;font-weight:bold">print</span>(datetime<span style="color:#2c5dcd">.</span>now()<span style="color:#2c5dcd">.</span>strftime(<span style="color:#0c6">&#34;%H:%M:%S&#34;</span>), msg)
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">ValueError</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">KeyboardInterrupt</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">break</span>
+</span></span></code></pre></div><p>Run this with <code>$ python3 probe.py</code> (you probably need <code>sudo</code>). It shouldn&rsquo;t print anything
+until you trigger the syscall from another program.</p>
+<h3 id="what-does-the-code-above-do">What does the code above do?</h3>
+<p>Let&rsquo;s unpack this a bit. You&rsquo;re seeing C code inside a string in a Python program. The
+Python module for bcc will call the BCC compiler to use LLVM to compile this C code into
+eBPF code, which the bcc Python module will then ask the Linux kernel to execute. Same
+mumbo jumbo as a drawing:</p>
+<p><img src="kprobe_bcc-flow.png" alt=""></p>
+<p>The important thing to note is that once the eBPF program is compiled, it&rsquo;s essentially a
+static build artefact which in itself could be attached to the kernel, without needing the
+BCC, LLVM compilers or the Python-based toolkit. This all dynamic stuff is here just to
+help you iterate on building these programs quickly.</p>
+<h2 id="triggering-the-probe">Triggering the probe</h2>
+<p>Now trigger it from another shell:</p>
+<pre><code>$ sync --file-system /
+</code></pre>
+<p>You should see this in the Python command:</p>
+<pre><code>13:18:24 syncfs called
+</code></pre>
+<p>This worked for me. I stopped the Python program, commented out the <code>attach_kprobe</code> line and
+started it again, expecting that when I ran the script again, I keep receiving the events.
+But no, the probes seem ephemeral and unique to the process that attached them. Upon further
+digging, I came across explanation (read the <a href="#lifecycle">Lifecycle</a> section).</p>
+<h2 id="filtering-or-accessing-function-arguments">Filtering or accessing function arguments</h2>
+<p>Let&rsquo;s say that we want to hook a syscall that is called very frequenctly - kernel&rsquo;s <code>open()</code>
+syscall, and we want to filter what we log at the hook level.</p>
+<p>Sure, you could do the filtering in userspace as well, but it&rsquo;s important to learn how to
+access the function arguments.</p>
+<p>Let&rsquo;s make it log only an exact process&rsquo;s open calls - and while we&rsquo;re at it, let&rsquo;s also
+learn how to access the function parameters - we need it to add the <code>filename</code> of <code>open()</code>
+to the log message).</p>
+<p><code>open</code> is defined in Linux kernel like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">SYSCALL_DEFINE3</span>(open, <span style="color:#2c5dcd;font-weight:bold">const</span> <span style="color:#5918bb;font-weight:bold">char</span> __user <span style="color:#2c5dcd">*</span>, filename, <span style="color:#5918bb;font-weight:bold">int</span>, flags, <span style="color:#5918bb;font-weight:bold">umode_t</span>, mode)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">return</span> <span style="color:#ff8000;font-weight:bold">ksys_open</span>(filename, flags, mode);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>So we know that the first argument is the filename.</p>
+<p>We&rsquo;ll have a terminal window open that is the process that we wish to monitor <code>open()</code>
+calls for. Get its pid:</p>
+<pre><code>$ echo $$
+29178
+</code></pre>
+<p>So, we want to monitor pid <code>29178</code> and log the filenames. Thus our updated probe program
+looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> bcc <span style="color:#2c5dcd;font-weight:bold">import</span> BPF
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> datetime <span style="color:#2c5dcd;font-weight:bold">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BPF_PROGRAM <span style="color:#2c5dcd">=</span> <span style="color:#0c6">r</span><span style="color:#0c6">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">int openHook(struct pt_regs *ctx, const char __user *filename) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	u32 pid = bpf_get_current_pid_tgid();
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	if (pid == 29178) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">		bpf_trace_printk(&#34;openHook </span><span style="color:#0c6">%s</span><span style="color:#0c6">\n&#34;, filename);
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	}
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">	return 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">}
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bpf <span style="color:#2c5dcd">=</span> BPF(text<span style="color:#2c5dcd">=</span>BPF_PROGRAM)
+</span></span><span style="display:flex;"><span>bpf<span style="color:#2c5dcd">.</span>attach_kprobe(event<span style="color:#2c5dcd">=</span>bpf<span style="color:#2c5dcd">.</span>get_syscall_fnname(<span style="color:#0c6">&#34;open&#34;</span>), fn_name<span style="color:#2c5dcd">=</span><span style="color:#0c6">&#34;openHook&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#2c5dcd;font-weight:bold">True</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>		(_, _, _, _, _, msg_b) <span style="color:#2c5dcd">=</span> bpf<span style="color:#2c5dcd">.</span>trace_fields()
+</span></span><span style="display:flex;"><span>		msg <span style="color:#2c5dcd">=</span> msg_b<span style="color:#2c5dcd">.</span>decode(<span style="color:#0c6">&#39;utf8&#39;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#5918bb;font-weight:bold">print</span>(datetime<span style="color:#2c5dcd">.</span>now()<span style="color:#2c5dcd">.</span>strftime(<span style="color:#0c6">&#34;%H:%M:%S&#34;</span>), msg)
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">ValueError</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">KeyboardInterrupt</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">break</span>
+</span></span></code></pre></div><p>Now run it, and then from your process-to-monitor, run:</p>
+<pre><code>$ cat /etc/os-release
+</code></pre>
+<p>We saw this output in our hook:</p>
+<pre><code>14:08:59 openHook /dev/null
+</code></pre>
+<p>It didn&rsquo;t log the opening of <code>/etc/os-release</code>. Why? That&rsquo;s because <code>cat</code> is not a shell
+built-in, but it&rsquo;s an external binary that is ran as its own process (that we&rsquo;re not monitoring):</p>
+<pre><code>$ type cat
+cat is hashed (/bin/cat)
+</code></pre>
+<p>If we run just this, then the shell&rsquo;s process opens the file (though it does not display it):</p>
+<pre><code>$ &lt;/etc/os-release
+</code></pre>
+<p>We&rsquo;ll see this from the hook:</p>
+<pre><code>14:28:53 openHook /etc/os-release
+14:28:53 openHook /dev/null
+</code></pre>
+<p>Nice!</p>
+<h2 id="attaching-to-generic-functions-not-just-syscalls">Attaching to generic functions (not just syscalls)</h2>
+<p>There are several types of functions you can hook into, that are supported by BCC:</p>
+<ul>
+<li>kprobe, kretprobe
+<ul>
+<li>Kernel functions</li>
+<li>Can be syscalls or other exported functions</li>
+<li>Exported function basically means that it must be mentioned in a C header (<code>.h</code>) file.
+Non-exported functions cannot be traced IIUC as they can be inlined by the compiler.</li>
+</ul>
+</li>
+<li>uprobe, uretprobe
+<ul>
+<li><a href="http://www.brendangregg.com/blog/2015-06-28/linux-ftrace-uprobe.html">User-level functions</a></li>
+</ul>
+</li>
+</ul>
+<p>To see if you can attach to a function, see if it exists in <code>/proc/kallsyms</code>:</p>
+<pre><code>$ cat /proc/kallsyms | grep fuse_open
+0000000000000000 T fuse_open_common
+0000000000000000 t fuse_open
+</code></pre>
+<p>In BCC (or the Python-based toolkit) there&rsquo;s a magical naming convention - if you define
+your hook function with a prefix of e.g. <code>kprobe__</code>, you don&rsquo;t have to call
+<code>bpf.attach_kprobe(...)</code> since it wires this automatically.</p>
+<p>Here&rsquo;s an example of me successfully tracing a function inside FUSE:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> bcc <span style="color:#2c5dcd;font-weight:bold">import</span> BPF
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">from</span> datetime <span style="color:#2c5dcd;font-weight:bold">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BPF_PROGRAM <span style="color:#2c5dcd">=</span> <span style="color:#0c6">r</span><span style="color:#0c6">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">#include &lt;linux/fs.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">int kprobe__fuse_open_common(struct pt_regs *ctx, struct inode *inode, struct file *file) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">  bpf_trace_printk(
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">  	&#34;fuse_open_common: </span><span style="color:#0c6">%s</span><span style="color:#0c6">\n&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">  	file-&gt;f_path.dentry-&gt;d_name.name);
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">  return 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">}
+</span></span></span><span style="display:flex;"><span><span style="color:#0c6">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bpf <span style="color:#2c5dcd">=</span> BPF(text<span style="color:#2c5dcd">=</span>BPF_PROGRAM)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#2c5dcd;font-weight:bold">True</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">try</span>:
+</span></span><span style="display:flex;"><span>		(_, _, _, _, _, msg_b) <span style="color:#2c5dcd">=</span> bpf<span style="color:#2c5dcd">.</span>trace_fields()
+</span></span><span style="display:flex;"><span>		<span style="color:#5918bb;font-weight:bold">print</span>(datetime<span style="color:#2c5dcd">.</span>now()<span style="color:#2c5dcd">.</span>strftime(<span style="color:#0c6">&#34;%H:%M:%S&#34;</span>), msg_b<span style="color:#2c5dcd">.</span>decode(<span style="color:#0c6">&#39;utf8&#39;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">ValueError</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#2c5dcd;font-weight:bold">except</span> <span style="color:#5918bb;font-weight:bold">KeyboardInterrupt</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#2c5dcd;font-weight:bold">break</span>
+</span></span></code></pre></div><p>It successfully logs the name of the file given to <code>fuse_open_common</code>.</p>
+<p>The trick is that if you have a function <code>int reticulate_splines(int count)</code>, your probe needs
+to be written as <code>int kprobe__reticulate_splines(struct pt_regs *ctx, int count)</code>, i.e.
+the template is <code>int kprobe__&lt;function to probe&gt;(struct pt_regs *ctx, &lt;function arguments&gt;)</code>.</p>
+<p>Note: I had to add  <code>#include &lt;linux/fs.h&gt;</code> to be able to use the struct definitions.</p>
+<p>Pro-tip: if you&rsquo;re wondering why including headers isn&rsquo;t always required, it&rsquo;s because
+BCC&rsquo;s Python implementation
+<a href="https://github.com/iovisor/bcc/blob/2fa54c0bd388898fdda58f30dcfe5a68d6715efc/src/python/bcc/__init__.py#L176">auto-includes some headers</a>.</p>
+<h2 id="good-to-know">Good to know</h2>
+<h3 id="lifecycle">Lifecycle</h3>
+<blockquote>
+<p>BPF objects (progs, maps, and debug info) are accessed by user space via file descriptors
+(FDs), and each object has a reference counter. For example, when a map is created with
+a call to bpf_create_map(), the kernel allocates a struct bpf_map object. The kernel then
+initializes its refcnt to 1, and returns a file descriptor to the user space process.
+If the process exits or crashes right after, the FD would be closed, and the refcnt of
+the bpf map object will be decremented. At this point the refcnt will be zero, which will
+trigger a memory free after the RCU grace period.</p>
+</blockquote>
+<p>(<a href="https://facebookmicrosites.github.io/bpf/blog/2018/08/31/object-lifetime.html">Source</a>)</p>
+<p>tl;dr: BPF hooks are automatically detached when the process that attached it exits or dies.</p>
+<p>There is also a
+<a href="https://facebookmicrosites.github.io/bpf/blog/2018/08/31/object-lifetime.html#bpffs">mechanism for persisting objects</a>.</p>
+<h3 id="what-does-ebpf-code-look-like">What does eBPF code look like?</h3>
+<p>There are probably better ways to get generated eBPF code out, but when I made a mistake
+when making eBPF program, the compiler showed me the code:</p>
+<pre><code>bpf: Failed to load program: Invalid argument
+0: (bf) r6 = r1
+1: (79) r7 = *(u64 *)(r6 +104)
+2: (b7) r8 = 0
+3: (7b) *(u64 *)(r10 -8) = r8
+4: (7b) *(u64 *)(r10 -16) = r8
+5: (7b) *(u64 *)(r10 -24) = r8
+6: (7b) *(u64 *)(r10 -32) = r8
+7: (7b) *(u64 *)(r10 -40) = r8
+8: (63) *(u32 *)(r10 -64) = r8
+9: (bf) r3 = r7
+10: (07) r3 += 8
+11: (bf) r1 = r10
+12: (07) r1 += -64
+13: (b7) r2 = 4
+14: (85) call 4
+15: (61) r1 = *(u32 *)(r10 -64)
+16: (63) *(u32 *)(r10 -40) = r1
+17: (7b) *(u64 *)(r10 -64) = r8
+18: (bf) r1 = r10
+19: (07) r1 += -64
+20: (b7) r2 = 8
+21: (bf) r3 = r7
+22: (85) call 4
+23: (79) r1 = *(u64 *)(r10 -64)
+24: (7b) *(u64 *)(r10 -32) = r1
+25: (85) call 5
+26: (7b) *(u64 *)(r10 -24) = r0
+27: (b7) r1 = 10
+28: (6b) *(u16 *)(r10 -44) = r1
+29: (b7) r1 = 1931812922
+30: (63) *(u32 *)(r10 -48) = r1
+31: (18) r1 = 0x6e6f6d6d6f635f6e
+33: (7b) *(u64 *)(r10 -56) = r1
+34: (18) r1 = 0x65706f5f65737566
+36: (7b) *(u64 *)(r10 -64) = r1
+37: (bf) r1 = r10
+38: (07) r1 += -64
+39: (b7) r2 = 22
+40: BUG_ld_00
+invalid BPF_LD_IMM insn
+</code></pre>
+<h2 id="full-example-from-the-animation">Full example from the animation</h2>
+<p><a href="kprobe_fuse.py">Here&rsquo;s the code I used</a> to produce the animated GIF at the
+top of this post. It demonstrates passing structured data from the probe into the Python
+program for formatting and resolving the opcodes into a string.</p>
+<p>The events are delivered via a ring buffer -backed bus so theoretically it can lose events.
+You can&rsquo;t block in the kernel if the receiving process misbehaves or is slow, so that&rsquo;s a
+wise compromise.</p>
+<p>To get this working, things got a bit hairy since some of the Linux kernel headers were
+missing from the Debian package that are in the actual Linux kernel repo. There might be a
+good reason but I don&rsquo;t know why they&rsquo;re different.</p>
+<p>I had to copy the header files <code>fuse_i.h</code> and <code>refcount.h</code> into
+<code>/usr/src/linux-headers-4.4.0-116/include/linux/</code> to get it working, and also copypaste
+<code>typedef unsigned __bitwise __poll_t;</code> inline from some place where it was defined.</p>
+<h2 id="bonus-how-to-test-from-userspace-if-a-program-triggers-a-syscall">(Bonus) How to test, from userspace, if a program triggers a syscall</h2>
+<p><a href="https://joonas.fi/2018/11/30/strace-is-awesome/">strace is awesome</a>!</p>
+<p>I knew there is a <code>$ sync</code> command, but I didn&rsquo;t know if it could trigger <code>syncfs</code> syscall
+(instead of <code>sync</code>).</p>
+<p>I took a look:</p>
+<pre><code>$ sync --help
+Usage: sync [OPTION] [FILE]...
+Synchronize cached writes to persistent storage
+
+If one or more files are specified, sync only them,
+or their containing file systems.
+
+	-d, --data             sync only file data, no unneeded metadata
+	-f, --file-system      sync the file systems that contain the files
+			--help     display this help and exit
+			--version  output version information and exit
+</code></pre>
+<p>Good, there&rsquo;s a <code>--file-system</code> option which I guess triggers <code>syncfs</code>. I tested it with:</p>
+<pre><code>$ strace sync --file-system
+... output snipped ...
+sync()                                  = 0
+close(1)                                = 0
+close(2)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+</code></pre>
+<p>The wrong syscall - it didn&rsquo;t do what I wanted. A new test with giving root path:</p>
+<pre><code>$ strace sync --file-system /
+... output snipped ...
+syncfs(3)                               = 0
+close(3)                                = 0
+close(1)                                = 0
+close(2)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+</code></pre>
+<p>Success! strace is a valuable tool for seeing what syscalls get invoked from userspace.</p>
+<p>kprobes complement strace nicely for seeing syscalls from kernel side (along with much,
+much more).</p>
+<h2 id="additional-reading">Additional reading</h2>
+<ul>
+<li><a href="http://www.brendangregg.com/ebpf.html">Brendan Gregg</a>
+<ul>
+<li>Is your go-to guy on all things Linux perf tooling.</li>
+<li>In fact, he&rsquo;s behind much of the work with kprobes etc., and much more.</li>
+</ul>
+</li>
+<li>BCC
+<ul>
+<li><a href="https://github.com/iovisor/bcc/blob/master/docs/tutorial_bcc_python_developer.md">Tutorial</a></li>
+<li><a href="https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md">Reference guide</a></li>
+</ul>
+</li>
+<li>Ricardo Delfín
+<ul>
+<li><a href="https://rdelfin.com/blog/post_ebpf_001">eBPF and bcc: An Introduction</a></li>
+<li><a href="https://rdelfin.com/blog/post_ebpf_002">eBPF and bcc: Your First Program</a></li>
+</ul>
+</li>
+</ul>
+<p>Good luck with your adventures!</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2020\/03\/27\/linux-kernel-probing';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#background">Background</a></li>
+    <li><a href="#what-can-i-use-it-for">What can I use it for?</a></li>
+    <li><a href="#prerequisite-tools">Prerequisite tools</a></li>
+    <li><a href="#your-first-program">Your first program</a>
+      <ul>
+        <li><a href="#what-does-the-code-above-do">What does the code above do?</a></li>
+      </ul>
+    </li>
+    <li><a href="#triggering-the-probe">Triggering the probe</a></li>
+    <li><a href="#filtering-or-accessing-function-arguments">Filtering or accessing function arguments</a></li>
+    <li><a href="#attaching-to-generic-functions-not-just-syscalls">Attaching to generic functions (not just syscalls)</a></li>
+    <li><a href="#good-to-know">Good to know</a>
+      <ul>
+        <li><a href="#lifecycle">Lifecycle</a></li>
+        <li><a href="#what-does-ebpf-code-look-like">What does eBPF code look like?</a></li>
+      </ul>
+    </li>
+    <li><a href="#full-example-from-the-animation">Full example from the animation</a></li>
+    <li><a href="#bonus-how-to-test-from-userspace-if-a-program-triggers-a-syscall">(Bonus) How to test, from userspace, if a program triggers a syscall</a></li>
+    <li><a href="#additional-reading">Additional reading</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&text=Linux%20kernel%20probing">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&is_video=false&description=Linux%20kernel%20probing">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Linux%20kernel%20probing&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&title=Linux%20kernel%20probing">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&name=Linux%20kernel%20probing&description=Kernel%20probes%20allow%20you%20to%20dynamically%20attach%20debug%20points%20to%20the%20kernel%20%28or%20even%20to%20extend%20it%20to%20some%20extent%20with%20persistent%20hooks%29.%20You%20can%20attach%20not%20just%20to%20syscalls%2c%20but%20also%20to%20many%20functions%20inside%20the%20kernel%20%28they%20have%20to%20be%20exported%20functions%20though%29.%0aDynamically%20means%2c%20that%20you%20don%26rsquo%3bt%20have%20to%20recompile%20the%20kernel%20and%2for%20restart%20your%20computer%20-%20it%26rsquo%3bs%20pretty%20cool%21%0aDisclaimer%3a%20these%20are%20my%20notes%20about%20learning%20about%20kprobes%20today%2c%20so%20I%20might%20not%20know%20what%20I%26rsquo%3bm%20talking%20about.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2020%2f03%2f27%2flinux-kernel-probing%2f&t=Linux%20kernel%20probing">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>usability on joonas.fi</title>
+    <link>https://joonas.fi/tags/usability/</link>
+    <description>Recent content in usability on joonas.fi</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Jun 2021 07:29:32 +0000</lastBuildDate><atom:link href="https://joonas.fi/tags/usability/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding pattern: preventing the use of &#39;0 results&#39; as a loading indicator</title>
+      <link>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</link>
+      <pubDate>Wed, 09 Jun 2021 07:29:32 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2021/06/coding-pattern-preventing-the-use-of-0-results-as-a-loading-indicator/</guid>
+      <description>The use of 0-results-as-a-loading-indicator is really prevalent. It is horrible UX, as it is directly lying to the user.
+Why is this a problem? &amp;ldquo;0 results&amp;rdquo; and &amp;ldquo;data is being loaded&amp;rdquo; are two different things, so we shouldn&amp;rsquo;t collapse them as the same message to the user.
+Just today I opened Google Drive on Android and the data loading took so many seconds I had time to scratch my head with &amp;ldquo;why is my Drive empty?</description>
+    </item>
+    
+    <item>
+      <title>Don´t use separate domain for mobile</title>
+      <link>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</link>
+      <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/</guid>
+      <description>Unfortunately, redirecting to m. prefix for mobile browsers is quite popular. The downside of this is that when people share a link to the content, and if another person follows the link on a desktop or a laptop, the view is horrible:
+If you want to use separate domain for mobile, at the very least make sure the &amp;ldquo;desktop&amp;rdquo; link takes you to the same content:
+After clicking it, it only takes me to the frontpage of the website:</description>
+    </item>
+    
+    <item>
+      <title>Poor tax communication from Digitalocean</title>
+      <link>https://joonas.fi/2015/08/06/poor-tax-communication-from-digitalocean/</link>
+      <pubDate>Thu, 06 Aug 2015 10:03:00 +0000</pubDate>
+      
+      <guid>https://joonas.fi/2015/08/06/poor-tax-communication-from-digitalocean/</guid>
+      <description>Tax related issues are never too easy, so in communicating changes to your billing related tax procedures should be explained very clearly.
+I received this email from Digitalocean:
+It somewhat clearly states, that for individuals the price will be increased (&amp;ldquo;will include a VAT charge&amp;rdquo;).
+How about for businesses? Will my price be increased? The words seem like yes (&amp;ldquo;your first invoice with VAT included will be sent&amp;rdquo; [on your next bill]).</description>
+    </item>
+    
+  </channel>
+</rss>

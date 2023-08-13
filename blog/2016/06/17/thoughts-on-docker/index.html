@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Thoughts on Docker | joonas.fi</title>
+  <meta name="description" content="Let’s get to work ᕕ( ᐛ )ᕗ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Thoughts on Docker" />
+<meta property="og:description" content="Now that I&rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&rsquo;s a good time to share my findings.
+tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&rsquo;m solving with my software, instead of the mundane shit I&rsquo;d have to deal with without it (configuring dev, build/testing and production environments &#43; how do I deliver and deploy this to production?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://joonas.fi/2016/06/17/thoughts-on-docker/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-06-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-06-17T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Thoughts on Docker"/>
+<meta name="twitter:description" content="Now that I&rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&rsquo;s a good time to share my findings.
+tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&rsquo;m solving with my software, instead of the mundane shit I&rsquo;d have to deal with without it (configuring dev, build/testing and production environments &#43; how do I deliver and deploy this to production?"/>
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/style-white.css">
+  
+   <link rel="stylesheet" href="/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+  
+  
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-24122659-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://joonas.fi/2016/06/16/dont-use-separate-domain-for-mobile/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://joonas.fi/2016/06/23/microsoft-you-make-miserable-software/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&text=Thoughts%20on%20Docker">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&is_video=false&description=Thoughts%20on%20Docker">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Thoughts%20on%20Docker&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&name=Thoughts%20on%20Docker&description=Now%20that%20I%26rsquo%3bve%20been%20actively%20messing%20around%20with%20Docker%20for%20more%20than%206%20months%2c%20and%20run%20production%20software%20on%20top%20of%20it%2c%20it%26rsquo%3bs%20a%20good%20time%20to%20share%20my%20findings.%0atl%3bdr%3a%20Docker%20has%20some%20disgusting%20warts%2c%20but%20the%20sum%20of%20positive%20and%20negative%20points%20is%20clearly%20on%20the%20positive%20side.%20I%20fucking%20love%20Docker%20for%20the%20problems%20it%20solves%2c%20as%20I%20get%20to%20focus%20on%20the%20actual%20problems%20I%26rsquo%3bm%20solving%20with%20my%20software%2c%20instead%20of%20the%20mundane%20shit%20I%26rsquo%3bd%20have%20to%20deal%20with%20without%20it%20%28configuring%20dev%2c%20build%2ftesting%20and%20production%20environments%20%2b%20how%20do%20I%20deliver%20and%20deploy%20this%20to%20production%3f">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&t=Thoughts%20on%20Docker">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-good-stuff">The good stuff</a>
+      <ul>
+        <li><a href="#dev-and-production-parity">Dev and production parity</a></li>
+        <li><a href="#increases-host-utilization">Increases host utilization</a></li>
+        <li><a href="#encourages-to-outsource-some-concerns-to-infrastructure">Encourages to outsource some concerns to infrastructure</a></li>
+        <li><a href="#immutable-images">Immutable images</a></li>
+        <li><a href="#how-do-i-ship-this-into-production">How do I ship this into production?</a></li>
+        <li><a href="#botched-deployment-rollback">Botched deployment (rollback)</a></li>
+        <li><a href="#you-can-easily-grasp-whats-running-on-a-server">You can easily grasp what&rsquo;s running on a server</a></li>
+        <li><a href="#infrastructure-as-code">Infrastructure as code</a></li>
+        <li><a href="#explicit-dependencies">Explicit dependencies</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-bad-stuff">The bad stuff</a>
+      <ul>
+        <li><a href="#layer-clusterfuck">Layer clusterfuck</a></li>
+        <li><a href="#badly-documented-naming-confusion">Badly documented naming confusion</a></li>
+        <li><a href="#registry-implementation">Registry implementation</a></li>
+        <li><a href="#theres-no-layer-deduplication-across-repositories">There&rsquo;s no layer deduplication across repositories</a></li>
+        <li><a href="#docker-hub-is-somewhat-unrealiable--features-broken">Docker Hub is somewhat unrealiable / features broken</a></li>
+        <li><a href="#the-latest-trend">The &ldquo;latest&rdquo; trend</a></li>
+        <li><a href="#not-respecting-already-published-tags">Not respecting already published tags</a></li>
+        <li><a href="#running-another-command-in-a-stopped-container">Running another command in a stopped container</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	🚨
+	<a href="https://www.reuters.com/world/europe/icc-says-may-investigate-possible-war-crimes-after-russian-invasion-ukraine-2022-02-25/">Putin is a war criminal</a>.
+	<a href="https://arstechnica.com/science/2022/03/russia-attacked-ukrainian-hospitals-violating-humanitarian-law-who-says/">Russians are bombing hospitals</a>.
+	💔🇺🇦
+</div>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Thoughts on Docker
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2016-06-17 00:00:00 &#43;0000 UTC" itemprop="datePublished">2016-06-17</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/programming/" rel="tag">programming</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>Now that I&rsquo;ve been actively messing around with Docker for more than 6 months, and run production software on top of it, it&rsquo;s a good time to share my findings.</p>
+<p>tl;dr: Docker has some disgusting warts, but the sum of positive and negative points is clearly on the positive side. I fucking love Docker for the problems it solves, as I get to focus on the actual problems I&rsquo;m solving with my software, instead of the mundane shit I&rsquo;d have to deal with without it (configuring dev, build/testing and production environments + how do I deliver and deploy this to production?).</p>
+<p>Some of the points are related to Docker itself, some are related to the culture and habits around it. Of course Docker still being relatively new, we are still converging towards the consensus on best practices.</p>
+<h2 id="the-good-stuff">The good stuff</h2>
+<h3 id="dev-and-production-parity">Dev and production parity</h3>
+<p>You can get your development and production environments to almost 100 % parity, or at least really close, depending on your development model.</p>
+<p>No more &ldquo;works on my machine&rdquo;. Usually, if it works somewhere it works everywhere and the other way around - if it doesn&rsquo;t work somewhere it probably doesn&rsquo;t work anywhere.</p>
+<p>Of course this is a bit of oversimplification, but given sensible infrastructure decisions (and having as much infrastructure as possible also containerized), and applying the exact same infrastructure, or at least as close as possible, to dev and production almost guarantees you this.</p>
+<h3 id="increases-host-utilization">Increases host utilization</h3>
+<p>Containerization increases host utilization (= do more with less servers) because its more efficient than virtual machines, but essentially produce the same isolation.</p>
+<p>The isolation is not probably guaranteed in a security sense, but in the sense that one container doesn&rsquo;t accidentally mess with another container. Malice in VMs vs containers is a different question, but the security improves as the container technology matures.</p>
+<h3 id="encourages-to-outsource-some-concerns-to-infrastructure">Encourages to outsource some concerns to infrastructure</h3>
+<p>Logging: Docker has first-class support for the use case where the application logs to <code>stdout</code> and Docker can be configured to deliver the logs to where ops team wants them to go (for example shipping them to a external log aggregation service is dead easy with <a href="https://github.com/gliderlabs/logspout">progrium/logspout</a>).</p>
+<p>No more including huge components in your software just to spew out some log lines (I&rsquo;m looking at you, <a href="http://logging.apache.org/log4j/2.x/">log4j</a> with 1.4 MB of source code).</p>
+<p>Docker&rsquo;s philosophy sits so well with the <a href="http://12factor.net/">twelve-factor app </a> principles.</p>
+<p>There&rsquo;s also a booming ecosystem around Docker and software-defined networking. Essentially SDN in Docker world means that different containers on different hosts can talk to each other, even if they&rsquo;re on internal networks (the default). Just look at <a href="https://github.com/coreos/flannel">flannel</a>, <a href="https://github.com/weaveworks/weave">Weave</a> or <a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/">Docker&rsquo;s native solution</a> (no encryption though). See also this <a href="https://xelatex.github.io/2015/11/15/Battlefield-Calico-Flannel-Weave-and-Docker-Overlay-Network/">kick-ass comparison</a>.</p>
+<h3 id="immutable-images">Immutable images</h3>
+<p>The idea: build an image. It is immutable - meaning nobody will change it to &ldquo;test just one thing quickly&rdquo;. Now test it. If its good, deploy that into production. It is less likely that nothing goes wrong, as its almost guaranteed to run in production exactly the same as it ran during your testing.</p>
+<p>This immutability encourages you towards this model:</p>
+<ul>
+<li>build an artifact</li>
+<li>test it</li>
+<li>deploy said artifact</li>
+</ul>
+<p>I.e. compile once, and then its just one <code>$ docker run ...</code> away from running anywhere from 1 to thousands of servers.</p>
+<p>The immutability also encourages you to write stateless apps, which are super easy to scale. Or if you need state, at least you will design for it, and think in terms of different categories of state:</p>
+<ul>
+<li>caching state =&gt; safe to discard</li>
+<li>business state =&gt; maybe only keep that state in a service designed for state, i.e. a database?</li>
+</ul>
+<h3 id="how-do-i-ship-this-into-production">How do I ship this into production?</h3>
+<p>Because of the immutable image aspect, and the fact that the image contains everything needed (app, dependencies, even the OS), you just ship that <strong>one image</strong> (read: single build artifact) into production.</p>
+<p>The shipping also is easy, since Docker has a concept of a registry. From your build machine, just transfer it (<code>push</code>) to the registry. And upon deploying to production, that machine will fetch (<code>pull</code>) the image and start a container off of it.</p>
+<p>Also, without Docker you have to specially design your software if you want to have multiple instances of the same app to run on the same machine. Docker natively supports running multiple copies of the same image. Though if it needs any static ports exposed you probably want to use a reverse proxy / loadbalancer (f.ex. <a href="https://github.com/jwilder/nginx-proxy">jwilder/nginx-proxy</a> is fully automated).</p>
+<p>That being said, there are issues with the registry implementation (see the heading under &ldquo;Bad parts&rdquo;).</p>
+<h3 id="botched-deployment-rollback">Botched deployment (rollback)</h3>
+<p>Even though roll forward is a much better thing, rolling back a deployment is dead easy. Also, because the image is probably still cached on the server, starting the old version should take only seconds. Also, the immutability helps here: you get exactly what you want with the rollback, since its all-encompassing atomic &ldquo;restore point&rdquo;.</p>
+<h3 id="you-can-easily-grasp-whats-running-on-a-server">You can easily grasp what&rsquo;s running on a server</h3>
+<p>In pre-Docker times, when I wanted to decommission a server, I&rsquo;d have to spend the whole afternoon looking at nearly every corner on the server to discover what crap I had managed to install there during the years - to figure out what I wanted to save.</p>
+<p>Now, if you strictly follow the principle that &ldquo;nothing gets deployed on the server outside of Docker images&rdquo;, inspecting the server is as easy as <code>$ docker ps --all</code> (all =&gt; also list the stopped containers).</p>
+<p>Now, when I want to decommission a server, I just ask Docker what&rsquo;s running and on a case-by-case basis decide whether to:</p>
+<ul>
+<li>just kill &amp; forget that service (if its old and/or unused) OR</li>
+<li>start that same image on another server (which is damn easy with immutable images) and update the DNS to point to the new server.</li>
+</ul>
+<p>This brings a peace of mind to me, a person with notoriously bad memory. :)</p>
+<p>Now, the whole process of migrating services off an old server to a new server literally takes less than 30 minutes.</p>
+<p>Also this ease of migrating from server to server enables immutable infrastructure. E.g. you never have to apply risky operating system or Kernel updates to the machine, as you can so easily just provision a new server with the updated host OS and Kernel and throw the old server into the trash.</p>
+<h3 id="infrastructure-as-code">Infrastructure as code</h3>
+<p>Since the <code>Dockerfile</code> forces you to codify how the image gets built, it forces you to document:</p>
+<ul>
+<li>Which operating system + OS version your software uses (= base image)</li>
+<li>Which packages on top of the base image your software requires (e.g. <code>apt-get install ...</code>)</li>
+</ul>
+<p>This is only a good thing. No more there is only the one guy in the team who knows how the app has to be configured to work properly (&ldquo;tribal knowledge&rdquo;). New hires can find everything they need to learn how the app works just by looking at the code. The <strong>why</strong> needs to be in the documentation, though (arguably that also should be in the version control).</p>
+<h3 id="explicit-dependencies">Explicit dependencies</h3>
+<p>Let&rsquo;s say you want to run two different applications on a server. Scenario:</p>
+<ul>
+<li>App A requires <code>curl</code>, and has that requirement documented</li>
+<li>App B requires also <code>curl</code>, but <strong>does not</strong> have that requirement documented</li>
+</ul>
+<p>App <code>B</code> <em>accidentally works</em>, because app <code>A</code> is also installed on the same server, which accidentally satisfied the undeclared dependency.</p>
+<p>NOTE: these accidental/implicit dependencies are also possible with provisioning tools such as Chef/Puppet/Ansible/whatnot, if you&rsquo;re not careful (and mistakes do happen).</p>
+<p>With Docker, each app has its own sandbox. Sure, your base image (e.g. <code>ubuntu:latest</code>) might have also <code>curl</code> installed by default, but now the stuff app <code>A</code> has in its image does not in any way affect app <code>B</code>. And the stuff app <code>A</code> installs on top of its base image is not visible to app <code>B</code>.</p>
+<p>Dependencies in <code>Dockerfile</code> are mostly explicit (implicit dependencies come from base image), but at least implicit dependencies are private, since each container run in its own sandbox and will not let other containers use them! Plus implicit dependencies are noticed in testing when something breaks if you change your base image or its version (e.g. base image no longer supplies <code>curl</code>).</p>
+<p>Same visibility / sandboxing also applies to code dependencies. For example with a microservices model, given following components:</p>
+<ul>
+<li>UI service</li>
+<li>User registry</li>
+</ul>
+<p>Now let&rsquo;s say your UI wants to fetch user details, the UI can&rsquo;t just call some function directly from the user registry to fetch that data (that would be a code dependency between containers, which is not supported). Your user registry has to expose an API so the UI can fetch user data (probably over HTTP). That is an explicitly modeled dependency, and it forces you to design an API for the operation. The API will probably be much more thought-out than a quickly hacked-in function call.</p>
+<p>Plus if you ever need to provide that API to consumers, you&rsquo;re much closer to that goal already.</p>
+<h2 id="the-bad-stuff">The bad stuff</h2>
+<h3 id="layer-clusterfuck">Layer clusterfuck</h3>
+<p>In <code>Dockerfile</code> every minor command produces a new layer, such as:</p>
+<ul>
+<li>Setting an <code>ENV</code> variable or</li>
+<li>Specifying contact details in <code>MAINTAINER</code> instruction)</li>
+</ul>
+<p>The more layers you have the slower it is to transport the resulting image. Each unnecessary layer, even empty ones with almost-zero file size, add about a second (due to latency I guess) in both the <code>push</code> and <code>pull</code> phases (= affects both build and deployment).</p>
+<p>The argument to the &ldquo;lets make everything a layer&rdquo; craziness in the build process is cacheability. That is, builds in best case are super fast because they only have to change very little, if it can efficiently use the preceding cached layers.</p>
+<p>But I don&rsquo;t buy that argument since they could have had separate layer models for building and the result. I find in my most projects wanting the output to be just one layer instead of 10 or more.</p>
+<p>There is a <a href="https://github.com/hashicorp/docker-consul/blob/f4f7b4e9e9824affb2f6dcd8b08b6f29fc630f4a/0.6/Dockerfile#L17">horrible hack</a> to minimize the layer count by bundling all your separate <code>RUN</code> commands in a single <code>RUN</code> instruction. This almost defeats the purpose of the cache system.</p>
+<p>There are a few &ldquo;squash&rdquo; 3rd party tools to help post-process the resulting layers into something more sensible:</p>
+<ul>
+<li><a href="https://github.com/jwilder/docker-squash">jwilder/docker-squash</a>: written in Go (which is good because you only need the small binary). Doesn&rsquo;t seem to work anymore, which is a shame. (Docker API change?)</li>
+<li><a href="https://github.com/goldmann/docker-squash">goldmann/docker-squash</a>. Written in Python. Works but unfortunately requires 200-300 MB&rsquo;s worth of space when downloading Python &amp; pip packages. And doesn&rsquo;t have as nice behaviour as jwilder&rsquo;s tool with <code>-from</code> defaulting to <code>Dockerfile</code>&rsquo;s <code>FROM</code> instruction (<a href="https://github.com/goldmann/docker-squash/issues/96#issuecomment-222156314">which is what most would want anyway</a>).</li>
+</ul>
+<p>This squash command should be part of the Docker core, so I don&rsquo;t have to download around 300 MB of Python-related crap to my build machine to fix the layer clusterfuck.</p>
+<h3 id="badly-documented-naming-confusion">Badly documented naming confusion</h3>
+<p>Example: run <a href="http://redis.io/">Redis</a> (an in-memory database) with Docker:</p>
+<pre><code>$ docker run -it redis
+</code></pre>
+<p>The &ldquo;redis&rdquo; part is the name of the image. The &ldquo;image address spec&rdquo; most Docker commands support is like this:</p>
+<pre><code>[registry/] [username/] image [:tag]
+</code></pre>
+<p>Yes, all components except <code>image</code> are optional. And yes, this is largely undocumented. I learned the actual format out of mostly my own research (= stumbling). Even <code>$ docker push --help</code> says only this:</p>
+<pre><code>Usage:  docker push [OPTIONS] NAME[:TAG]
+</code></pre>
+<p>Neither do the docs online explain the &ldquo;image address spec&rdquo;. The closest documentation I&rsquo;ve found is from a <a href="https://docs.docker.com/mac/step_six/">Mac tutorial</a>:</p>
+<p><img src="17-docker-tag.png" alt=""></p>
+<p>But even that doesn&rsquo;t explain this fully. I&rsquo;ll try my best now to try to explain this madness:</p>
+<p>When you build an image, all it gets is an id - a hash (just like in version control). We must add it a name and tag for it to make some sense. After all, <code>company/product:v1.2.3</code> makes more sense than <code>7912503b1df0</code>, right?</p>
+<p>After giving my first image a name, I spent quite some time scratching my head on how do I publish my image to Docker Hub, since I think <code>push</code>ing an image requires me to specify <strong>where</strong> I want to <code>push</code> my image to (remember, there are other Docker registries than just the official Docker Hub),  and under which <strong>user account</strong> and to which <strong>repository</strong> I want to publish it to! How am I going to specify those details on <code>push</code>? (note the lacking help on <code>$ docker push --help</code> from before)</p>
+<p>It took me a while to realize that <strong>the image spec is the actual storage location</strong> along with all the necessary details (registry, username, repository and tag). It was so hard to realize because the examples are always so simple (<code>$ docker run -it redis</code>), and the defaults are not clearly documented.</p>
+<p>So like I said, most components in the image spec are optional, thus we end up with permutations:</p>
+<ul>
+<li>redis</li>
+<li>redis:latest</li>
+<li>library/redis</li>
+<li>library/redis:latest</li>
+<li>docker.io/library/redis</li>
+<li>docker.io/library/redis:latest</li>
+</ul>
+<p>All of the above are actually fully equivalent! Yes, it&rsquo;s time for a WTF! Stay with me, I&rsquo;ll explain those soon!</p>
+<p>If we&rsquo;d use some other registry than Docker Hub, then the image spec would look like this:</p>
+<ul>
+<li>docker-registry.other-domain.com/somecompany/redis (= non-default registry)</li>
+<li>docker-registry.other-domain.com/somecompany/redis:latest</li>
+</ul>
+<p>Let&rsquo;s break down the rules:</p>
+<ul>
+<li>When tag (= &ldquo;version&rdquo;) is not defined, &ldquo;latest&rdquo; is assumed (<code>redis =&gt; redis:latest</code>).</li>
+<li>If user is not defined, &ldquo;library&rdquo; is assumed (<code>redis:latest =&gt; library/redis:latest</code>)</li>
+<li>If registry is not defined, Docker Hub is assumed (<code>library/redis:latest =&gt; docker.io/library/redis:latest</code>). And yes, the official address for Docker Hub is <a href="https://hub.docker.com/">hub.docker.com</a> but the registry itself has a different hostname.</li>
+</ul>
+<p>Now that you know this formula, you can &ldquo;easily&rdquo; realize that the name/tag combo tells everything needed to <code>push</code> / <code>pull</code> images, even for simple spec like <code>redis</code>, we can deduce the following from it:</p>
+<ul>
+<li>Registry</li>
+<li>Owner of repo</li>
+<li>Repo name</li>
+<li>Tag (version)</li>
+</ul>
+<p>Thus, if you read the above rules again, <code>redis</code> expands to <code>docker.io/library/redis:latest</code>.</p>
+<p>This scheme is clever, I&rsquo;ll give them that. But clever is the arch enemy of simple. And for newcomers this is almost hostile, because its not documented in easy-to-understand way. It boggles my mind.</p>
+<p>Sidenote: for private registries, all that cuteness in the naming amounts to nothing. This is how one of my image is named:</p>
+<pre><code>329074924855.dkr.ecr.us-east-1.amazonaws.com/joonas.fi:20160617_1059_6be5719088c5
+</code></pre>
+<p>Here&rsquo;s how it looks in the output of <code>$ docker ps</code> command:</p>
+<p><img src="17-docker-ps-long-name.png" alt=""></p>
+<p>Note, how the listing is unreadable, because it is split into two lines. Apparently the text ui (&ldquo;TUI&rdquo;) is only designed for open source stuff (not stuff in private registries).</p>
+<p>p.s. If you look closely, you&rsquo;ll notice that my blog runs in a container, of course. :)</p>
+<h3 id="registry-implementation">Registry implementation</h3>
+<p>If you don&rsquo;t need private repos, this is not an issue for you since Docker Hub is free to use for open source stuff.</p>
+<p>I somewhat dislike Docker&rsquo;s Registry implementation because it requires a special server software for the registry. That means additional infrastructure to maintain, unless you pay for Docker Hub, <a href="https://aws.amazon.com/ecr/">AWS ECR</a> or <a href="https://cloud.google.com/container-registry/">Google&rsquo;s</a>, but both ECR and Google won&rsquo;t work painlessly with just <code>$ docker login</code>, f.ex. with AWS the login command expires in 12 hours and you need their SDK to generate new login tokens. I had to build automation around that. And IIRC Google&rsquo;s implementation requires a custom client for push/pull commands.</p>
+<p><a href="https://coreos.com/">CoreOS</a>&rsquo;s <a href="https://coreos.com/rkt/">rkt</a>&rsquo;s implementation is far superior because it makes do with just static files via HTTP GET (i.e. <a href="https://aws.amazon.com/s3/">AWS S3</a> will do), it has cryptographic trust verification (pgp) and DNS-based discovery.</p>
+<h3 id="theres-no-layer-deduplication-across-repositories">There&rsquo;s no layer deduplication across repositories</h3>
+<p>Got each repository having the same base image? The same base image layers will have to be pushed to the two repositories, even though they are on the same registry.</p>
+<p>A simple reference counting mechanism would fix this, i.e. multiple repos using the same layer would be stored only once, and delete on the physical file would only occur when refcount would reach zero. The layers already have cryptographic hashes (<code>sha256</code>), so identifying layers across repos securely would not be an issue.</p>
+<h3 id="docker-hub-is-somewhat-unrealiable--features-broken">Docker Hub is somewhat unrealiable / features broken</h3>
+<p>Some days (to be fair: rarely, but still) pushing to Docker Hub just does not work - I&rsquo;ll get some cryptic error messages, and when I try to do the same command later, it works.</p>
+<p>Searching for own images in the Docker Hub does not work like it should be (seems to be some terrible JavaScript event listener race conditions). Sometimes you have to backspace the last character you typed, and type it again. Otherwise it shows you the wrong search results.</p>
+<p>Removing repository from Docker Hub sometimes doesn&rsquo;t work. You have to type the repository as a confirmation in an input box to enable the delete button, but a couple of times when writing the name correctly, the delete button didn&rsquo;t just light up. I suspect its the same event handling race issues the filter input had.</p>
+<p>Docker Hub webhooks didn&rsquo;t work. I got some JavaScript errors when trying to add a webhook. And when I finally got around to adding the webhook, it simply didn&rsquo;t work. When I pushed layers to Docker Hub, the webhook got called all right, but it didn&rsquo;t contain any relevant information about the layers or the image I just pushed..</p>
+<h3 id="the-latest-trend">The &ldquo;latest&rdquo; trend</h3>
+<p>The <code>latest</code> tag is actually super useful, but a worrying percentage of the projects are only published under the <code>latest</code> tag. It is asking for trouble since <code>latest</code> is obviously a moving target - you never know what you&rsquo;ll get. If something worked for you before, it probably won&rsquo;t in the future (the ability to reproduce the circumstances are lost).</p>
+<p>It is super important to develop your software against the same version of your dependency, as what you&rsquo;ll be running in production. So being able to pin (&ldquo;lock down&rdquo;) to an explicit version is a must.</p>
+<h3 id="not-respecting-already-published-tags">Not respecting already published tags</h3>
+<p>Just today I noticed that a <em>recent</em> tag I was using from official Redis repo was silently removed. This is why for important images I&rsquo;ll keep a personal mirror of the important images I want to refer to.</p>
+<h3 id="running-another-command-in-a-stopped-container">Running another command in a stopped container</h3>
+<p>When a container is running, you can run another commands in it. E.g. if you started Redis as a container, you can open a Bash shell in it as well.</p>
+<p>But if a container is stopped, all you can do is start the container with the same command (redis). You cannot have a shell in it anymore. All you can do is start it using the same command as you originally started the container with. Which is a shame, since if the container&rsquo;s start command fails (e.g. data corruption in a database), you cannot shell in to investigate.</p>
+<p>Source: <a href="https://forums.docker.com/t/run-command-in-stopped-container/343/11">https://forums.docker.com/t/run-command-in-stopped-container/343/11</a></p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading! <span style="font-style: normal;">😍</span></p>
+		<p>
+			If you like my writing, consider following me on
+			<a href="https://twitter.com/joonas_fi">Twitter</a>.
+		</p>
+
+		<p>
+			Stay updated on my blog posts &amp; projects - sign up for
+			<a href="https://buttondown.email/joonas">my newsletter</a>. 🚀
+			<br />
+			<small>
+				No spam, unsubscribe any time.
+				<a href="/feed.xml">RSS</a> also available.
+			</small>
+		</p>
+	</div>
+  </article>
+
+  <hr />
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+var disqus_identifier = '\/2016\/06\/17\/thoughts-on-docker';
+
+(function() {
+   if (window.location.hostname.indexOf('.dev.fn61.net') != -1) {
+        document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+        return;
+    }
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'joonas-fi';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+  
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-good-stuff">The good stuff</a>
+      <ul>
+        <li><a href="#dev-and-production-parity">Dev and production parity</a></li>
+        <li><a href="#increases-host-utilization">Increases host utilization</a></li>
+        <li><a href="#encourages-to-outsource-some-concerns-to-infrastructure">Encourages to outsource some concerns to infrastructure</a></li>
+        <li><a href="#immutable-images">Immutable images</a></li>
+        <li><a href="#how-do-i-ship-this-into-production">How do I ship this into production?</a></li>
+        <li><a href="#botched-deployment-rollback">Botched deployment (rollback)</a></li>
+        <li><a href="#you-can-easily-grasp-whats-running-on-a-server">You can easily grasp what&rsquo;s running on a server</a></li>
+        <li><a href="#infrastructure-as-code">Infrastructure as code</a></li>
+        <li><a href="#explicit-dependencies">Explicit dependencies</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-bad-stuff">The bad stuff</a>
+      <ul>
+        <li><a href="#layer-clusterfuck">Layer clusterfuck</a></li>
+        <li><a href="#badly-documented-naming-confusion">Badly documented naming confusion</a></li>
+        <li><a href="#registry-implementation">Registry implementation</a></li>
+        <li><a href="#theres-no-layer-deduplication-across-repositories">There&rsquo;s no layer deduplication across repositories</a></li>
+        <li><a href="#docker-hub-is-somewhat-unrealiable--features-broken">Docker Hub is somewhat unrealiable / features broken</a></li>
+        <li><a href="#the-latest-trend">The &ldquo;latest&rdquo; trend</a></li>
+        <li><a href="#not-respecting-already-published-tags">Not respecting already published tags</a></li>
+        <li><a href="#running-another-command-in-a-stopped-container">Running another command in a stopped container</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&text=Thoughts%20on%20Docker">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&is_video=false&description=Thoughts%20on%20Docker">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Thoughts%20on%20Docker&body=Check out this article: https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&title=Thoughts%20on%20Docker">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&name=Thoughts%20on%20Docker&description=Now%20that%20I%26rsquo%3bve%20been%20actively%20messing%20around%20with%20Docker%20for%20more%20than%206%20months%2c%20and%20run%20production%20software%20on%20top%20of%20it%2c%20it%26rsquo%3bs%20a%20good%20time%20to%20share%20my%20findings.%0atl%3bdr%3a%20Docker%20has%20some%20disgusting%20warts%2c%20but%20the%20sum%20of%20positive%20and%20negative%20points%20is%20clearly%20on%20the%20positive%20side.%20I%20fucking%20love%20Docker%20for%20the%20problems%20it%20solves%2c%20as%20I%20get%20to%20focus%20on%20the%20actual%20problems%20I%26rsquo%3bm%20solving%20with%20my%20software%2c%20instead%20of%20the%20mundane%20shit%20I%26rsquo%3bd%20have%20to%20deal%20with%20without%20it%20%28configuring%20dev%2c%20build%2ftesting%20and%20production%20environments%20%2b%20how%20do%20I%20deliver%20and%20deploy%20this%20to%20production%3f">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjoonas.fi%2f2016%2f06%2f17%2fthoughts-on-docker%2f&t=Thoughts%20on%20Docker">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2023  joonas.fi 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/today-i-learned/">Today I Learned</a></li>
+         
+        <li><a href="/about/">About</a></li>
+         
+        <li><a href="/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+
+
+</html>
