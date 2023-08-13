@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { interpreteCmd } from "./Interpreter";
-import { Link } from "react-router-dom";
 
 /* Modules */
 import Prompt from "../../common/Prompt/Prompt";
@@ -10,6 +10,8 @@ import CommandLine from "../../common/CommandLine/CommandLine";
 import "./Terminal.css";
 
 function Terminal(props) {
+  const navigate = useNavigate();
+  
   /* TODO: buffer & history should be stored in a state */
   const [buffer, setBuffer] = useState([]); /* Command outputs */
   const [history, setHistory] = useState([]); /* Command history */
@@ -60,7 +62,7 @@ function Terminal(props) {
           response += i + " " + history[i] + "\n";
         }
       } else if (response === "exit") {
-        <Link to="/launchpad" />;
+        navigate("/launchpad", { replace: true });
         return;
       }
 
