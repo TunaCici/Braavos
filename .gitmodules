@@ -1,0 +1,6 @@
+[submodule "external/Braavos_Blog"]
+	path = external/Braavos_Blog
+	url = https://github.com/TunaCici/Braavos_Blog.git
+[submodule "external/Braavos_2048"]
+	path = external/Braavos_2048
+	url = https://github.com/TunaCici/Braavos_2048
