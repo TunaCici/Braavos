@@ -24,12 +24,7 @@ function Launchpad(props) {
         navigate("/terminal", { replace: true });
         break;
       case "blog":
-        /* TODO: Implement hugo blog (/w cactus theme) */
-        const blogApp = document.getElementById("blogApp");
-
-        blogApp.classList.remove("shake-like-nicki");
-        void blogApp.offsetWidth;
-        blogApp.classList.add("shake-like-nicki");
+        navigate("/blog", { replace: true });
         break;
       default:
         break;
@@ -107,7 +102,7 @@ function Launchpad(props) {
         <li id="blogApp" className="launchpad-li" onClick={launchApp} data-app="blog">
           <div className="launchpad-app">
             <img className="launchpad-icon" src={Hugo_Theme_Icon} alt="Braavos Blog Icon" />
-            <h3 className="launchpad-h3"> Blog (WIP) </h3> 
+            <h3 className="launchpad-h3"> Blog </h3> 
           </div>
         </li>
       </div>
