@@ -24,7 +24,7 @@ function Launchpad(props) {
         navigate("/terminal", { replace: true });
         break;
       case "blog":
-        navigate("/blog", { replace: true });
+        window.location.href = "/blog";
         break;
       default:
         break;
