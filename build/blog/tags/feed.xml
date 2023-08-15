@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on tunacici</title>
+    <link>https://tunacici.com/blog/tags/</link>
+    <description>Recent content in Tags on tunacici</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>eli5</title>
+      <link>https://tunacici.com/blog/tags/eli5/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/eli5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://tunacici.com/blog/tags/linux/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>networking</title>
+      <link>https://tunacici.com/blog/tags/networking/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/networking/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>filesystem</title>
+      <link>https://tunacici.com/blog/tags/filesystem/</link>
+      <pubDate>Sun, 27 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/filesystem/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>emulation</title>
+      <link>https://tunacici.com/blog/tags/emulation/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/emulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>virtualization</title>
+      <link>https://tunacici.com/blog/tags/virtualization/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/virtualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>architecture</title>
+      <link>https://tunacici.com/blog/tags/architecture/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cpu</title>
+      <link>https://tunacici.com/blog/tags/cpu/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/cpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kibana</title>
+      <link>https://tunacici.com/blog/tags/kibana/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/kibana/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>https://tunacici.com/blog/tags/tutorial/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ubuntu</title>
+      <link>https://tunacici.com/blog/tags/ubuntu/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>compilers</title>
+      <link>https://tunacici.com/blog/tags/compilers/</link>
+      <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/compilers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>artificial intelligence</title>
+      <link>https://tunacici.com/blog/tags/artificial-intelligence/</link>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/artificial-intelligence/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>consciousness</title>
+      <link>https://tunacici.com/blog/tags/consciousness/</link>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/consciousness/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>philosophy</title>
+      <link>https://tunacici.com/blog/tags/philosophy/</link>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/philosophy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>brain-computer-interface</title>
+      <link>https://tunacici.com/blog/tags/brain-computer-interface/</link>
+      <pubDate>Sun, 03 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/brain-computer-interface/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cyberpunk</title>
+      <link>https://tunacici.com/blog/tags/cyberpunk/</link>
+      <pubDate>Sun, 03 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/cyberpunk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>utopia</title>
+      <link>https://tunacici.com/blog/tags/utopia/</link>
+      <pubDate>Sun, 03 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/utopia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>brain-dump</title>
+      <link>https://tunacici.com/blog/tags/brain-dump/</link>
+      <pubDate>Thu, 16 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/brain-dump/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>security</title>
+      <link>https://tunacici.com/blog/tags/security/</link>
+      <pubDate>Thu, 16 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>apple</title>
+      <link>https://tunacici.com/blog/tags/apple/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/apple/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>review</title>
+      <link>https://tunacici.com/blog/tags/review/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/review/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>soc</title>
+      <link>https://tunacici.com/blog/tags/soc/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/soc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elasticsearch</title>
+      <link>https://tunacici.com/blog/tags/elasticsearch/</link>
+      <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/tags/elasticsearch/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

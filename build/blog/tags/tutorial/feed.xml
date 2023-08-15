@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tutorial on tunacici</title>
+    <link>https://tunacici.com/blog/tags/tutorial/</link>
+    <description>Recent content in tutorial on tunacici</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/tutorial/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Install Kibana on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</guid>
+      <description>Kibana is the front-end application for the ElasticSearch server. It provides an interface to your server and all it’s data. You can do many things like: adding data, removing data, searching through your database and creating graphs and visualizations.
+If you use ElasticSearch, it is highly recommended that you also use Kibana too. They work excellent together. Writing applications that uses ElasticSearch becomes way easier if you use Kibana. It has a debug section where you can create queries which then can be used in your applications.</description>
+    </item>
+    
+    <item>
+      <title>How to Install ElasticSearch on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</link>
+      <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</guid>
+      <description>Note: Updated for the latest version 8.4.2 and tested on Ubuntu 22.04.
+ElasticSearch is a search engine built on Apache Lucene and developed in Java. It is basically a database but heavily focused on indexing and searching. ElasticSearch, indexes the database regularly to make searching extremely fast and easy. You can search within these indexes using it’s official application called Kibana or the APIs provided. But first you need an ElasticSearch server</description>
+    </item>
+    
+  </channel>
+</rss>
