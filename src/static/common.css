@@ -12,6 +12,14 @@
   font-weight: inherit;
 }
 
+.projects-p {
+  margin: 0;
+}
+
+.thin-text {
+  font-style: italic;
+}
+
 .writings {
   display: flex;
 
@@ -20,8 +28,20 @@
   height: 100%;
 }
 
+.writings-p {
+  margin: 0;
+}
+
+.cool-light-blue {
+  color: #66B7E8;
+}
+
 .cool-blue {
   color: #009DDC;
+}
+
+.cool-dark-blue {
+  color: #007AB8;
 }
 
 .cool-yellow {
