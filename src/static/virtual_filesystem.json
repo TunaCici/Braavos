@@ -17,6 +17,11 @@
                         ".man": "exit the shell (returns to Launchpad)",
                         ".usage": "exit"
                 },
+                "reboot": {
+                        ".type": "executable",
+                        ".man": "reboots the Braavos (navigates to BootSequence)",
+                        ".usage": "reboot"
+                },
                 "date": {
                         ".type": "executable",
                         ".man": "print the current date and time",
@@ -66,6 +71,11 @@
                         ".type": "executable",
                         ".man": "clear the terminal screen",
                         ".usage": "clear"
+                },
+                "blog": {
+                        ".type": "executable",
+                        ".man": "launch the blog",
+                        ".usage": "blog"
                 },
                 "contact": {
                         ".type": "executable",
