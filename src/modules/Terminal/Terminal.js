@@ -51,20 +51,30 @@ function Terminal(props) {
     if (shellPrompt) {
       response = interpreteCmd(shellPrompt);
 
-      /* TODO: Completely fcked up design here.. When is global state mgmt? */
-      if (response === "clear") {
-        clearBuffer();
-        return;
-      } else if (response === "history") {
-        response = ""
-
-        for (let i = 0; i < history.length; i++) {
-          response += i + " " + history[i] + "\n";
-        }
-      } else if (response === "exit") {
-        navigate("/launchpad", { replace: true });
-        return;
+      /* START: Completely fcked up design here.. When is global state mgmt? */
+      switch (response) {
+        case "clear":
+          clearBuffer();
+          break;
+        case "history":
+          response = "";
+          for (let i = 0; i < history.length; i++) {
+            response += i + " " + history[i] + "\n";
+          }
+          break;
+        case "exit":
+          navigate("/launchpad", { replace: true });
+          break;
+        case "reboot":
+          navigate("/", { replace: true });
+          break;
+        case "blog":
+          window.location.href = "/blog";
+          break;
+        default:
+          break;
       }
+      /* END */
 
       addToBuffer(
         <CommandLine
