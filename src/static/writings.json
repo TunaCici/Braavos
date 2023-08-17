@@ -3,51 +3,100 @@
     {
       "name": "Apple's M1 Pro Review",
       "date": "May 29, 2022",
+      "tags": [
+        "apple",
+        "soc",
+        "review"
+      ],
       "url": "https://medium.com/@tunacici7/apple-m1-chip-from-a-software-engineers-perspective-c85c781e418b"
     },
     {
       "name": "Brain Computer Interface",
       "date": "Jul 3, 2022",
+      "tags": [
+        "bic",
+        "philosophy",
+        "cyberpunk",
+        "utopia"
+      ],
       "url": "https://medium.com/@tunacici7/whats-next-for-computers-and-humans-brain-computer-interface-cc6801ff78ec"
     },
     {
       "name": "Consciousness & Artificial Intelligence",
       "date": "Jul 17, 2022",
+      "tags": [
+        "conciousness",
+        "ai",
+        "philosophy"
+      ],
       "url": "https://medium.com/@tunacici7/consciousness-artificial-intelligence-68165b9707ec"
     },
     {
       "name": "What Is A Compiler Really? ELI5",
       "date": "Sep 4, 2022",
+      "tags": [
+        "compilers",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/what-is-a-compiler-really-b8e5a1fbbb35"
     },
     {
       "name": "CPUs & ISAs",
       "date": "Oct 10, 2022",
+      "tags": [
+        "cpu",
+        "architecture",
+        "isa",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/what-are-cpu-architectures-and-instruction-sets-384e0365b4b9"
     },
     {
       "name": "Virtualization vs. Emulation",
       "date": "Oct 12, 2022",
+      "tags": [
+        "virtualization",
+        "emulation"
+      ],
       "url": "https://medium.com/@tunacici7/virtualization-vs-emulation-4ab2afdb1b90"
     },
     {
       "name": "Linux Filesystem Explained",
       "date": "Nov 27, 2022",
+      "tags": [
+        "linux",
+        "filesystem",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/linux-filesystem-explained-3307b96bb7f9"
     },
     {
       "name": "Linux Networking ELI5 Series",
       "date": "Jan 28, 2023",
+      "tags": [
+        "linux",
+        "networking",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/linux-networking-eli5-part-1-networks-interfaces-b912826d699b"
     },
     {
       "name": "GNU/Linux CLI Shells ELI5",
       "date": "Apr 5, 2023",
+      "tags": [
+        "linux",
+        "shells",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/gnu-linux-cli-shells-eli5-sh-bash-zsh-and-more-ce6ecef05994"
     },
     {
       "name": "QEMU ELI5 Series",
       "date": "Jun 10, 2023",
+      "tags": [
+        "qemu",
+        "eli5"
+      ],
       "url": "https://medium.com/@tunacici7/qemu-eli5-part-1-introduction-957ae2f48de5"
     }
   ]
