@@ -74,8 +74,18 @@
                 },
                 "blog": {
                         ".type": "executable",
-                        ".man": "launch the blog",
+                        ".man": "launch the blog (personal)",
                         ".usage": "blog"
+                },
+                "about": {
+                        ".type": "executable",
+                        ".man": "print information about the Braavos' author (personal)",
+                        ".usage": "about"
+                },
+                "welcome": {
+                        ".type": "executable",
+                        ".man": "print news from the Braavos' author (personal)",
+                        ".usage": "welcome"
                 },
                 "contact": {
                         ".type": "executable",

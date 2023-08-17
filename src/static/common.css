@@ -1,3 +1,16 @@
+.about {
+
+}
+
+.about-p {
+  max-width: 80ch;
+  white-space: normal !important;
+}
+
+.about-no-margin {
+  margin: 0;
+}
+
 .projects {
   display: flex;
 
