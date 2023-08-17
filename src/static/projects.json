@@ -4,48 +4,100 @@
       "name": "WesterOS",
       "url": "https://github.com/TunaCici/WesterOS",
       "description": "Hobbyist operating system /w M.Kernel design.",
+      "keywords": [
+        "ISO C",
+        "ARM Assembly",
+        "Operating System",
+        "Kernel",
+        "Hobbyist"
+      ],
       "authors": "Tuna CICI (me)"
     },
     {
       "name": "QEMU_Starter",
       "url": "https://github.com/TunaCici/QEMU_Starter",
       "description": "Pseudo-wiki; offering guides, tutorials, and examples for new QEMU users.",
+      "keywords": [
+        "QEMU",
+        "Emulation",
+        "Virtualization"
+      ],
       "authors": "Tuna CICI (me)"
     },
     {
       "name": "Braavos",
       "url": "https://github.com/TunaCici/Braavos",
       "description": "The web application you are using right now.",
+      "keywords": [
+        "HTML",
+        "JavaScript",
+        "CSS",
+        "ReactJS"
+      ],
       "authors": "Tuna CICI (me)"
     },
     {
       "name": "Mhysa",
       "url": "https://github.com/TunaCici/Mhysa",
       "description": "Collection of popular C++ algorithms, data structures, utilities and helper functions.",
+      "keywords": [
+        "C++20",
+        "CMake",
+        "Algorithms",
+        "Data Structures",
+        "Utilities"
+      ],
       "authors": "Tuna CICI (me)"
     },
     {
       "name": "A.S.R.O.",
       "url": "https://github.com/yasin-herken/ASRO",
-      "description": "Smart Swarm Robots (Akillı Suru Robotlari), aka ASRO, is a project that aims to create highly efficient swarm control of drones using complex algorithms and artificial intelligence.",
+      "description": "Smart Swarm Robots (Akilli Suru Robotlari), aka ASRO, is a project that aims to create highly efficient swarm control of drones using complex algorithms and artificial intelligence.",
+      "keywords": [
+        "Python",
+        "ROS",
+        "Algorithms",
+        "Drone",
+        "Simulation"
+      ],
       "authors": "Dilara OZCAN, Yasin HERKEN, Tuna CICI (me)"
     },
     {
       "name": "Lexus",
       "url": "https://github.com/TunaCici/Lexus",
       "description": "Control software for a Raspberry Pi wearable /w YOLOv4 computer vision.",
+      "keywords": [
+        "Python",
+        "OpenCV",
+        "YOLOv4",
+        "Embedded"
+      ],
       "authors": "Dilara OZCAN, Yasin HERKEN, Yilmaz KESKIN, Tuna CICI (me)"
     },
     {
       "name": "Movie_Town",
       "url": "https://github.com/TunaCici/Movie_Town",
       "description": "Search and discover IMDb movies in a web application written using the Flask framework. Uses services such as MongoDB, ElasticSearch, Redis and RabbitMQ.",
+      "keywords": [
+        "Python",
+        "ElasticSearch",
+        "MongoDB",
+        "Redis",
+        "RabbitMQ",
+        "Flask",
+        "Docker"
+      ],
       "authors": "Tuna CICI (me)"
     },
     {
       "name": "PetLove",
       "url": "https://github.com/TunaCici/PetLove",
       "description": "An Android application developed using native Android Studio Tools.",
+      "keywords": [
+        "Java",
+        "SQLite",
+        "Android Studio"
+      ],
       "authors": "Bayram YASAR, Tuna CICI (me)"
     }
   ]
