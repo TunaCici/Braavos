@@ -55,7 +55,7 @@ function Terminal(props) {
       switch (response) {
         case "clear":
           clearBuffer();
-          break;
+          return;
         case "history":
           response = "";
           for (let i = 0; i < history.length; i++) {
@@ -64,13 +64,13 @@ function Terminal(props) {
           break;
         case "exit":
           navigate("/launchpad", { replace: true });
-          break;
+          return;
         case "reboot":
           navigate("/", { replace: true });
-          break;
+          return;
         case "blog":
           window.location.href = "/blog";
-          break;
+          return;
         default:
           break;
       }
