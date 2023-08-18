@@ -56,7 +56,7 @@
 }
 
 .launchpad-app:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .launchpad-h3 {
@@ -64,8 +64,7 @@
 }
 
 .launchpad-icon {
-  width: 5rem;
-  height: 5rem;
+  width: 72px;
 
   -webkit-box-reflect: below 2px
   -webkit-gradient(linear, left top, left bottom, from(transparent),
@@ -77,19 +76,31 @@
   bottom: 0.25rem;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   align-items: center;
   justify-content: center;
 }
 
 .launchpad-signature {
-  width: 12rem;
+  width: 10rem;
 
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
 
+.launchpad-footer-hr {
+  width: 90%;
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.33);
+  border: none;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.launchpad-footer-text {
+  font-size: 0.75rem;
+}
 
 .fade-in {
   animation: fadeIn ease 1s;
@@ -168,5 +179,13 @@
 @media screen and (max-width: 768px) {
   .launchpad-signature {
     width: 8rem;
+  }
+
+  .launchpad-h1 {
+    font-size: 1.25rem;
+  }
+
+  .launchpad-icon {
+    width: 64px;
   }
 }

@@ -67,7 +67,7 @@ function Launchpad(props) {
 
     // Setting up the draw function
     function draw() {
-      ctx.fillStyle = 'rgba(39, 39, 41, .1)';
+      ctx.fillStyle = 'rgba(39, 39, 41, .33)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       for (var i = 0; i < drops.length; i++) {
         var text = letters[Math.floor(Math.random() * letters.length)];
@@ -81,6 +81,18 @@ function Launchpad(props) {
       }
     }
 
+    /* Animate both terminalApp and blogApp */
+    setTimeout(() => {
+      const terminalApp = document.getElementById("terminalApp");
+      terminalApp.classList.add("shake-like-nicki");
+
+      setTimeout(() => {
+        const blogApp = document.getElementById("blogApp");
+
+        blogApp.classList.add("shake-like-nicki");
+      }, 1000);
+    }, 1000);
+
     // Loop the animation
     setInterval(draw, 60);
   }, []);
@@ -88,8 +100,6 @@ function Launchpad(props) {
   return (
     <div id="launchpad" className="launchpad">
       <canvas id="launchpadCanvas" className="launchpad-canvas"></canvas>
-
-      <h1 className="launchpad-h1" > choose_an_interface </h1>
 
       <div className="launchpad-grid">
         <li id="terminalApp" className="launchpad-li" onClick={launchApp} data-app="terminal">
@@ -109,6 +119,12 @@ function Launchpad(props) {
 
       <div className="launchpad-footer" onClick={animateSignature}>
         <img id="launchpadSignature" className="launchpad-signature fade-in" src={Signature} alt="Tuna Cici's Signature" />
+
+        <hr className="launchpad-footer-hr" />
+
+        <div className="launchpad-footer-text">
+          Pasteleft &#9752; 2023 - Braavos Launchpad
+        </div>
       </div>
     </div>
   );
