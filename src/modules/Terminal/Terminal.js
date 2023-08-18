@@ -49,7 +49,7 @@ function Terminal(props) {
     let response = "";
 
     if (shellPrompt) {
-      response = interpreteCmd(shellPrompt);
+      response = interpreteCmd(shellPrompt.toLowerCase());
 
       /* START: Completely fcked up design here.. When is global state mgmt? */
       switch (response) {
@@ -119,6 +119,10 @@ function Terminal(props) {
 
   useEffect(() => {
     addToHistory("neofetch");
+
+    /* TODO: idk why but i need to call "welcome" after _some time_ ?? */
+    setTimeout(() => {addToHistory("welcome"); }, 1);
+
   }, []);
 
   const onTerminalClick = (e) => {

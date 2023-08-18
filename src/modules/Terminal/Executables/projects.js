@@ -23,7 +23,7 @@ function projects(args) {
     let authors = project["authors"];
 
     if (description.length > 64) {
-      description = description.slice(0, 61) + "...";
+      description = description.slice(0, 61) + " ..";
     }
 
     let fillCount = leadingSpaces - name.length;
