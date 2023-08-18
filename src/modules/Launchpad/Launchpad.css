@@ -145,31 +145,31 @@
 		transform: translateX(0);
 	}
 	5% {
-		transform: translateX(-4px);
+		transform: translateX(-6px);
 	}
 	15% {
-		transform: translateX(4px);
+		transform: translateX(6px);
 	}
 	25% {
-		transform: translateX(-4px);
+		transform: translateX(-6px);
 	}
 	35% {
-		transform: translateX(4px);
+		transform: translateX(6px);
 	}
 	45% {
-		transform: translateX(-4px);
+		transform: translateX(-6px);
 	}
 	55% {
-		transform: translateX(4px);
+		transform: translateX(6px);
 	}
 	65% {
-		transform: translateX(-4px);
+		transform: translateX(-6px);
 	}
 	75% {
-		transform: translateX(3px);
+		transform: translateX(4px);
 	}
 	85% {
-		transform: translateX(-3px);
+		transform: translateX(-4px);
 	}
 	100% {
 		transform: translateX(0);
