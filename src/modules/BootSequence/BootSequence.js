@@ -44,7 +44,7 @@ function BootSequence(props) {
     props.setBootState(BOOT_STATES.STAGE_1);
 
     for (let i = 0; i < boot_sequence.length; i++) {
-      let log = "[" + (delay / 1000).toFixed(6) + "] " + boot_sequence[i].text;
+      let log = "[" + (delay / 1000).toFixed(6) + "]  " + boot_sequence[i].text;
 
       /* Add to the display queue */
       setTimeout(() => {
