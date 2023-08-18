@@ -15,8 +15,6 @@
 /* Decrease the font size for the terminal on smaller screens */
 @media (max-width: 768px) {
   .terminal {
-    margin-top: 2.5rem;
-
     font-size: 0.6rem;
     font-weight: bolder;
   }
