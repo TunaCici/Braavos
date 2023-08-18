@@ -45,6 +45,10 @@
   margin: 0;
 }
 
+.welcome {
+  width: min-content
+}
+
 .cool-light-blue {
   color: #66B7E8;
 }
