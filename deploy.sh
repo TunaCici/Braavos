@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-# WARN: This script is not intended for everyone to use!
+# WARN: This script is not intended for public use!
 
 npm run deploy
 
 git checkout gh-pages
+
+git pull
 
 cd external/Braavos_Blog || exit
 
