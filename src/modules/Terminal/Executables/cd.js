@@ -45,6 +45,11 @@ function cd(args) {
     args[0] = args[0].slice(0, -1);
   }
 
+  /* Add '/' if the first character is not '/' */
+  if (!args[0].startsWith("/")) {
+    args[0] = "/" + args[0];
+  }
+
   return "cd: " + args[0];
 }
 
