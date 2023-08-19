@@ -84,12 +84,16 @@ function Launchpad(props) {
     /* Animate both terminalApp and blogApp */
     setTimeout(() => {
       const terminalApp = document.getElementById("terminalApp");
-      terminalApp.classList.add("shake-like-nicki");
+      if (terminalApp) {
+        terminalApp.classList.add("shake-like-nicki");
+      }
 
       setTimeout(() => {
         const blogApp = document.getElementById("blogApp");
 
-        blogApp.classList.add("shake-like-nicki");
+        if (blogApp) {
+          blogApp.classList.add("shake-like-nicki");
+        }
       }, 1000);
     }, 1000);
 
