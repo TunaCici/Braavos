@@ -37,6 +37,9 @@ function uname(args) {
   let retMsg = "";
   const validFlags = "-amnoprsv";
 
+  /* Last argument is always the environment variable; remove it */
+  args.pop();
+
   /* Check if args are valid */
   for (let i = 0; i < args.length; i++) {
     if (!validFlags.includes(args[i])) {

@@ -4,6 +4,8 @@ import virtfs from "../../static/virtual_filesystem.json";
 /* Executables import default */
 import { echo } from "./Executables/echo.js";
 import { ls } from "./Executables/ls.js";
+import { cd } from "./Executables/cd.js";
+import { pwd } from "./Executables/pwd.js";
 import { sh } from "./Executables/sh.js";
 import { exit } from "./Executables/exit.js";
 import { reboot } from "./Executables/reboot";
@@ -19,7 +21,6 @@ import { welcome } from "./Executables/welcome";
 import { projects } from "./Executables/projects";
 import { writings } from "./Executables/writings";
 import { contact } from "./Executables/contact";
-import { file } from "./Executables/file";
 import { neofetch } from "./Executables/neofetch";
 
 /* Register executables */
@@ -27,6 +28,8 @@ var context = {};
 
 context["echo"] = echo;
 context["ls"] = ls;
+context["cd"] = cd;
+context["pwd"] = pwd;
 context["sh"] = sh;
 context["exit"] = exit;
 context["reboot"] = reboot;
@@ -42,7 +45,6 @@ context["welcome"] = welcome;
 context["projects"] = projects;
 context["writings"] = writings;
 context["contact"] = contact;
-context["file"] = file;
 context["neofetch"] = neofetch;
 
 /* Thanks to: https://www.inflectra.com/Support/KnowledgeBase/KB242.aspx */
@@ -63,11 +65,17 @@ function searchPath(command) {
   return false;
 }
 
-function interpreteCmd(shellPrompt) {
+function interpreteCmd(shellPrompt, cwd) {
   let retMsg = "";
 
   let command = shellPrompt.split(" ")[0];
   let args = shellPrompt.split(" ").slice(1);
+
+  /* Environment variables (kinda) */
+  /* Format $varName1:Value1;$varName2:Value2;... */
+  args.push(
+    "$cwd:" + cwd,
+  );
   
   console.debug("command:", command, "args:", args);
 

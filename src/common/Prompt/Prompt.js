@@ -43,10 +43,6 @@ function Prompt(props) {
     return baseURL;
   }
     
-  const getPwd = () => {
-    return "~";
-  };
-
   const onUserInput = (event) => {
     /* Resize. _min width is 1ch_ */
     if (1 <= event.target.value.length) {
@@ -62,6 +58,7 @@ function Prompt(props) {
         props.addToBuffer(
           <Prompt
             key={"buffer-prompt-" + props.bufferSize()}
+            getCwd={props.getCwd}
             isActive={false}
             shellPrompt={shellPrompt}
           />
@@ -89,6 +86,7 @@ function Prompt(props) {
           props.addToBuffer(
             <Prompt
               key={"buffer-prompt-" + props.bufferSize()}
+              getCwd={props.getCwd}
               isActive={false}
               shellPrompt={shellPrompt + "^" + event.key}
             />
@@ -105,7 +103,7 @@ function Prompt(props) {
         <span className="user-name">{ getBrowser() }@</span> 
         <span className="host-name">{ getBaseURL() }</span>
         <span>:</span>
-        <span className="working-dir">{ getPwd() }</span>
+        <span className="working-dir">{ props.getCwd() }</span>
       </span>
 
       <span className="user-input-container">
@@ -114,7 +112,8 @@ function Prompt(props) {
         {props.isActive ? (
           <input
           id="userInput"
-          type="text" className="user-input breathing-space"
+          type="text"
+          className="user-input breathing-space"
           autoFocus={true}
           onChange={onUserInput}
           onKeyDown={onUserKeyDown}

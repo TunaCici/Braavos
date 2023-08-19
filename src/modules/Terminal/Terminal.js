@@ -12,10 +12,11 @@ import "./Terminal.css";
 function Terminal(props) {
   const navigate = useNavigate();
   
-  /* TODO: buffer & history should be stored in a state */
+  /* TODO: buffer, history & cwd should be stored in a state */
   const [buffer, setBuffer] = useState([]); /* Command outputs */
   const [history, setHistory] = useState([]); /* Command history */
   const [iter, setIter] = useState(0); /* Iterator for history */
+  const [cwd, setCwd] = useState("/root"); /* Current working directory */
 
   function addToBuffer(obj) { setBuffer((buffer) => [...buffer, obj]); }
   function addToHistory(obj) { setHistory((history) => [...history, obj]); }
@@ -43,36 +44,38 @@ function Terminal(props) {
     setHistory(newHistory);
   }
 
+  function getCwd() { return cwd; }
+
   /* Parse the latest command from the 'queue' */
   useEffect(() => {
     let shellPrompt = history[history.length - 1];
     let response = "";
 
     if (shellPrompt) {
-      response = interpreteCmd(shellPrompt.toLowerCase());
+      response = interpreteCmd(shellPrompt.toLowerCase(), getCwd());
 
       /* START: Completely fcked up design here.. When is global state mgmt? */
-      switch (response) {
-        case "clear":
-          clearBuffer();
-          return;
-        case "history":
-          response = "";
-          for (let i = 0; i < history.length; i++) {
-            response += i + " " + history[i] + "\n";
-          }
-          break;
-        case "exit":
-          navigate("/launchpad", { replace: true });
-          return;
-        case "reboot":
-          navigate("/", { replace: true });
-          return;
-        case "blog":
-          window.location.href = "/blog";
-          return;
-        default:
-          break;
+      if (response === "clear") {
+        clearBuffer();
+        return;
+      } else if (response === "history") {
+        response = "";
+        for (let i = 0; i < history.length; i++) {
+          response += i + " " + history[i] + "\n";
+        }
+      } else if (response === "exit") {
+        navigate("/launchpad", { replace: true });
+        return;
+      } else if (response === "reboot") {
+        navigate("/", { replace: true });
+        return;
+      } else if (response === "blog") {
+        window.location.href = "/blog";
+        return;
+      } /* if type is String and starts with "cd" */
+      else if (typeof response === "string" && response.startsWith("cd: /")) {
+        setCwd(response.replace("cd: ", ""));
+        return;
       }
       /* END */
 
@@ -83,6 +86,9 @@ function Terminal(props) {
         />
       );
     }
+
+    /* Reset iter */
+    setIter(history.length);
   }, [history]);
 
   /* Check if userInput is out of the visibale are, if so scrollIntoView */
@@ -98,6 +104,7 @@ function Terminal(props) {
         userInput.scrollIntoView();
       }
     }
+
   }, [buffer]);
 
   /* Handle history browsing (a.k.a. Arrow keys) */
@@ -114,15 +121,17 @@ function Terminal(props) {
 
     userInput.value = newValue;
     userInput.style.width = newWidth;
-
   }, [iter]);
+
+  useEffect(() => {
+    console.debug("cwd:", cwd);
+  }, [cwd]);
 
   useEffect(() => {
     addToHistory("neofetch");
 
     /* TODO: idk why but i need to call "welcome" after _some time_ ?? */
-    setTimeout(() => {addToHistory("welcome"); }, 1);
-
+    setTimeout(() => {addToHistory("welcome"); }, 100);
   }, []);
 
   const onTerminalClick = (e) => {
@@ -142,6 +151,7 @@ function Terminal(props) {
         historySize={historySize}
         incIter={incIter}
         decIter={decIter}
+        getCwd={getCwd}
         isActive={true}
       />
     </div>

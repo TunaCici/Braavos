@@ -368,6 +368,9 @@ function neofetch(args) {
     os = "linux";
   }
 
+  /* Remove environment variables, we don't need them >.< */
+  args.pop();
+
   if (0 < args.length) {
     switch (args[0]) {
       case "darwin":
