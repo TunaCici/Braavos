@@ -1,4 +1,4 @@
-![Terminal Page Blueprint(?)](media/Braavos_Terminal.png)
+![Braavos Header](media/Braavos_Header.png)
 
 ## Motivation
 I wanted to create my **own** simple web page where I can _store_ my writings, projects and other stuff that I want people on the internet to discover >.<
