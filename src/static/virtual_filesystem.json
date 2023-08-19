@@ -1,190 +1,280 @@
 {
+        ".type": "directory",
+        ".created": "2023-08-01T22:39:41+03:00",
+        ".owner": "root",
+        
         "bin": {
                 ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root",
 
                 "sh": {
                         ".type": "executable",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root",
                         ".man": "Braavos [incomplete] command interpreter",
                         ".usage": "sh"
                 },
-                "su": {
-                        ".type": "executable",
-                        ".man": "change user ID",
-                        ".usage": "su [username]"
-                },
                 "exit": {
                         ".type": "executable",
+                        ".created": "2023-08-09T23:58:40+03:00",
+                        ".owner": "root",
                         ".man": "exit the shell (returns to Launchpad)",
                         ".usage": "exit"
                 },
                 "reboot": {
                         ".type": "executable",
+                        ".created": "2023-08-17T21:25:47+03:00",
+                        ".owner": "root",
                         ".man": "reboots the Braavos (navigates to BootSequence)",
                         ".usage": "reboot"
                 },
                 "date": {
                         ".type": "executable",
+                        ".created": "2023-08-04T20:51:04+03:00",
+                        ".owner": "root",
                         ".man": "print the current date and time",
                         ".usage": "date"
                 },
                 "help": {
                         ".type": "executable",
+                        ".created": "2023-08-02T22:03:58+03:00",
+                        ".owner": "root",
                         ".man": "print available commands",
                         ".usage": "help"
                 },
                 "man": {
                         ".type": "executable",
+                        ".created": "2023-08-04T20:51:04+03:00",
+                        ".owner": "root",
                         ".man": "display manual page for a command/file",
                         ".usage": "man [command/file]"
                 },
                 "uname": {
                         ".type": "executable",
+                        ".created": "2023-08-02T22:03:58+03:00",
+                        ".owner": "root",
                         ".man": "print certain system information",
                         ".usage": "uname [-amnoprsv]"
                 },
                 "history": {
                         ".type": "executable",
+                        ".created": "2023-08-03T22:54:11+03:00",
+                        ".owner": "root",
                         ".man": "print the history of commands",
                         ".usage": "history"
                 },
                 "echo": {
                         ".type": "executable",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root",
                         ".man": "print a line of text",
                         ".usage": "echo [text]"
                 },
                 "ls": {
                         ".type": "executable",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root",
                         ".man": "list directory contents",
                         ".usage": "ls [directory] [-al] "
                 },
-                "cat": {
+                "cd": {
                         ".type": "executable",
-                        ".man": "print the contents of a file",
-                        ".usage": "cat [file]"
+                        ".created": "2023-08-19T12:16:21+03:00",
+                        ".owner": "root",
+                        ".man": "change directory",
+                        ".usage": "cd [directory]"
                 },
-                "file": {
+                "pwd": {
                         ".type": "executable",
-                        ".man": "determine file type",
-                        ".usage": "file [file]"
+                        ".created": "2023-08-19T12:16:21+03:00",
+                        ".owner": "root",
+                        ".man": "return working directory name",
+                        ".usage": "pwd"
                 },
                 "clear": {
                         ".type": "executable",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root",
                         ".man": "clear the terminal screen",
                         ".usage": "clear"
                 },
                 "blog": {
                         ".type": "executable",
+                        ".created": "2023-08-17T21:25:47+03:00",
+                        ".owner": "root",
                         ".man": "launch the blog (personal)",
                         ".usage": "blog"
                 },
                 "about": {
                         ".type": "executable",
+                        ".created": "2023-08-17T22:31:05+03:00",
+                        ".owner": "root",
                         ".man": "print information about the Braavos' author (personal)",
                         ".usage": "about"
                 },
                 "welcome": {
                         ".type": "executable",
+                        ".created": "2023-08-17T22:31:05+03:00",
+                        ".owner": "root",
                         ".man": "print news from the Braavos' author (personal)",
                         ".usage": "welcome"
                 },
                 "contact": {
                         ".type": "executable",
+                        ".created": "2023-08-09T23:58:40+03:00",
+                        ".owner": "root",
                         ".man": "print the contact directory (personal)",
                         ".usage": "contact"
                 },
                 "projects": {
                         ".type": "executable",
+                        ".created": "2023-08-04T20:51:04+03:00",
+                        ".owner": "root",
                         ".man": "print the projects directory (personal)",
                         ".usage": "projects"
                 },
                 "writings": {
                         ".type": "executable",
+                        ".created": "2023-08-04T20:51:04+03:00",
+                        ".owner": "root",
                         ".man": "print the writings directory (personal)",
                         ".usage": "writings"
                 },
                 "neofetch": {
                         ".type": "executable",
+                        ".created": "2023-08-07T23:14:35+03:00",
+                        ".owner": "root",
                         ".man": "system info (aka-1 welcoming screen) (aka-2 a-ricers-must-have)",
                         ".usage": "writings"
                 }
         },
         "boot": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "dev": {
                 ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root",
 
                 "stdin": {
-                        ".type": "character-device"
+                        ".type": "character-device",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "stdout": {
-                        ".type": "character-device"
+                        ".type": "character-device",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "stderr": {
-                        ".type": "character-device"
+                        ".type": "character-device",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 }
         },
         "etc": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "home": {
                 ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root",
 
                 "shiny-chrome-boi": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "safari-superstar": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "fire-breathing-fox": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "ancient-net-explorer": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "ms-cutting-edge": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "operatic-masterpiece": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 }
         },
         "lib": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "mnt": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "proc": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "root": {
                 ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root",
 
                 "projects": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "writings": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-01T22:39:41+03:00",
+                        ".owner": "root"
                 },
                 "contact": {
-                        ".type": "directory"
+                        ".type": "directory",
+                        ".created": "2023-08-09T23:58:40+03:00",
+                        ".owner": "root"
                 }
         },
         "srv": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "sys": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "tmp": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "usr": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         },
         "var": {
-                ".type": "directory"
+                ".type": "directory",
+                ".created": "2023-08-01T22:39:41+03:00",
+                ".owner": "root"
         }
-
 }
