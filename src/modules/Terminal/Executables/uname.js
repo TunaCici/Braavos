@@ -71,13 +71,13 @@ function uname(args) {
         retMsg += "arm" + " ";
         break;
       case "r":
-        retMsg += "0.5.0-beta" + " ";
+        retMsg += "1.0.0-rc" + " ";
         break;
       case "s":
         retMsg += getBrowser() + " ";
         break;
       case "v":
-        retMsg += "react-18.0.2 (macOS 13.3.1-ventura) Wed Apr 26 4:52:48 PM UTC 2023" + " ";
+        retMsg += "react-18.2.0 (macOS 13.5-ventura) Sun Aug 26 6:36:43 PM UTC 2023" + " ";
         break;
       default:
         break;
