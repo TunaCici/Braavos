@@ -147,6 +147,13 @@
                         ".owner": "root",
                         ".man": "system info (aka-1 welcoming screen) (aka-2 a-ricers-must-have)",
                         ".usage": "writings"
+                },
+                "theone": {
+                        ".type": "executable",
+                        ".created": "2023-08-20T13:24:09+03:00",
+                        ".owner": "matrix",
+                        ".man": "displays matrix-style animation (are you [REDACTED]?)",
+                        ".usage": "theone"
                 }
         },
         "boot": {

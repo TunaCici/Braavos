@@ -12,6 +12,20 @@
   font-weight: bold;
 }
 
+.terminal-canvas {
+  position: absolute;
+  top: 0;
+
+  z-index: -1;
+
+  background-repeat: no-repeat;
+
+  opacity: 1;
+
+  -webkit-transition: opacity 2.0s ease-in-out;
+  transition: opacity 2.0s ease-in-out;
+}
+
 /* Decrease the font size for the terminal on smaller screens */
 @media (max-width: 768px) {
   .terminal {
