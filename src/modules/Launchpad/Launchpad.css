@@ -15,6 +15,13 @@
   top: 0;
 
   z-index: -1;
+
+  background-repeat: no-repeat;
+
+  opacity: 0;
+
+  -webkit-transition: opacity 2.0s ease-in-out;
+  transition: opacity 2.0s ease-in-out;
 }
 
 .launchpad-h1 {
@@ -30,10 +37,10 @@
   padding: 1rem 2rem 1rem 2rem;
 
   border-radius: 16px;
-  background: rgba(83, 83, 83, 0.25);
+  background: rgba(33, 33, 33, 0.25);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(80, 80, 80, 0.25);
 
   justify-content: center;
 }

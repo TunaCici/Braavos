@@ -13,6 +13,15 @@ import SignatureGIF from "../../static/tuna_cici_sign_bw.gif";
 /* CSS */
 import "./Launchpad.css";
 
+/* Shapes */
+function importAll(r) {
+  let shapes = {};
+    r.keys().forEach((item, index) => { shapes[item.replace('./', '')] = r(item); });
+  return shapes;
+}
+
+const shapes = importAll(require.context('../../static/background', false, /\.svg$/));
+
 function Launchpad(props) {
   const navigate = useNavigate();
 
@@ -44,41 +53,55 @@ function Launchpad(props) {
 
   /* Thanks to : https://codepen.io/yaclive/pen/EayLYO */
   useEffect(() => {
+    /* Initialize the canvas */
     const canvas = document.getElementById("launchpadCanvas");
-    const ctx = canvas.getContext('2d');
-
-    // Setting the width and height of the canvas
+    
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Setting up the letters
-    let letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
-    letters = letters.split('');
-
-    // Setting up the columns
-    const fontSize = 12;
-    const columns = canvas.width / fontSize;
-
-    // Setting up the drops
-    var drops = [];
-    for (var i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
-
-    // Setting up the draw function
-    function draw() {
-      ctx.fillStyle = 'rgba(39, 39, 41, .33)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      for (var i = 0; i < drops.length; i++) {
-        var text = letters[Math.floor(Math.random() * letters.length)];
-
-        ctx.fillStyle = '#0f0';
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        drops[i]++;
-        if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
-          drops[i] = 0;
-        }
+    function changeBackground() {
+      /* Set max amount depeding on the screen size */
+      const launchpadCanvas = document.getElementById("launchpadCanvas");
+      if (!launchpadCanvas) {
+        return;
       }
+
+      let maxAmout = 0;
+      if (window.innerWidth < 768) {
+        maxAmout = 6;
+      } else if (window.innerWidth < 1024) {
+        maxAmout = 10;
+      } else {
+        maxAmout = 12;
+      }
+
+      const randomImage = [];
+      const randomWidth = [];
+      const random2DPos = [];
+
+      for (let i = 0; i < maxAmout; i++) {
+        const random = Math.floor(Math.random() * Object.keys(shapes).length);
+
+        randomImage.push(shapes[Object.keys(shapes)[random]]);
+        randomWidth.push(Math.floor(Math.random() * 64) + 64);
+        random2DPos.push({
+          x: Math.floor(Math.random() * (window.innerWidth - 128)),
+          y: Math.floor(Math.random() * (window.innerHeight - 128)),
+        });
+      }
+
+      const urls = randomImage.map((image) => `url(${image})`);
+      const widths = randomWidth.map((width) => `${width}px`);
+      const positions = random2DPos.map((pos) => `${pos.x}px ${pos.y}px`);
+
+      launchpadCanvas.style.backgroundImage = urls.join(", ");
+      launchpadCanvas.style.backgroundSize = widths.join(", ");
+      launchpadCanvas.style.backgroundPosition = positions.join(", ");
+
+      launchpadCanvas.style.opacity = 1;
+      setTimeout(() => {
+        if (launchpadCanvas) {launchpadCanvas.style.opacity = 0;}
+      }, 2000);
     }
 
     /* Animate both terminalApp and blogApp */
@@ -97,8 +120,13 @@ function Launchpad(props) {
       }, 1000);
     }, 1000);
 
-    // Loop the animation
-    setInterval(draw, 60);
+    // Dynamic background images
+    changeBackground();
+    const bgLoop = setInterval(changeBackground, 4000);
+
+    return () => {
+      clearInterval(bgLoop);
+    };
   }, []);
 
   return (
