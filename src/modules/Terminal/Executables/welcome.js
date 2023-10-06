@@ -3,7 +3,7 @@ import "../../../static/common.css";
 
 function welcome(args) {
   /* max 80 chars pls */
-  const message = "💚 Braavos is finally out! - 20 Aug 2023 💚";
+  const message = "⭐️ New writing: Bootloaders & The Wilderness of The Firmware* - 6 Oct 2023 ⭐️";
 
   const title = "+-------| News |" + "-".repeat(63) + "+";
   const middle = " " + message;;
