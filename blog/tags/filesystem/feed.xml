@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>filesystem on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/filesystem/</link>
+    <description>Recent content in filesystem on Tuna Cici (Blog)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/tags/filesystem/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Filesystem Explained</title>
+      <link>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</link>
+      <pubDate>Sun, 27 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</guid>
+      <description>If you have ever used a Linux system, you probably heard the term root filesystem. When you install something with apt or want to configure an application’s settings, you need to meddle with the root filesystem. And if you are a developer deploying an application to Linux, just know that you need to get your hands dirty with it. But what is the root filesystem, anyway?
+In this article I will explain the root filesystem, it’s brief history and all the directories inside it.</description>
+    </item>
+    
+  </channel>
+</rss>
