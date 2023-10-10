@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Apple M1 Chip from a Software Engineer&#39;s Perspective | Tuna Cici (Blog)</title>
+  <meta name="description" content="Enjoy Life!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Apple M1 Chip from a Software Engineer&#39;s Perspective" />
+<meta property="og:description" content="As far as I remember, I have been using Windows machines both for entertainment and programming. That was until the Apple’s WWDC 2021 event where they announced the new Macbook Pros with M1 Pro and M1 Max SoCs. Looking at their presentation I was simply amazed. Everything they showed about the performance and efficiency of these new SoCs, sounded too good to be true. Imagine running an Ubuntu Virtual Machine, many Docker containers, compiling large codebases and watching 4K content on YouTube at the same time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tunacici.com/blog/2022/05/apple-m1-chip-from-a-software-engineers-perspective/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-05-29T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apple M1 Chip from a Software Engineer&#39;s Perspective"/>
+<meta name="twitter:description" content="As far as I remember, I have been using Windows machines both for entertainment and programming. That was until the Apple’s WWDC 2021 event where they announced the new Macbook Pros with M1 Pro and M1 Max SoCs. Looking at their presentation I was simply amazed. Everything they showed about the performance and efficiency of these new SoCs, sounded too good to be true. Imagine running an Ubuntu Virtual Machine, many Docker containers, compiling large codebases and watching 4K content on YouTube at the same time."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/blog/css/style-white.css">
+  
+   <link rel="stylesheet" href="/blog/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://tunacici.com/blog/2022/06/ways-to-increase-your-online-security/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&text=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&is_video=false&description=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&name=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective&description=As%20far%20as%20I%20remember%2c%20I%20have%20been%20using%20Windows%20machines%20both%20for%20entertainment%20and%20programming.%20That%20was%20until%20the%20Apple%e2%80%99s%20WWDC%202021%20event%20where%20they%20announced%20the%20new%20Macbook%20Pros%20with%20M1%20Pro%20and%20M1%20Max%20SoCs.%20Looking%20at%20their%20presentation%20I%20was%20simply%20amazed.%20Everything%20they%20showed%20about%20the%20performance%20and%20efficiency%20of%20these%20new%20SoCs%2c%20sounded%20too%20good%20to%20be%20true.%20Imagine%20running%20an%20Ubuntu%20Virtual%20Machine%2c%20many%20Docker%20containers%2c%20compiling%20large%20codebases%20and%20watching%204K%20content%20on%20YouTube%20at%20the%20same%20time.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&t=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents"></nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	⭐️	
+	<a href="https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/">New writing: Bootloaders & The Wilderness of The Firmware* - 6 Oct 2023</a>
+	⭐️
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+      <img src="header.png" class="hero" alt="Apple&#39;s M1 SoC Family / Source: macworld.com" />
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Apple M1 Chip from a Software Engineer&#39;s Perspective
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2022-05-29 00:00:00 &#43;0000 UTC" itemprop="datePublished">2022-05-29</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/apple/" rel="tag">apple</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/soc/" rel="tag">soc</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/review/" rel="tag">review</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>As far as I remember, I have been using Windows machines both for entertainment and programming. That was until the Apple’s WWDC 2021 event where they announced the new Macbook Pros with M1 Pro and M1 Max SoCs. Looking at their presentation I was simply amazed. Everything they showed about the performance and efficiency of these new SoCs, sounded too good to be true. Imagine running an Ubuntu Virtual Machine, many Docker containers, compiling large codebases and watching 4K content on YouTube at the same time. Yeah, it might not sound <strong><em>that</em></strong> impressive but the M1 chip does all of it without breaking a sweat! It’s efficiency is so good that you rarely find yourself looking for an outlet to plug your charger.</p>
+<p>After a year later, I decided to get the 16&quot; Macbook Pro with M1 Pro. I was about to change my whole work, and presumably my life, style. As you know I am a software engineer. So, I spend most of my time on computers. This idea of switching from Windows to macOS was scary because I needed to move everything I had from one platform to another. All of my projects, tools and work-environment had to be either moved or replaced with it’s macOS equivalent.</p>
+<blockquote>
+<p>Think of it like moving from one country to another. You need to move your entire house and maybe your car across the sea! Maybe you are thinking that I am exaggerating but trust me it feels exactly like that.</p>
+</blockquote>
+<p><img src="nvidia-intel.png" alt=""></p>
+<p>NVIDIA and Intel / Source: cgchannel.com</p>
+<p>I used to have a 27&quot; monitor connected to my Acer laptop. It had the Intel’s 7th gen CPU and NVDIA’s GTX 1060 GPU. They served me well and did their job pretty good. But now it was time to ditch all that and move to the new relatively small, yet <strong>powerful</strong>, Macbook Pro.</p>
+<p>As of now it’s been exactly one week since I switched to Macbook and boy oh boy! I have so many things to write about this beast of a machine. Let’s start by talking about it’s design. Then I will talk about it’s hardware and software.</p>
+<h1 id="design">Design</h1>
+<p><img src="macbook-pro-2021.jpeg" alt=""></p>
+<p>Macbook Pro 2021 / Source: unsplash.com/@tony_cm__</p>
+<p>I am relatively new to the Apple’s products. So, I do not have the most experience when it comes to Apple’s ecosystem and all that. But I can say, with great confidence, that their designs are just exceptional!</p>
+<p>The <strong>all-aluminium chassis</strong> feels cold and very durable. I bought the silver version and it looks amazing. The whole body looks very simple yet expensive and chic!</p>
+<p>The near-4K Pro Display XDR is, IMO, is the best screen on a laptop. It might even be amongst the best ones in the monitor industry. <strong>It is that good</strong>! The colors are very accurate and <strong>eye-catching</strong>. It can get super bright and stay visible under direct sunlight. When I first opened the lid and saw the screen, I was screaming inside! My previous monitor looked like something from 80s compared to the Macbook’s screen.</p>
+<p>The sound quality is what surprised me the most. I am not an audiophile but I always appreciate the high quality listening. The speakers sounded way better than I expected. The lows are really low and you can hear/feel the bass. The mids are <strong>simply amazing</strong>. The highs have the same quality and don’t get distorted on high volumes. I have a JBL Xtreme 2 and it does not sound like this! Yeah the JBL gets louder and have better lows but, to me, Macbook’s speakers are more <strong>enjoyable</strong>.</p>
+<h1 id="hardware">Hardware</h1>
+<p><img src="macbook-internals.png" alt=""></p>
+<p>Macbook’s Internals / Source: macrumors.com</p>
+<p>There is only one thing I want to talk about here and it’s the M1 Pro. I still cannot comprehend how Apple created something <strong>so powerful and yet very efficient</strong>. How much powerful you ask? Well, to put it simply, I was able to compile a relatively large C++ codebase in 7 minutes! The same operation usually takes 50–60 minutes on my Windows machine. And I did not tell you the best part yet; <strong>It did not break a sweat!</strong> During the compilation, my old machine spins up the fans so much so that it starts to sound like a jet engine taking off. Meanwhile the Macbook Pro only got a little bit hot on the screen sides. I do not know if Apple does this intentionally but, even under full-load the fans <strong>rarely</strong> kick off. And even when they do, you cannot hear them at all.</p>
+<p>There is one more thing that I also want to talk about. The battery life on this machine is, again, <strong>exceptional</strong>. It has the <strong>best battery life on any laptop</strong>. I was able to use it 2 days in a row without even charging. During that 2 days, I browsed the internet, watched some Netflix, did some 3–4 hours code sessions, listened to lossless music and downloaded/installed many programs. I can safely say that, you can just pick up this machine and leave home without worrying about it’s battery. It is that good!</p>
+<h1 id="software">Software</h1>
+<p><img src="macos-monterey.png" alt=""></p>
+<p>macOS Monterey</p>
+<p>Now we come to the part that matters the most: macOS. Compared to Windows, it has a much better UI and UX in my opinion. The operating system feels <strong>complete</strong> and it is <strong>consistent</strong> throughout the whole system. Everything from the animations to design of the applications are very well made and <strong>polished</strong>. For a new user like me this consistency and eye-candy elements are very impressive. Do not get me wrong, Windows is still a good OS but it is filled with bloatware that drags the system down. Apple did an amazing job with macOS and I am <strong>very happy with it</strong>. Switching to it was very easy and it only took me about 2–3 days to get used to it.</p>
+<p>Apple uses the <strong>ARM64</strong> architecture on their M1 chips. People were telling me that this will be a bad thing because most apps would either be not supported or work very poorly. But they were wrong! The transition from x86–64 architecture to ARM64 is still going but most apps have completed their transition. Like Parallels, IntelliJ, NodeJS and Adobe apps. Even if an app is not ARM64 compatible, macOS uses Rosetta 2 to emulate it. With the power of M1 Pro even the emulated apps run good.</p>
+<p><img src="parallels-running-ubuntu.png" alt=""></p>
+<p>Parallels 17 Running Ubuntu 20.04</p>
+<p>For a project I am working on, I need to use a toolchain called ROS (Robots Operating System). Currently it only works on Ubuntu. On my previous machine, I needed to install Ubuntu alongside my Windows and dual-boot. This was not that hard but after some time, switching from one OS to another was tedious and time-consuming. I could not use a Virtual Machine simply because it was too slow (I tried VMWare and VirtualBox, both were unusable). But thing were different on the macOS realm. Using <strong>Parallels 17</strong>, I was able to install Ubuntu 20.04 ARM64 very easily. M1 Pro and macOS is so good that I can run Ubuntu on a virtual machine and still do other stuff. Yes you can do that on Windows too but here everything is so <strong>easy, fast</strong> and  just <strong>convenient</strong>.</p>
+<p>JetBrains’s already transitioned the IntelliJ to Apple chips. The performance difference was very visible. On my Windows machine running the IntelliJ project at the same time was very slow and laggy. Here in macOS, well… let’s just say it is <strong>very</strong> <strong>fast</strong>.</p>
+<p><img src="rosetta-2.png" alt=""></p>
+<p>Rosetta 2 / Source: apple.com</p>
+<p>Although the M1 Pro and macOS is a very <strong>powerful combo</strong>, they have one thing that just cannot compete with Windows (yet). The ARM64 architecture is still new to the laptop/desktop market. So, there are a lot of incompatible apps. There are workarounds to making them work but, it’s just not worth it. For example, PyQt5 is an important library that I work with a lot. I was not able to install it for 2 days straight. The solution was to use Rosetta 2 because PyQt5 was not compatible with ARM64 yet. Such a simple thing on Windows can be very complex on macOS because of this architecture. Hopefully more and more apps will start to use ARM64 in the future.</p>
+<h1 id="final-thoughts">Final Thoughts</h1>
+<p>I had only a week of a time with the Macbook Pro, M1 and the macOS. But my overall impressions are <strong>very very very positive</strong> and  I am <strong>very happy</strong> with the results. I have successfully migrated from Windows to macOS. The transition was easier than I thought. There are still tons of things to learn but as of now, I am very comfortable with my Macbook Pro. It was %100 worth it. I encourage anyone, <em>who wants to do the same thing</em>, to leave their Windows machines and just switch to macOS/Macbook. You will be very happy by this beast’s <strong>raw power</strong> and <strong>high efficiency</strong>.</p>
+<p>Apple really outdone themselves with the M1 family. Ditching the Intel and making their own SoC was a <strong>good call</strong> and I am very <strong>excited</strong> for the future of M1 and possibly M2. One thing I want to add here is the Apple’s marketing video for the 2021 Macbook Pro. There is a line that caught my attention the most. I think it describes everything with the Macbook Pro perfectly.</p>
+<blockquote>
+<p>What have we done? And more importantly, what will you do?</p>
+</blockquote>
+<p>If you made it to this part, thank you for reading my article. If you have any suggestions or criticisms, feel free to contact me in any way you like.</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/blog/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading & Take care <span style="font-style: normal;"> ❤ </span></p>
+		<p>
+			Follow me on
+			<a href="https://twitter.com/tunacicii">X (formerly Twitter)</a>,
+      if you like my works that is >.&lt;
+		</p>
+
+	</div>
+  </article>
+
+  <hr />
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">Home</a></li>
+         
+          <li><a href="/blog/memes/">Memes</a></li>
+         
+          <li><a href="/blog/about/">About</a></li>
+         
+          <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents"></nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&text=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&is_video=false&description=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&title=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&name=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective&description=As%20far%20as%20I%20remember%2c%20I%20have%20been%20using%20Windows%20machines%20both%20for%20entertainment%20and%20programming.%20That%20was%20until%20the%20Apple%e2%80%99s%20WWDC%202021%20event%20where%20they%20announced%20the%20new%20Macbook%20Pros%20with%20M1%20Pro%20and%20M1%20Max%20SoCs.%20Looking%20at%20their%20presentation%20I%20was%20simply%20amazed.%20Everything%20they%20showed%20about%20the%20performance%20and%20efficiency%20of%20these%20new%20SoCs%2c%20sounded%20too%20good%20to%20be%20true.%20Imagine%20running%20an%20Ubuntu%20Virtual%20Machine%2c%20many%20Docker%20containers%2c%20compiling%20large%20codebases%20and%20watching%204K%20content%20on%20YouTube%20at%20the%20same%20time.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2022%2f05%2fapple-m1-chip-from-a-software-engineers-perspective%2f&t=Apple%20M1%20Chip%20from%20a%20Software%20Engineer%27s%20Perspective">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Pasteleft &#9752; 2023  Tuna Cici (Blog) 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/blog/lib/font-awesome/css/all.min.css>
+<script src=/blog/lib/jquery/jquery.min.js></script>
+<script src=/blog/js/main.js></script>
+
+
+
+</html>
