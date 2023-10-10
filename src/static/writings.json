@@ -98,6 +98,16 @@
         "eli5"
       ],
       "url": "https://medium.com/@tunacici7/qemu-eli5-part-1-introduction-957ae2f48de5"
+    },
+    {
+      "name": "Bootloaders & Firmwares*",
+      "date": "Oct 10, 2023",
+      "tags": [
+        "bootloader",
+        "arm",
+	"x86"
+      ],
+      "url": "https://medium.com/@tunacici7/bootloaders-the-wilderness-of-the-firmware-5a9b13c1bffd"
     }
   ]
 }
