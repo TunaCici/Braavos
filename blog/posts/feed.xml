@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/posts/</link>
+    <description>Recent content in Posts on Tuna Cici (Blog)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://tunacici.com/blog/posts/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)</title>
+      <link>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</link>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</guid>
+      <description>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp;amp; U-Boot (SPL)
+Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having size smaller than 64 KiB or being written in pure machine-code because the stack isn’t properly initialized yet.
+This is One Way to Initialize Stack Without A Help From First-Stage Loaders
+Naturally, bootloaders are critical as they are literally one of the first programs to run when you press the “Power On” button.</description>
+    </item>
+    
+    <item>
+      <title>Bootloaders &amp; The Wilderness of The Firmware</title>
+      <link>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</link>
+      <pubDate>Fri, 06 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</guid>
+      <description>Between “pressing the power button” on your device to actually start using it, there exists many pieces of software from different vendors that must execute &amp;amp; work together for a system to Gracefully Boot™.
+Most modern devices are capable of booting in a few seconds &amp;amp; being fully ready to be used. There are even areas (safety-critical) where sub 1 second boot time is not only possible but required! These timings are fascinating when you learn how much “software switching” happens &amp;amp; the important role they each play.</description>
+    </item>
+    
+    <item>
+      <title>GNU/Linux CLI Shells ELI5: sh, bash, zsh and more</title>
+      <link>https://tunacici.com/blog/2023/04/gnu/linux-cli-shells-eli5-sh-bash-zsh-and-more/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/04/gnu/linux-cli-shells-eli5-sh-bash-zsh-and-more/</guid>
+      <description>If you’ve ever interacted with a GNU/Linux system, chances are you’ve heard about shells like sh, bash and zsh. But what are these shells, why are they so important? What even is a shell? And “most importantly” why should you even care about them?
+In this article, we’ll take a closer look at GNU/Linux shells and try to explain them in an ELI5-fashioned way. We’ll discuss some essential terms like: terminal, shell and CLI.</description>
+    </item>
+    
+    <item>
+      <title>Linux Networking ELI5 — Part 4, Minecraft &amp; Web Server</title>
+      <link>https://tunacici.com/blog/2023/02/linux-networking-eli5-part-4-minecraft-web-server/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/02/linux-networking-eli5-part-4-minecraft-web-server/</guid>
+      <description>Hello and welcome to the final part of this ELI5 series. So far, we have learned the fundamentals of computer networking through questions like ‘what is networking?’, ‘what is the TCP/IP model?’ and ‘what are ports?’. We have covered most of the important networking terms, but there are still A LOT MORE things out there. However, let’s just leave them for future articles:)
+In this final part we will not be explaining new networking terms, but instead we will use them to build something!</description>
+    </item>
+    
+    <item>
+      <title>Linux Networking ELI5 — Part 3, Ports, TCP/IP &amp; Firewalls</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-3-ports-tcp/ip-firewalls/</link>
+      <pubDate>Mon, 30 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-3-ports-tcp/ip-firewalls/</guid>
+      <description>Welcome to the part 3 of my Linux Networking ELI5 series! In the previous article, we have talked about IP addresses, the idea behind the NAT and DHCP servers.
+Today’s stars are TCP/IP model, ports and firewalls. We will try to answer what they are, how do they work and how to use them in our Linux machines. Unlike the previous articles, this one will be more software centric. Meaning, there will be many terminal commands and practical examples.</description>
+    </item>
+    
+    <item>
+      <title>Linux Networking ELI5 — Part 2, IP, NAT &amp; DHCP</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-2-ip-nat-dhcp/</link>
+      <pubDate>Sun, 29 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-2-ip-nat-dhcp/</guid>
+      <description>Hey everyone! In this article we are continuing our Linux Networking journey from where we left off. Previously, we made a simple introduction to networks, interfaces and basic Linux commands. Now, here in this article we will go deeper into the networking itself and talk about IP addresses, NAT, DHCP and more.
+If you haven’t read the Part-1, I highly encourage you to give it a quick look. Most of the stuff here will make a lot more sense if you know about networks and interfaces.</description>
+    </item>
+    
+    <item>
+      <title>Linux Networking ELI5 — Part 1, Networks &amp; Interfaces</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-1-networks-interfaces/</link>
+      <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-1-networks-interfaces/</guid>
+      <description>As we all know, Linux is a very powerful operating system. Even if it’s not as popular as Windows or macOS, it’s importance and power is no joke. Heck, it might even be the most important OS ever (depending on the person you ask) and there is a good justification for that.
+Daily Time Spent Online — Source: oberlo.com
+Look at the visualized data above. You can clearly see that we spent a lot of time on the internet.</description>
+    </item>
+    
+    <item>
+      <title>Linux Filesystem Explained</title>
+      <link>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</link>
+      <pubDate>Sun, 27 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</guid>
+      <description>If you have ever used a Linux system, you probably heard the term root filesystem. When you install something with apt or want to configure an application’s settings, you need to meddle with the root filesystem. And if you are a developer deploying an application to Linux, just know that you need to get your hands dirty with it. But what is the root filesystem, anyway?
+In this article I will explain the root filesystem, it’s brief history and all the directories inside it.</description>
+    </item>
+    
+    <item>
+      <title>Virtualization &amp; Emulation</title>
+      <link>https://tunacici.com/blog/2022/10/virtualization-emulation/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/10/virtualization-emulation/</guid>
+      <description>When developing software applications, there are tons of crazy tools. In the older days, some of those crazy tools were just impossible to think of because of the hardware and design limitations in the software world. But now, they are very common. And on some areas, are just a necessity. Of course, I am talking about virtualization and emulation.
+If you ever meddled with software development, you are sure to heard about them.</description>
+    </item>
+    
+    <item>
+      <title>What are CPU Architectures &amp; ISAs? ELI5</title>
+      <link>https://tunacici.com/blog/2022/10/what-are-cpu-architectures-isas-eli5/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/10/what-are-cpu-architectures-isas-eli5/</guid>
+      <description>We all probably have heard them: ARM, RISC-V, CISC, x86, x64, AARCH64, AMD64… Why are there so many of them? Why do they sound so mathematical and scientific? And most importantly What do they even mean?
+Here in this article I will try to clear the confessions about all the terms above. I will talk about CPUs, CPU architectures and instruction sets. At the end, you will have the fundamental understanding of their meaning and their place in this big tech world.</description>
+    </item>
+    
+    <item>
+      <title>How to Install Kibana on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</guid>
+      <description>Kibana is the front-end application for the ElasticSearch server. It provides an interface to your server and all it’s data. You can do many things like: adding data, removing data, searching through your database and creating graphs and visualizations.
+If you use ElasticSearch, it is highly recommended that you also use Kibana too. They work excellent together. Writing applications that uses ElasticSearch becomes way easier if you use Kibana. It has a debug section where you can create queries which then can be used in your applications.</description>
+    </item>
+    
+    <item>
+      <title>What is a Compiler Really? ELI5</title>
+      <link>https://tunacici.com/blog/2022/09/what-is-a-compiler-really-eli5/</link>
+      <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/09/what-is-a-compiler-really-eli5/</guid>
+      <description>If you ever meddled with programming or coding, it is very likely that you have heard about compilers. Espacially them ugly link and compiler errors you get when you try to build a C/C++ project you got from GitHub. I know they are annoying to see but, they all mean something. Today I will tell you the most basic things about the compilers so that you can better understand the reason of them errors.</description>
+    </item>
+    
+    <item>
+      <title>Conciousness &amp; Artificial Intelligence</title>
+      <link>https://tunacici.com/blog/2022/07/conciousness-artificial-intelligence/</link>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/07/conciousness-artificial-intelligence/</guid>
+      <description>Look at the above painting. I mean really look at it. What do you see? Well, we see a human on the left (Adam) and the God on the right (with his/her angels) touching their fingers. But there is more to it. See the right side of the picture where the God stays. Doesn’t it look like a human brain? A doctor realized this similarity 500 years after the picture was drawn.</description>
+    </item>
+    
+    <item>
+      <title>What&#39;s Next for Computers and Humans? Brain-Computer Interface</title>
+      <link>https://tunacici.com/blog/2022/07/whats-next-for-computers-and-humans-brain-computer-interface/</link>
+      <pubDate>Sun, 03 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/07/whats-next-for-computers-and-humans-brain-computer-interface/</guid>
+      <description>Lately I’ve been thinking about personal computers and how it affected all of us. Yeah, it’s a bit cliché and cringy to talk about these type of topics. Everyone writes and talks about how computer are either the greatest or the most evil thing that ever existed. I’m not going to talk about either of them today. Today, I will talk about the future and do a little bit philosophy. It’s a gonna be a wild ride!</description>
+    </item>
+    
+    <item>
+      <title>Ways to Increase Your Online Security</title>
+      <link>https://tunacici.com/blog/2022/06/ways-to-increase-your-online-security/</link>
+      <pubDate>Thu, 16 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/06/ways-to-increase-your-online-security/</guid>
+      <description>It is a no-brainer to know that the internet is a big place. Everyday new content/software is being created. From funny-looking TikTok videos to not-so-funny-looking-but-very-informing articles, there are just too many things to discover and interact with. But like the old Uncle Sam said:
+“With great power comes great responsibility.”
+In our case the great power being the internet and the great responsibility being your cyber security. With the increase on amount of people using the internet, there is no doubt that some of them will have malicious intentions.</description>
+    </item>
+    
+    <item>
+      <title>Apple M1 Chip from a Software Engineer&#39;s Perspective</title>
+      <link>https://tunacici.com/blog/2022/05/apple-m1-chip-from-a-software-engineers-perspective/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2022/05/apple-m1-chip-from-a-software-engineers-perspective/</guid>
+      <description>As far as I remember, I have been using Windows machines both for entertainment and programming. That was until the Apple’s WWDC 2021 event where they announced the new Macbook Pros with M1 Pro and M1 Max SoCs. Looking at their presentation I was simply amazed. Everything they showed about the performance and efficiency of these new SoCs, sounded too good to be true. Imagine running an Ubuntu Virtual Machine, many Docker containers, compiling large codebases and watching 4K content on YouTube at the same time.</description>
+    </item>
+    
+    <item>
+      <title>How to Install ElasticSearch on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</link>
+      <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</guid>
+      <description>Note: Updated for the latest version 8.4.2 and tested on Ubuntu 22.04.
+ElasticSearch is a search engine built on Apache Lucene and developed in Java. It is basically a database but heavily focused on indexing and searching. ElasticSearch, indexes the database regularly to make searching extremely fast and easy. You can search within these indexes using it’s official application called Kibana or the APIs provided. But first you need an ElasticSearch server</description>
+    </item>
+    
+  </channel>
+</rss>
