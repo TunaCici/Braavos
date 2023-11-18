@@ -105,9 +105,19 @@
       "tags": [
         "bootloader",
         "arm",
-	"x86"
+	      "x86"
       ],
       "url": "https://medium.com/@tunacici7/bootloaders-the-wilderness-of-the-firmware-5a9b13c1bffd"
+    },
+    {
+      "name": "First-Stage Loaders & SecureBoot",
+      "date": "Nov 18, 2023",
+      "tags": [
+        "bootloader",
+        "uefi",
+	      "secureboot"
+      ],
+      "url": "https://medium.com/@tunacici7/first-stage-loaders-bios-u-efi-iboot1-u-boot-spl-5c0bee7feb15"
     }
   ]
 }
