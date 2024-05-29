@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Linux Networking ELI5 — Part 1, Networks &amp; Interfaces | Tuna Cici (Blog)</title>
+  <meta name="description" content="Enjoy Life!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:url" content="https://tunacici.com/blog/2023/01/linux-networking-eli5-part-1-networks-interfaces/">
+  <meta property="og:site_name" content="Tuna Cici (Blog)">
+  <meta property="og:title" content="Linux Networking ELI5 — Part 1, Networks &amp; Interfaces">
+  <meta property="og:description" content="As we all know, Linux is a very powerful operating system. Even if it’s not as popular as Windows or macOS, it’s importance and power is no joke. Heck, it might even be the most important OS ever (depending on the person you ask) and there is a good justification for that.
+Daily Time Spent Online — Source: oberlo.com
+Look at the visualized data above. You can clearly see that we spent a lot of time on the internet.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-28T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Networking">
+    <meta property="article:tag" content="Eli5">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Linux Networking ELI5 — Part 1, Networks &amp; Interfaces">
+<meta name="twitter:description" content="As we all know, Linux is a very powerful operating system. Even if it’s not as popular as Windows or macOS, it’s importance and power is no joke. Heck, it might even be the most important OS ever (depending on the person you ask) and there is a good justification for that.
+Daily Time Spent Online — Source: oberlo.com
+Look at the visualized data above. You can clearly see that we spent a lot of time on the internet.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/blog/css/style-white.css">
+  
+   <link rel="stylesheet" href="/blog/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://tunacici.com/blog/2022/11/linux-filesystem-explained/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://tunacici.com/blog/2023/01/linux-networking-eli5-part-2-ip-nat-dhcp/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&text=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&is_video=false&description=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&name=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces&description=As%20we%20all%20know%2c%20Linux%20is%20a%20very%20powerful%20operating%20system.%20Even%20if%20it%e2%80%99s%20not%20as%20popular%20as%20Windows%20or%20macOS%2c%20it%e2%80%99s%20importance%20and%20power%20is%20no%20joke.%20Heck%2c%20it%20might%20even%20be%20the%20most%20important%20OS%20ever%20%28depending%20on%20the%20person%20you%20ask%29%20and%20there%20is%20a%20good%20justification%20for%20that.%0aDaily%20Time%20Spent%20Online%20%e2%80%94%20Source%3a%20oberlo.com%0aLook%20at%20the%20visualized%20data%20above.%20You%20can%20clearly%20see%20that%20we%20spent%20a%20lot%20of%20time%20on%20the%20internet.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&t=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#local-network">Local Network</a></li>
+    <li><a href="#private-network">Private Network</a></li>
+    <li><a href="#public-network">Public Network</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#lshw">lshw</a></li>
+    <li><a href="#ifconfig">ifconfig</a></li>
+    <li><a href="#ip">ip</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	⭐️	
+	<a href="https://github.com/TunaCici/NBBS">New project: Non-Blocking Buddy System - May 27, 2024</a>
+	⭐️
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+      <img src="header.png" class="hero" alt="Pinging my Raspberry Pi (right) from my Mac (Left) — LAN Connection" />
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        Linux Networking ELI5 — Part 1, Networks &amp; Interfaces
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2023-01-28 00:00:00 &#43;0000 UTC" itemprop="datePublished">2023-01-28</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/networking/" rel="tag">networking</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/eli5/" rel="tag">eli5</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>As we all know, Linux is a very powerful operating system. Even if it’s not as popular as Windows or macOS, it’s importance and power is no joke. Heck, it might even be the most important OS ever (depending on the person you ask) and there is a good justification for that.</p>
+<p><img src="daily-time-spent-online.png" alt=""></p>
+<p>Daily Time Spent Online — Source: oberlo.com</p>
+<p>Look at the visualized data above. You can clearly see that we spent a lot of time on the internet. This means that, we are interacting with tons of server all around the world. And guess what OS does those servers are running? Linux! And they are all using it’s networking tools.</p>
+<p>Okay, basically what I’m getting to is, Linux networking is pretty darn important. Especially if you are a developer.</p>
+<p>Here in this 4 part series, I will try to ELI5 some basic networking ideologies, the Linux networking, network tools, configurations. Last part will be about common use cases. Together we will deploy a Minecraft and an HTTP server on the cloud using the information gained from this article.</p>
+<blockquote>
+<p>Do note that this article is not an advanced topic on Linux networking and its internals. This is merely an ELI5 for those who are curios about networking</p>
+</blockquote>
+<p>Here’s a brief look at this ELI5 series. (I will add their links very soon)</p>
+<p><a href="https://medium.com/@tunacici7/linux-networking-eli5-part-1-networks-interfaces-b912826d699b">Navigate to Part 1 — Networks &amp; Interfaces</a></p>
+<p><a href="https://medium.com/@tunacici7/linux-networking-eli5-part-2-ip-nat-dhcp-c1af98046654">Navigate to Part 2 — IP, NAT &amp; DHCP</a></p>
+<p><a href="https://medium.com/@tunacici7/linux-networking-eli5-part-3-ports-tcp-ip-firewalls-73f17cb54ed8">Navigate to Part 3 — Ports, TCP/UDP &amp; Firewalls</a></p>
+<p><a href="https://medium.com/@tunacici7/linux-networking-eli5-part-4-minecraft-web-server-f0791b6318d0">Navigate to Part 4 — Minecraft &amp; HTTP Server</a></p>
+<h1 id="tldr">TLDR;</h1>
+<pre tabindex="0"><code>Networking: Communication that happens between two or more individuals.  
+Networking (computers): Computers talking to each other.  
+  
+Network: A collection of computers that are connected to each other  
+Local Networks: A type of network (small size &amp; distance) (ex. home)
+Private Networks: A type of network (medium/large size &amp; distance) (ex. company)
+Public Networks: A type of network (large size &amp; open to everyone) (ex. internet)  
+  
+Network Interface: Hardware device that connects computers to network  
+  
+lshw: Command for displaying hardware devices in Linux (ex. network)  
+ifconfig: Command for configuring network interfaces in Linux (legacy)  
+ip: Command for configuring network interfaces and more in Linux (modern)
+</code></pre><h1 id="the-setup">The Setup</h1>
+<p>Since networking requires multiple devices connected to each other, I have setup an example network. This way I can give better visual examples and help in this journey.</p>
+<p><img src="my-network-setup.png" alt=""></p>
+<p>My Basic Network Setup</p>
+<p>I have two local machines that are connected to each other via my home router. One machine is Apple’s Macbook Pro running macOS Ventura 13.1 and the other one is my faithful Raspberry Pi 4b running Ubuntu Server 22.04.</p>
+<p>I also have a cloud machine running Ubuntu Server 22.04 same as my Raspberry. I hid it’s public IP address due to privacy and security concerns.</p>
+<p>Throughout this journey I will be showing examples using these machines. At the end of it all, together we will deploy a Minecraft server and a basic HTTP server using Flask on my cloud server.</p>
+<h1 id="what-is-networking">What is networking?</h1>
+<p>Just like in human relationships, networking basically means talking with others. It is a communication/relationship that happens between one or more humans. In our case, however, it is not humans, but computers that do the talking and communication.</p>
+<p>When computers talk to each other, we call it ‘networking’. And when many computers come together to communicate, they form a ‘network’. We can compare a ‘network’ to a group chat. You can have family group, a school group or a bigger Discord gaming group.</p>
+<p><img src="group-chat.jpeg" alt=""></p>
+<p>Group Chat is Basically a Local Network — Source: macrumors.com</p>
+<p>Now, we have different kinds of networks with different sizes and purposes. The most popular ones are: local networks, private networks and public networks. Let’s go over them briefly.</p>
+<h2 id="local-network">Local Network</h2>
+<p>These types of networks are relatively small in their sizes and made up of devices that are in close distance to each other. For example, your home network that connects your laptop, phone, TV, printer, Amazon Alexa and etc. These devices can connect to each other with devices like routers and switches to form what is known as a ‘local network’.</p>
+<blockquote>
+<p>Sometimes a ‘local network’ is also called a Local Area Network (LAN).</p>
+</blockquote>
+<p><img src="typical-lan-party.jpeg" alt=""></p>
+<p>A Typical LAN Party (good times) — Source: dazeddigital.com</p>
+<p>When you and your friends come together for a LAN party to play Call of Duty, you are actually forming a local network using devices like switches and routers.</p>
+<h2 id="private-network">Private Network</h2>
+<p>Let’s say you have a company. You have hunders computers and people to use them. As a good CEO, you want to separate your employees into different department so that the engineers doesn’t do any HR stuff and the HR people doesn’t do engineering stuff. You also want to separate their computers so that only the engineer’s computers can talk to each other. It makes sense, right?</p>
+<p>Now, we can form a local network within engineers and another local network for HR people. This time however, as a CEO, you want to access each of these networks from your own computer. And also you want some of these networks to access the internet and some don’t. Okay, things are getting a little bit complicated here.</p>
+<p>What’s the solution? A Private Network.</p>
+<p><img src="example-company.jpeg" alt=""></p>
+<p>Most Companies Uses a Private Network for Security — Source: medium.com by Shridgar Grupta</p>
+<p>Private networks are basically multiple local networks that are connected to each other. These types of networks are used mostly within organizations, companies and schools. They keep their networks as isolated as possible (especially from the internet) so that no average Joe would be able to access it. Thus, making this type of network a ‘private’ one.</p>
+<blockquote>
+<p>Another way to think about private networks is that they are basically one giant local network.</p>
+</blockquote>
+<h2 id="public-network">Public Network</h2>
+<p>Think of a place where everyone around the world can come together and talk to each other. Of course we can’t physically do that, but we can use the Internet! When we share a post on Reddit everyone around the world can see it, right? So, we are basically connected to everyone. We can communicate with each other over the Internet.</p>
+<p><img src="earth-at-night.jpeg" alt=""></p>
+<p>We Can Compare Public Roads to Public Networks — Source: medium.com by NASA</p>
+<p>The public networks are big networks that anyone can join at any time. The biggest example to a public network is the internet. Almost everything we use (iMessage, Overwatch, Reddit, Instagram) uses a public network that is the internet. What separates this network from others is in its publicity: <strong>anyone can join this network; it’s public</strong>.</p>
+<p>Public networks are very special compared to local and private networks. Since they are public, there must be organizations and governments that helps maintaining it. Otherwise, the Internet can turn into chaos!</p>
+<p><img src="comcast.jpeg" alt=""></p>
+<p>One of The Biggest ISP: Comcast — Source: reuters.com</p>
+<p>The organizations that maintains and ‘builds’ the public internet are known as Internet Service Providers (ISPs). Each ISP is responsible for building new networks, fiber-optic cables and giant access points (5G LTE). In doing so they are widening the Internet (biggest public network ever).</p>
+<p>Of course, they are not building a public network for charity. The government gives them permissions to build cables, network buildings and LTE antennas everywhere. Oh, and also you give them money for using their network… The internet is not <em>free</em> after all.</p>
+<h1 id="network-interfaces">Network Interfaces</h1>
+<p><img src="wlan-device.jpeg" alt=""></p>
+<p>A Wireless Network Device — Source: ifixit.com</p>
+<p>Okay nice, we have all these cool networks. But how can we join them? So, we can play Minecraft over the LAN with the gang.</p>
+<p>Well, first things first, we need a physical network device called ‘a network interface’. These devices allows us to connect to physical networks. Your iPhone has one, your Xbox has one and your laptop probably has more than one.</p>
+<p><img src="modern-motherboard.jpeg" alt=""></p>
+<p>Most Modern Computers Have Wi-Fi and Ethernet Built-in — Source: msi.com</p>
+<p>If you search ‘network interface’ on Amazon, you can see all the different devices out there. Each network interface out there has its pros and cons. For example; one might be wireless but slow and other is wired but fast.</p>
+<blockquote>
+<p>Most modern computers/devices have a built-in network device such as: Wi-Fi, Ethernet CAT6 and Thunderbolt 4.</p>
+</blockquote>
+<p>Alright cool. I have a network device that helps me connect to networks. But can I check them? See their model numbers, their network configurations and if they are running correctly or not?</p>
+<h2 id="lshw">lshw</h2>
+<p>This Linux command is used to gain information about the hardware devices. You can use it for almost every hardware, but we will only be using it for network devices.</p>
+<p>Below Linux command displays all your network devices. It is recommended to run it as ‘sudo’.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo lsfw -class network
+</span></span></code></pre></div><p><img src="lshw-class-network-output.png" alt=""></p>
+<p>You can see that I have two devices (interfaces) on my Raspbbery Pi 4b. Look at the lines that start with ‘*’. Each of these lines corresponds to a network device.</p>
+<h2 id="ifconfig">ifconfig</h2>
+<p>This commands displays all your network interfaces connected to your Linux. Compared to ‘lshw’, the ‘ifconfig’ command gives a more network related information about your network devices. It comes with the ‘net-tools’ packages, which can be installed via ‘apt’, ‘yum’ or ‘net-tools’.</p>
+<p>Here is an example usage of the ifconfig command.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ifconfig
+</span></span></code></pre></div><p><img src="ifconfig-command-output.png" alt=""></p>
+<p>‘ifconfig’ Command Output</p>
+<p>Here you can see that my Raspberry Pi 4b has only two network interfaces. The one called ‘wlan0’ is my Wi-Fi adaptor and the ‘lo’ is my machine’s localhost. It’s not a real/physical device, but a virtual one. It is used for applications inside the OS (we will talk about it in part 3).</p>
+<blockquote>
+<p>The ‘lshw’ command did not show ‘lo’ because it is not a real hardware device. The ‘ifconfig’ command did not show ‘Ethernet Device’ because it’s not setup yet.</p>
+</blockquote>
+<p><img src="localhost-meme.jpeg" alt=""></p>
+<p>‘localhost’ is Not a Real Network (Device) But it Acts Like One! — Source: thecodinglove.com</p>
+<p>You can get tons of useful information using the ‘ifconfig’. For example; device status, IP address, MAC/Physical address, how much data is being sent (TX) and how much received (RX).</p>
+<p>The ‘ifconfig’ can do many different cool things. However, I will not be showing them because there is a ‘better’ command at our disposal.</p>
+<h2 id="ip">ip</h2>
+<p>This command is like the One-Ring from The Lord of The Rings. It can be used for many different network-related operations. It can be seen as the superior command to ‘ifconfig’.</p>
+<blockquote>
+<p>Throughout all parts of this article, I will be using the ‘ip’ command a lot. So, it is pretty important;)</p>
+</blockquote>
+<p>Almost all Linux computers have the ‘ip’ command installed by default . So, it is the recommended and better way to configure Linux networking.</p>
+<p>Let’s use this command to check our network interfaces.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ip addr show
+</span></span></code></pre></div><p><img src="ip-addr-show-command-output.png" alt=""></p>
+<p>‘ip addr show’ Command Output</p>
+<p>Here you can see an additional device: ‘eth0’. The ‘ifconfig’ command did not show this because it’s not being setup yet. However, ‘ip’ shows ALL of your devices whether they are active or not.</p>
+<p>Your machine can have many different network interfaces. For example; a typical server supports 8–16 different wired interfaces. A machine with tons of virtual machines running can also have many ‘virtual’ interfaces.</p>
+<blockquote>
+<p>My Macbook machine have 20 interfaces! Mostly from VPNs, virtual machines and macOS network settings.</p>
+</blockquote>
+<p>Just like any hardware device, you can turn any of your network interface on and off. You should know that in Linux networking, turning on/off a network interface is also called bringing up/down. It’s basically a fancier way of saying it.</p>
+<p>The below command is used for bringing down/up a network interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo ip link <span style="color:#5918bb;font-weight:bold">set</span> dev &lt;INTERFACE_NAME&gt; up <span style="color:#0080ff;font-style:italic"># Bring it up  </span>
+</span></span><span style="display:flex;"><span>$ sudo ip link <span style="color:#5918bb;font-weight:bold">set</span> dev &lt;INTERFACE_NAME&gt; down <span style="color:#0080ff;font-style:italic"># Bring it down</span>
+</span></span></code></pre></div><p><img src="ip-link-set-command-output.png" alt=""></p>
+<p>You Can See That I Can Bring an Interface Down</p>
+<p>Here in the above picture you can see that the ‘ip’ command can bring a network interface down (see state UP|DOWN).</p>
+<blockquote>
+<p>I have used an additional ‘grep’ command to highlight the state of the device.</p>
+</blockquote>
+<h1 id="closing-words">Closing Words</h1>
+<p>So far, we have learned the idea behind networking, how it is used in computers and the types of them. We also learned what gives us the ability to join them (network interfaces), what are they, how can we check them out in Linux and turn them on/off.</p>
+<p>Currently, these informations does not have much of a practical usage. In the coming parts, we will learn to use these network interfaces to do some real work!</p>
+<p>I hope that you liked my article and learned something new. If you spot any errors or mistakes please, do let me know.</p>
+<p>Take care ❤</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/blog/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading & Take care <span style="font-style: normal;"> ❤ </span></p>
+		<p>
+			Follow me on
+			<a href="https://twitter.com/tunacicii">X (formerly Twitter)</a>,
+      if you like my works that is >.&lt;
+		</p>
+
+	</div>
+  </article>
+
+  <hr />
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">Home</a></li>
+         
+          <li><a href="/blog/memes/">Memes</a></li>
+         
+          <li><a href="/blog/about/">About</a></li>
+         
+          <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#local-network">Local Network</a></li>
+    <li><a href="#private-network">Private Network</a></li>
+    <li><a href="#public-network">Public Network</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#lshw">lshw</a></li>
+    <li><a href="#ifconfig">ifconfig</a></li>
+    <li><a href="#ip">ip</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&text=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&is_video=false&description=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&title=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&name=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces&description=As%20we%20all%20know%2c%20Linux%20is%20a%20very%20powerful%20operating%20system.%20Even%20if%20it%e2%80%99s%20not%20as%20popular%20as%20Windows%20or%20macOS%2c%20it%e2%80%99s%20importance%20and%20power%20is%20no%20joke.%20Heck%2c%20it%20might%20even%20be%20the%20most%20important%20OS%20ever%20%28depending%20on%20the%20person%20you%20ask%29%20and%20there%20is%20a%20good%20justification%20for%20that.%0aDaily%20Time%20Spent%20Online%20%e2%80%94%20Source%3a%20oberlo.com%0aLook%20at%20the%20visualized%20data%20above.%20You%20can%20clearly%20see%20that%20we%20spent%20a%20lot%20of%20time%20on%20the%20internet.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f01%2flinux-networking-eli5-part-1-networks-interfaces%2f&t=Linux%20Networking%20ELI5%20%e2%80%94%20Part%201%2c%20Networks%20%26%20Interfaces">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Pasteleft &#9752; 2024  Tuna Cici (Blog) 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/blog/lib/font-awesome/css/all.min.css>
+<script src=/blog/lib/jquery/jquery.min.js></script>
+<script src=/blog/js/main.js></script>
+
+
+
+</html>
