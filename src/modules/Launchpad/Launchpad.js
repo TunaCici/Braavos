@@ -155,7 +155,7 @@ function Launchpad(props) {
         <hr className="launchpad-footer-hr" />
 
         <div className="launchpad-footer-text">
-          Pasteleft &#9752; 2023 - Braavos Launchpad
+          Pasteleft &#9752; 2024 - Braavos Launchpad
         </div>
       </div>
     </div>

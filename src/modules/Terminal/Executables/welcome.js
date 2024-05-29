@@ -3,7 +3,7 @@ import "../../../static/common.css";
 
 function welcome(args) {
   /* max 80 chars pls */
-  const message = "⭐️ New writing: First-Stage Loaders: BIOS, [U]EFI, iBoot1... - 18 Nov 2023 ⭐️";
+  const message = "⭐️ New project: Non-Blocking Buddy System allocator - May 27 2024 ⭐️";
 
   const title = "+-------| News |" + "-".repeat(63) + "+";
   const middle = " " + message;;

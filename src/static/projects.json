@@ -14,6 +14,18 @@
       "authors": "Tuna CICI (me)"
     },
     {
+      "name": "NBBS",
+      "url": "https://github.com/TunaCici/NBBS",
+      "description": "Non-Blocking Buddy System allocator.",
+      "keywords": [
+        "ISO C",
+        "Operating System",
+        "Kernel",
+        "Algorithms"
+      ],
+      "authors": "Tuna CICI (me)"
+    },
+    {
       "name": "QEMU_Starter",
       "url": "https://github.com/TunaCici/QEMU_Starter",
       "description": "Pseudo-wiki; offering guides, tutorials, and examples for new QEMU users.",
