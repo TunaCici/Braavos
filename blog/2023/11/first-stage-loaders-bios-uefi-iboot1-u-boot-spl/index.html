@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL) | Tuna Cici (Blog)</title>
+  <meta name="description" content="Enjoy Life!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:url" content="https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/">
+  <meta property="og:site_name" content="Tuna Cici (Blog)">
+  <meta property="og:title" content="First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)">
+  <meta property="og:description" content="First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp;amp; U-Boot (SPL)
+Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having size smaller than 64 KiB or being written in pure machine-code because the stack isn’t properly initialized yet.
+This is One Way to Initialize Stack Without A Help From First-Stage Loaders
+Naturally, bootloaders are critical as they are literally one of the first programs to run when you press the “Power On” button.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-11-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-11-18T00:00:00+00:00">
+    <meta property="article:tag" content="Bootloader">
+    <meta property="article:tag" content="Uefi">
+    <meta property="article:tag" content="Secureboot">
+    <meta property="article:tag" content="U-Boot">
+    <meta property="article:tag" content="Bios">
+    <meta property="article:tag" content="Iboot">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)">
+<meta name="twitter:description" content="First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)
+Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having size smaller than 64 KiB or being written in pure machine-code because the stack isn’t properly initialized yet.
+This is One Way to Initialize Stack Without A Help From First-Stage Loaders
+Naturally, bootloaders are critical as they are literally one of the first programs to run when you press the “Power On” button.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/blog/css/style-white.css">
+  
+   <link rel="stylesheet" href="/blog/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&text=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&is_video=false&description=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&name=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29&description=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26amp%3b%20U-Boot%20%28SPL%29%0aBootloaders%2c%20due%20to%20their%20low-level%20nature%2c%20sometimes%20have%20to%20work%20closely%20with%20the%20hardware.%20This%20can%20lead%20to%20some%20serious%20constrains%2c%20such%20as%20having%20size%20smaller%20than%2064%20KiB%20or%20being%20written%20in%20pure%20machine-code%20because%20the%20stack%20isn%e2%80%99t%20properly%20initialized%20yet.%0aThis%20is%20One%20Way%20to%20Initialize%20Stack%20Without%20A%20Help%20From%20First-Stage%20Loaders%0aNaturally%2c%20bootloaders%20are%20critical%20as%20they%20are%20literally%20one%20of%20the%20first%20programs%20to%20run%20when%20you%20press%20the%20%e2%80%9cPower%20On%e2%80%9d%20button.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&t=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#power-on-self-test-post">Power-On Self-Test (POST)</a></li>
+    <li><a href="#boot-process">Boot Process</a></li>
+    <li><a href="#environment--services">Environment &amp; Services</a></li>
+    <li><a href="#harware-part">Harware Part</a></li>
+    <li><a href="#interface--look">Interface &amp; Look</a></li>
+    <li><a href="#system-info--configuration">System Info &amp; Configuration</a></li>
+    <li><a href="#acpi">ACPI</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#whats-not-new-relative-to-bios">What’s NOT New? (relative to BIOS)</a></li>
+    <li><a href="#whats-new-relative-to-bios">What’s New? (relative to BIOS)</a></li>
+    <li><a href="#boot-process-1">Boot Process</a></li>
+    <li><a href="#environment--services-1">Environment &amp; Services</a></li>
+    <li><a href="#efi-applications">EFI Applications</a></li>
+    <li><a href="#hardware-part">Hardware Part</a></li>
+    <li><a href="#interface--look-1">Interface &amp; Look</a></li>
+    <li><a href="#secure-boot">Secure Boot</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#its-role-as-a-first-stage-loader">It’s Role as a First-Stage Loader</a></li>
+    <li><a href="#build--flash">Build &amp; Flash</a></li>
+    <li><a href="#interface--usage">Interface &amp; Usage</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	⭐️	
+	<a href="https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/">New project: Non-Blocking Buddy System - May 27, 2024</a>
+	⭐️
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+      <img src="header.png" class="hero" alt="Good Morning, Good Afternoon, Good Night" />
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2023-11-18 00:00:00 &#43;0000 UTC" itemprop="datePublished">2023-11-18</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/bootloader/" rel="tag">bootloader</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/uefi/" rel="tag">uefi</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/secureboot/" rel="tag">secureboot</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/u-boot/" rel="tag">u-boot</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/bios/" rel="tag">bios</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/iboot/" rel="tag">iboot</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)</p>
+<p>Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having <a href="https://www.scs.stanford.edu/nyu/04fa/lab/specsbbs101.pdf">size smaller than 64 KiB</a> or being written in pure <a href="https://github.com/ARM-software/u-boot/blob/master/arch/x86/cpu/start.S">machine-code</a> because the stack isn’t properly initialized yet.</p>
+<p><img src="assembly-code-of-first-stage-loader.png" alt="">
+This is One Way to Initialize Stack Without A Help From First-Stage Loaders</p>
+<p>Naturally, bootloaders are critical as they are <em>literally</em> one of the first programs to run when you press the “Power On” button. Without them, the system wouldn’t be able to boot up; and obviously we don’t want that &gt;.&lt;</p>
+<p>For this reason, some bootloaders are placed inside “special” chips such as <a href="https://en.wikipedia.org/wiki/Bootloader#:~:text=The%20computer%20first%20executes%20a%20relatively%20small%20program%20stored%20in%20read%2Donly%20memory%20(ROM%2C%20and%20later%20EEPROM%2C%20NOR%20flash)">ROM or Flash Memories</a>, and as a result further increasing the already strict constraints.</p>
+<p>Bootloaders that match the above criteria are categorized as <strong>First-Stage Loaders</strong>. As the name suggest, they are [one of] the first programs to be executed when the system turns on. Initially their objective was to “<em>initialize just enough hardware to load the</em> <strong><em>Second-Stage Loader</em></strong>”. But, with time they got bigger &amp; gained ability to do stuff like run-time configuration /w fancy GUI, secure boot, automatic updates and whatnot.</p>
+<p><img src="modern-first-stage-loaders.png" alt="">
+Modern First-Stage Loaders Which We Are Going To Discuss Soon Enough</p>
+<p>Here’s some common characteristics of a <strong>First-Stage Loader</strong>:</p>
+<ul>
+<li>They are a f<strong>irmware</strong>.</li>
+<li>Stored inside <strong>ROM</strong> or <strong>flash memory</strong></li>
+<li>Small in size (<strong>a few KiBs</strong>)</li>
+<li>Machine &amp; platform dependent</li>
+<li><strong>Limited</strong> features (relative to Second-Stage Loaders)</li>
+</ul>
+<p>The best example for a First-Stage Loader is <strong>BIOS</strong> on x86 and <strong>U-Boot (SPL)</strong> on ARM.</p>
+<h1 id="bios">BIOS</h1>
+<p><img src="bios-header.png" alt="">
+BIOS Implementation (Left) &amp; Specification (Right)</p>
+<p>Special to x86 platforms (e.g. Intel, AMD, IBM PC) <strong>B</strong>asic <strong>I</strong>nput/<strong>O</strong>utput <strong>S</strong>ystem (<strong>BIOS</strong>) is a special firmware that is automatically run the we press the “Power On” button or if the CPU “reset” signal is present. It is a First-Stage bootloader that resides [generally] inside a ROM chip on a motherboard.</p>
+<p>Well, I just lied: It’s technically NOT a piece of firmware but rather a <strong>specification</strong>.</p>
+<p><img src="specs-vs-imp.png" alt="">
+We Can Compare Specifications to Blueprints</p>
+<p>Initially, it was just a proprietary First-Stage Loader firmware used by <a href="https://en.wikipedia.org/wiki/IBM_PC_compatible">IBM PCs</a> during 1970–80s. However, it was reverse-engineered by <a href="https://en.wikipedia.org/wiki/Phoenix_Technologies">Phoenix</a>, and then later was turned into a specification called <a href="https://www.scs.stanford.edu/nyu/04fa/lab/specsbbs101.pdf"><em>BIOS Boot Specification</em></a> written by <a href="https://en.wikipedia.org/wiki/Compaq">Compaq</a>, <a href="https://en.wikipedia.org/wiki/Phoenix_Technologies">Phonix</a> and <a href="https://en.wikipedia.org/wiki/Intel">Intel</a> in 1991.</p>
+<p>The fact that BIOS is a specification and not a firmware basically means that there can be many BIOS out there and your PC’s BIOS might look different then mine &amp; have more features as well!</p>
+<p><img src="different-popular-bios-implementations.png" alt="">
+Different “Popular” BIOS Implementations</p>
+<p>In fact here’s some implementations of the BIOS Boot Specification:</p>
+<ul>
+<li><strong>AMIBIOS</strong> by <a href="https://www.ami.com">American Megatrends</a></li>
+<li><strong>SeaBIOS</strong> by <a href="https://www.seabios.org/SeaBIOS">Open Source Community</a></li>
+<li><strong>InsydeH20</strong> by <a href="https://www.insyde.com">Inside Software</a></li>
+</ul>
+<blockquote>
+<p>The full comparison between them can be found on <a href="https://en.wikipedia.org/wiki/BIOS#Vendors_and_products">Wikipedia’s BIOS page</a>.</p>
+</blockquote>
+<h2 id="power-on-self-test-post">Power-On Self-Test (POST)</h2>
+<p>One of the main tasks of a BIOS is to run “self-diagnostics” on the system &amp; hardware. It is also known as the <strong>P</strong>ower-<strong>O</strong>n <strong>S</strong>elf-<strong>T</strong>est (<strong>POST</strong>). Remember that a critical tasks of a bootloader was to initialize the hardware. Well, POST is the how BIOS achieves this.</p>
+<p><img src="bios-post-logs.png" alt="">
+Example POST Logs — Source: lifewire.com</p>
+<p>When BIOS first starts (before loading anything) it runs some tests &amp; initializes the hardware. There are many different steps during POST and it will be “stupid” of me to write all of them here. I’m just gonna list some of the more important ones &gt;.&lt;</p>
+<blockquote>
+<p>Below steps are mainly referenced from <a href="https://mrbios.com/techsupport/award/postcodes.htm">mrbios.com</a></p>
+</blockquote>
+<ul>
+<li>Test BIOS Checksum</li>
+<li>Test DMA Controller</li>
+<li>Test cache memory and controller</li>
+<li>Set up memory interrupts</li>
+<li>Test real-time clock</li>
+<li>Initialize Video BIOS ROM</li>
+<li>Initialize keyboard</li>
+</ul>
+<p>There are WAY more steps and you can check most of them on <a href="https://docs.oracle.com/cd/E19469-01/819-4359-19/appb-post.html">Oracle’s writing on BIOS POST Codes</a>.</p>
+<p>During the POST, if everything goes well, the BIOS continues like normal and does other bootloader stuff like launching the <strong>Second-Stage Loader</strong>. If for some reasons the POST fails, it gives out error(s) in the form of <a href="https://docs.oracle.com/cd/E19464-01/820-6850-11/POST.html">POST Codes</a>. Optionally, if the board supports it, an LED might be turned or a beep sound might play.</p>
+<blockquote>
+<p>Some motherboards even have a simple <a href="https://www.youtube.com/watch?v=bEjH775UeNg">digital screen that shows the latest POST Code</a>! It is called a Debug LED.</p>
+</blockquote>
+<p><img src="bios-debug-led.png" alt="">
+POST Debug LED on Motherboards (Left) or an External Card (Right) — Source: cgdirector.com</p>
+<p>POST Codes are 2-digit hexadecimal numbers that is giving out by the BIOS during different steps of POST. It is generally used to debug and/or diagnose a faulty system.</p>
+<p>Say, the PC isn’t booting up because it keeps failing during the POST; you might just go look at the POST Code (e.g. using a special digital screen) and cross-check it from your motherboard’s documentation. For example, you might facing with POST Code <code>0C</code>, that corresponds to <code>RAM R/W Test Failed</code>. And now you know something is wrong with your RAM module!</p>
+<h2 id="boot-process">Boot Process</h2>
+<p>After POST is complete &amp; no error was thrown, the <a href="http://vitaly_filatov.tripod.com/ng/asm/asm_001.12.html">BIOS calls the machine-code</a> <code>INT 19h</code>. On x86 platforms, this generates a software interrupt that the BIOS “handles” by starting it’s boot process.</p>
+<p><img src="bios-boot-process.png" alt="">
+BIOS Boot Process (Simplified)</p>
+<p>First, BIOS tries to locate a suitable program (e.g. Second-Stage Loader) on a “boot device”. These devices can be a CD-ROM, HDD, SSD, USB Flash Memory or something similar. The overall process goes like this:</p>
+<ol>
+<li><strong>Get</strong> the next “boot device” from from the list of “<strong>boot order</strong>”</li>
+<li><strong>Try to load</strong> the first sector (a.k.a the <a href="https://en.wikipedia.org/wiki/Boot_sector">boot sector</a>)</li>
+<li>If couldn’t load, go to Step 1</li>
+<li>If successful, <strong>further check</strong> for a <a href="https://en.wikipedia.org/wiki/BIOS#cite_note-20">boot sector signature</a> <code>0xAA55</code></li>
+<li>If not exits, go to Step 1</li>
+<li>If exists, <strong>transfer control</strong> to the loaded [boot] sector (e.g. program)</li>
+</ol>
+<blockquote>
+<p>This is a simplified process. If you want to learn more <a href="https://en.wikipedia.org/wiki/BIOS#Boot_process">Wikipedia’s BIOS page</a> is pretty detailed.</p>
+</blockquote>
+<p>The important thing to note about the <strong>BIOS Boot Process</strong> is the <strong>Step 2.</strong> BIOS is ONLY able to detect boot devices partitioned with <strong>M</strong>aster <strong>B</strong>oot <strong>R</strong>ecord (<strong>MBR</strong>). It is rather old partitioning method and is considered “Legacy”. Most modern [storage] devices &amp; operating systems are now using the “newer” <strong>G</strong>UID <strong>P</strong>artition <strong>T</strong>able (<strong>GPT</strong>) method.</p>
+<p><img src="brief-mbr-vs-gpt.png" alt="">
+Brief MBR vs. GPT</p>
+<p>Modern BIOSes support both MBR &amp; GPT, but it is not guaranteed! So, check your BIOS / Vendor documentations about GPT support on BIOS.</p>
+<blockquote>
+<p>A great deal of info about MBR and GPT can be found on <a href="https://wiki.archlinux.org/title/partitioning#Partition_table">ArchLinux’s Wiki</a>.</p>
+</blockquote>
+<h2 id="environment--services">Environment &amp; Services</h2>
+<p>After a program is loaded by the BIOS it’s left with a well-defined environment &amp; services that it can make use of. This is important as most programs (e.g. Second-Stage Loaders) use these services to properly function. Also it makes the job of the loaded program a bit easier.</p>
+<p>Some key [well-defined] <a href="https://en.wikipedia.org/wiki/BIOS#Boot_environment">environment properties</a>:</p>
+<ul>
+<li>CPU is left in 16-bit “real mode”</li>
+<li>General-purpose &amp; segment registers are undefined!</li>
+<li>CS:IP points to physical address <code>0x07C00</code></li>
+</ul>
+<p>Other things like setting the <strong>S</strong>tack <strong>P</strong>ointer (SP) is up to the loaded program.</p>
+<p><img src="bios-services.png" alt="">
+Some Example BIOS “Services”</p>
+<p>There are also “services” that the BIOS provides. This, again, make’s stuff “easier” for the loaded program. You can think of them a simple C functions like <code>void receive_char(void)</code>. Under-the-hood they are implemented as interrupts and simply called by generating a software interrupt like <code>INT 14h</code>.</p>
+<p>The “proper” way to use them changes from services to services. I’ll write an example one taken from <a href="https://en.wikipedia.org/wiki/BIOS_interrupt_call#Invoking_an_interrupt">Wikipedia</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">mov</span> <span style="color:#5918bb;font-weight:bold">ah</span>, <span style="color:#5918bb;font-weight:bold">0x0e</span>    <span style="color:#0080ff;font-style:italic">; function number = 0Eh : Display Character  </span>
+</span></span><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">mov</span> <span style="color:#5918bb;font-weight:bold">al</span>, <span style="color:#0c6">&#39;!&#39;</span>     <span style="color:#0080ff;font-style:italic">; AL = code of character to display  </span>
+</span></span><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">int</span> <span style="color:#5918bb;font-weight:bold">0x10</span>        <span style="color:#0080ff;font-style:italic">; call INT 10h, BIOS video service</span>
+</span></span></code></pre></div><p>The full list of all services are “too long” for me to list here, check out <a href="https://en.wikipedia.org/wiki/BIOS_interrupt_call#Interrupt_table">Wikipedia’s Interrupt Table</a> if you want to see them. I’ll list some of them in any case.</p>
+<ul>
+<li><code>INT 10h</code>: Video services (e.g. write character in TTY mode)</li>
+<li><code>INT 16h</code>: Keyboard services (e.g. read character)</li>
+<li><code>INT 17h</code>: Printer services (e.g. print character to printer)</li>
+<li><code>INT 1Ah</code>: Real Time Clock services (e.g. read/set RTC)</li>
+</ul>
+<p>You can really see how these can be useful to some programs. Having a simple serial I/O without actually implementing a driver is really helpful!</p>
+<h2 id="harware-part">Harware Part</h2>
+<p>As previously said BIOS firmware is generally stored inside a ROM or a Flash Memory. They are physically separated from the rest of your softwares. You can even find &amp; see the memory chip your BIOS resides in!</p>
+<p><img src="bios-chip.png" alt="">
+BIOS Chip Location on a Typical Gaming Motherboard</p>
+<blockquote>
+<p>In the older days re-programmable memory was “expensive”. For this reason BIOS chip’s weren’t really upgradable &amp; if you really wanted to, you would have to physically replace your BIOS chip. Nowadays, this is not the case and almost all BIOS chips are either <a href="https://en.wikipedia.org/wiki/EEPROM">EEPROM</a> or <a href="https://en.wikipedia.org/wiki/Flash_memory">NOR flash memory</a>. Which allows it to be easily updated using software.</p>
+</blockquote>
+<p>BIOS allows you to configure some system settings such as the boot order. These settings are stored inside “non-volatile” BIOS memory. It is also called a <a href="https://en.wikipedia.org/wiki/Nonvolatile_BIOS_memory">CMOS RAM</a> because it is a <strong>volatile</strong> low-power <em>complementary metal–oxide–semiconductor</em> <strong>SRAM.</strong> Basically, it is a special memory that is powered by a battery.</p>
+<p><img src="cmos-battery.png" alt="">
+CMOS Battery on a Motherboard — Source: electronics-lab.com</p>
+<p>You can even change the battery by yourself if it ever runs out (5+ years). Just note that your BIOS setting will revert to DEFAULTS if the CMOS battery is removed:/</p>
+<p>Although rare, sometimes vendors creates updates &amp; fixes for the BIOS firmware. Unlike normal software however, updating happens by literally “reprograming” the whole flash memory!</p>
+<p>BIOS updates are generally safe to do. But it possess some risks of “cooking” the flash memory itself if, say the electricity just cut off during an update:/ Ouch… R.I.P. your motherboard.</p>
+<p><img src="bios-update-meme.png" alt="">
+Wise words, wise words…</p>
+<p>As a backup, some motherboards come with a second BIOS to recover from BIOS corruptions. This is also known as <a href="https://www.gigabyte.com/WebPage/3/tech_080516_des-a-features-5.htm">DualBIOS</a>.</p>
+<h2 id="interface--look">Interface &amp; Look</h2>
+<p><img src="amibios.png" alt="">
+American Megatrends’ AMIBIOS Interface — Source: advantech-ncg.zendesk.com</p>
+<p>Most of the time you won’t be seeing the BIOS itself as vendors hide it behind a fancy Loading Screen™ like the famous <a href="https://pbs-prod.linustechtips.com/monthly_12_2014/post-68380-0-82501700-1419169807.jpg">Asus logo</a>.</p>
+<p>To access the BIOS interface you will have to press a <em>vendor-specific</em> key on your keyboard during the initial BIOS boot screen. For example, you might have to press <code>Del</code> or <code>F10</code> a few times. It feels kinda weird doing it.. I know.</p>
+<p>Most implementations of BIOS play &amp; look similar to each other (thanks to it being a specification). The BIOSes will generally have “black/blue” background screen and lots of menus that you can choose to configure from. You’ll have to use your “old-fashioned(!)” keyboard to navigate around.</p>
+<p><img src="bios-terminal-interface.png" alt="">
+AMIBIOS Setup Utility From PuTTY (Connected Via Serial Port) — Source: asrockrack.com</p>
+<p>For the embedded or headless-server people out there, some BIOSes also provide a simple “interface” through the serial interface. It looks like a typical BIOS screen but instead of a screen, you will have your terminal.</p>
+<h2 id="system-info--configuration">System Info &amp; Configuration</h2>
+<p>Perhaps the main reason why you wanted to access your BIOS interface in the first place.</p>
+<p>Although not so verbose, you can get an overall system information inside the BIOS. I’ll list some of the most important ones below as to keep this simple.</p>
+<ul>
+<li><strong>CPU</strong>: Vendor &amp; model, clock speed, core count etc.</li>
+<li><strong>Memory</strong>: Vendor &amp; model, size, clock speed etc.</li>
+<li><strong>USB Devices</strong>: USB 2.x / 3.x interfaces, XHCI etc.</li>
+<li><strong>Storage Devices</strong>: SATA &amp; NVMe controllers</li>
+<li><strong>System / BIOS</strong> : Date &amp; time, version, boot count etc.</li>
+<li><strong>Boot Order</strong>: List of storage devices to boot (try each starting from #1)</li>
+</ul>
+<p><img src="bios-info.png" alt="">
+BIOS Info Menu Showing CPU, Memory &amp; Metadata — Source: wiki.seeedstudio.com</p>
+<p>When it’s come to configuration, BIOS offers you some essential options like changing time, enabling/disabling serial ports or changing the boot order.</p>
+<p>The options available depends highly on your BIOS implementation and motherboard. So, if you want to access the full list of available configurations, you’ll need to find your specific BIOS &amp; Motherboard model. (a quick Googling ought to help you)</p>
+<p>Like in the name, <strong>B</strong>IOS specification dictates that some “<strong>b</strong>asic**”** configurations are to be provided. I listed some of them on the below list.</p>
+<blockquote>
+<p>Note that all configuration settings are saved inside a volatile RAM powered by a CMOS battery. If somehow BIOS couldn’t access it, the default values will be used instead. (e.g. system date&amp;time resets to Jan 1, 1970 00:00 AM)</p>
+</blockquote>
+<ul>
+<li><strong>System Date &amp; Time</strong>: Change your system time.</li>
+<li><strong>Toggle CPU Features:</strong> For ex.,  Intel® Virtualization Technology</li>
+<li><strong>Modify CPU Multipliers</strong>: Also known as overclocking/undervolting</li>
+<li><strong>IDE/SATA Configuration</strong>: Enable/disable SATA ports and more</li>
+<li><strong>PCI[e] Configuration:</strong> Similar to IDE/STA config</li>
+<li><strong>ACPI Configuration:</strong> Device, power &amp; energy related settings</li>
+<li><strong>Boot Settings:</strong> Enable/disable network boot, [U]EFI and more boot stuff</li>
+<li><strong>Boot Order:</strong> Changing the boot order (e.g. #1 USB, #2 HDD, #3 CD-ROM)</li>
+<li><strong>Security Setting:</strong> Add password protection, enable/disable TPM and etc.</li>
+</ul>
+<h2 id="acpi">ACPI</h2>
+<blockquote>
+<p>It will not be right to talk about BIOSes and not ACPI. So, let’s see what ACPI is and how it relates to BIOS.</p>
+</blockquote>
+<p>Most hardware out there has some sort of power management built into it (via it’s firmware). For example; your USB device (e.g. Mouse, Flash, Keyboard) has power states where it can _run-at-full-powe_r, <em>half-power</em>, <em>sleep</em> or just <em>stay off</em>. The problem here is that: how can the hardware know which state to be in?</p>
+<p><img src="usb-dev-power-states.png" alt="">
+USB Device Power States [Simply] Shown— Source: learn.microsoft.com</p>
+<blockquote>
+<p>A great explanation on USB device power states can be found on <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/comparing-usb-device-states-to-wdm-device-states">Microsoft’s Windows Drivers</a> page.&lt;fdcsaz&lt;qZ”X2CVGFDSA&lt;</p>
+</blockquote>
+<p>Hardware devices technically power-manage themselves. But it’s not so practical as that it provides little-to-no programability. A more common approach is to make it <strong>the job of the operating system</strong>.</p>
+<p>As to how an operating system manages power depends entirely on the implementation. But one thing that is ‘constant’ is the interface, or more specifically: the <strong>A</strong>dvanced <strong>C</strong>onfiguration and <strong>P</strong>ower <strong>I</strong>nterface (<strong>ACPI</strong>).</p>
+<p><img src="acpi-states.png" alt="">
+ACP States (Simplified)</p>
+<p><strong>ACPI</strong> is an open-standard specification for First-Stage loaders. Programs (mostly operating systems) can use this *interface* to discover, configure and control the hardware to for power management. It was first developed by Intel, Microsoft, Toshiba and et al. in 1991 but later all of its <a href="https://uefi.org/acpi">assets were given to UEFI Forum</a> in 2013. Right now the latest ACPI version is <a href="https://uefi.org/specs/ACPI/6.5/">6.5 released in Aug 2022</a>.</p>
+<p>ACPI standard defines three things: <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-system-description-tables">ACPI Tables</a>, <a href="https://www.usenix.org/legacy/publications/library/proceedings/usenix02/tech/freenix/full_papers/watanabe/watanabe_html/node4.html">ACPI Registers</a> and <a href="https://kb.iu.edu/d/ahvl">ACPI BIOS</a>. I will not go into each of them as each deserves it’s own writing. What’s interesting for us is its relationship with the BIOS (and later UEFI).</p>
+<p>Now, <strong>it is the job of BIOS to generate &amp; load the ACPI Tables</strong> into memory. Later the loaded program/OS can then use this to implement ways of power managing a hardware (<a href="https://wiki.osdev.org/ACPI">see how on OSDev.org</a>)</p>
+<p><img src="acpi-compliant-error.png" alt="">
+Windows Systems Require An ACPI Compliant BIOS to Properly Boot — Source: github.com/hfiref0x/VBoxHardenedLoader</p>
+<p>The ACPI BIOS we saw above refers to an ACPI compliant BIOS. You might be confused, thinking whats the difference between (1) normal BIOS and (2) ACPI BIOS. To put it simply, there is no “difference” except that one is ACPI compliant and other is not.</p>
+<p>As a side note, most modern BIOS firmware out there is ACPI compliant (e.g. AMIBIOS). So, the term ACPI BIOS doesn’t really get used much in practice.</p>
+<blockquote>
+<p>ACPI specification is platform-agnostic. But due to its origins, is used heavily on the PC world of Intel/AMD chips. However as of version 5.1 <a href="https://developer.arm.com/Architectures/Advanced%20Configuration%20and%20Power%20Interface">ARM people are beginning to use ACP</a>I as well.</p>
+</blockquote>
+<h1 id="uefi">UEFI</h1>
+<p><img src="uefi-header.png" alt="">
+UEFI Logo (Top) And GIGABYTE’s Implementation (Background)</p>
+<p><strong>U</strong>nified <strong>E</strong>xtensible <strong>F</strong>irmware <strong>I</strong>nterface (<strong>UEFI</strong>) is a platform-agnostic firmware <strong>specification,</strong> which is a modern replacement to BIOS on x86 platforms. A lot can be said about UEFI. It is modern, secure, backward &amp; forward compatible, open-standard, “customizable” and just all around a <strong>solid A+ First-Stage</strong> and (possibly) a Second-Stage loader via <code>EFISTUBs</code>.</p>
+<p>Let’s start by how did UEFI came into existence. In mid-1990s, people at Intel (and HP) was reaching the limitations of BIOS /w <a href="https://en.wikipedia.org/wiki/Itanium">Itanium</a>. Things like 16-bit “real-mode”, 1 MiB addressable memory and programming in assembly were really becoming restrictive:/</p>
+<p>To address this, in 1998 they started working on <a href="https://www.afterdawn.com/glossary/term.cfm/intel_boot_initiative">Intel Boot Initiative</a>, which later was renamed to <a href="https://www.intel.com/content/www/us/en/architecture-and-technology/unified-extensible-firmware-interface/efi-homepage-general-technology.html"><strong>E</strong>xtensible <strong>F</strong>irmware <strong>I</strong>nterface</a> (<strong>EFI</strong>). Around <a href="https://www.intel.com/content/www/us/en/architecture-and-technology/unified-extensible-firmware-interface/efi-homepage-general-technology.html#:~:text=Intel%27s%20original%20version%20of%20this%20specification%20was%20publicly%20named%20EFI%2C%20ending%20with%20the%20EFI%201.10%20version.">EFI version 1.10</a>, its development was ceased and Intel decided to contribute it to the <a href="https://en.wikipedia.org/wiki/UEFI_Forum">Unified EFI Forum</a>.</p>
+<p><img src="uefi-forum.png" alt="">
+UEFI Forum’s Website Banner — Source: uefi.org</p>
+<blockquote>
+<p>This is where the name [U]EFI with the letter ‘U’ inside the brackets comes from.</p>
+<p>The original EFI is still “owned” by the Intel, but the [U]EFI standard continues its operation in an open &amp; <strong>u</strong>nified committee form.</p>
+</blockquote>
+<p>Snap back to modern times (2020s), UEFI continues its [open] evolution by the people at <a href="https://uefi.org">UEFI Forum, Inc</a>. As of writing this (Sept 1, 2023) the latest revision is <a href="https://uefi.org/specs/UEFI/2.10/">UEFI Specification 2.10</a>, which was released on August 29, 2022.</p>
+<p>There are many implementations of the [U]EFI out in the wild. Some are open-source and some are proprietary. I listed some of the most influenced &amp; important ones.</p>
+<ul>
+<li><a href="https://www.ami.com/aptio/"><strong>AMI Aptio</strong></a> by <a href="https://www.ami.com/">American Megatrends</a>: Proprietary (used by gaming MBs)</li>
+<li><a href="https://github.com/tianocore/edk2"><strong>EDK II</strong></a>  by <a href="https://www.tianocore.org">TianoCore</a>: Reference open-src implementation (my beloved)</li>
+<li><a href="https://www.phoenix.com/phoenix-securecore/"><strong>SecureCore</strong></a> by <a href="https://www.phoenix.com/">Phoenix</a>: Another proprietary one (security focused)</li>
+<li><a href="https://www.insyde.com/products"><strong>InsydeH20</strong></a> by <a href="https://www.insyde.com">Insyde</a>: Yet-another proprietary one (mainly mobile)</li>
+</ul>
+<p><img src="popular-uefi-implementations-interface.png" alt="">
+Popular [U]EFI Implementations &amp; Their Interface</p>
+<p>Since [U]EFI is a specification and NOT a specific firmware/software, I will NOT be going over each implementation. Instead, I will talk about some of its highlighted features &amp; properties.</p>
+<blockquote>
+<p>Below sections “should” apply to each proper [U]EFI implementation out there. Because, again, [U]EFI is a specification and NOT a firmware/software!</p>
+</blockquote>
+<h2 id="whats-not-new-relative-to-bios">What’s NOT New? (relative to BIOS)</h2>
+<p>At its core, [U]EFI is still a First-Stage loader. Meaning, most of the stuff that a typical BIOS can do are also done by the [U]EFI. This helps with backward-compatibility issues &amp; the transition from [Legacy] BIOSes.</p>
+<p><img src="bios-uefi-similarities.png" alt="">
+Some “High-Level” Similarities Between BIOS &amp; [U]EFI</p>
+<blockquote>
+<p>Many people are not familiar with the difference between BIOS and [U]EFI. So, they use them interchangeably. But in reality they are NOT the same thing!</p>
+<p>To avoid confusion, the people of “the Internet” started to call the old BIOS, Legacy BIOS.</p>
+</blockquote>
+<p>The stuff [U]EFI does, that Legacy BIOS already did:</p>
+<ul>
+<li><strong>Power-On Self Test (POST)</strong></li>
+<li><strong>Advanced Configuration &amp; Power Interface (ACPI)</strong></li>
+<li><strong>Being a First-Stage Loader</strong></li>
+<li><strong>Having a Config Menu</strong></li>
+</ul>
+<p>Yes, the list is not “long”. Here, I just wanted to give you the idea that [U]EFI is STILL a First-Stage bootloader &amp; is basically a replacement to the Legacy BIOS. Meaning it can <em>almost</em> do all the things a BIOS already does, but better..!</p>
+<h2 id="whats-new-relative-to-bios">What’s New? (relative to BIOS)</h2>
+<p>Now there’s a lot to talk about here. The list I will soon list includes some big changes &amp; differences compared to Legacy BIOS. They each deserve their own sections, unfortunately I would not be able to do that:/ Instead, I will talk about the most important ones (at least the ones I believe to be).</p>
+<p><img src="bios-uefi-differences.png" alt="">
+Some “High-Level” Differences Between BIOS &amp; [U]EFI</p>
+<p>The improvements &amp; advantages that [U]EFI has over Legacy BIOS:</p>
+<ul>
+<li>Platform agnostic (e.g. ARM, RISC-V, x86)</li>
+<li>C language programming</li>
+<li>Backward &amp; forward compatibility</li>
+<li>Support for GUID Partition Table (large partitions up to 8 ZiB)</li>
+<li>32-bit OR 64-bit pre-OS environment (applies to x86)</li>
+<li>The addition of <a href="https://en.wikipedia.org/wiki/EFI_system_partition">EFI System Partition</a> (ESP)</li>
+<li>Graphical User Interface (feels modern)</li>
+<li>Security (via Secure Boot)</li>
+<li>Modularity &amp; EFI Applications</li>
+</ul>
+<p><strong>Platform Agnostic:</strong> The [U]EFI specification is not tied to a specific ISA. Meaning it can be implemented for ARM and RISC-V! In my opinion this is THE most important thing it provides.</p>
+<p><img src="uefi-platform-agnostic.png" alt="">
+OVM / EDKII Has [U]EFI Implementations For Different Platforms</p>
+<p>Low-level programmers either target the bare-metal OR, more common then not, use a bootloader to do the dirty-work for them. Using an existent verified bootloader is just amazing. And more so if it is “the industry standard” and “open” in nature.</p>
+<p>I believe the ARM world really lacks a good “standard” bootloader. Everyone out there uses something different! Which sucks. However, with [U]EFI being platform agnostic, we are starting to see more &amp; more progress in this area.</p>
+<p><img src="arm-system-ready.png" alt="">
+ARM SystemReady Programs/Certificates — Source: uefi.org</p>
+<p>Best example to this is the <a href="https://www.arm.com/architecture/system-architectures/systemready-certification-program">Arm SystemReady Certification Program</a>. It mandates that any platform that wants to be certified with Arm SystemReady MUST use [U]EFI! This is amazing &amp; shows that people at ARM are also wants to “standardize” how boot is handled on ARM.</p>
+<p><strong>C Language Programming:</strong> I don’t think there is much to say here &gt;.&lt; Legacy BIOS firmwares are written in [mostly] machine-dependent assembly language. Don’t get me wrong assembly still have it’s advantages. However the intuitive approach of C just makes it easier to develop &amp; maintain something.</p>
+<p>Apart from the [U]EFI firmware itself, the [U]EFI applications are also written in C! I will talk about them in the coming sections, but here’s a brief example [U]EFI application written in C.</p>
+<blockquote>
+<p>Taken from <a href="https://en.wikipedia.org/wiki/UEFI#Applications_development">Wikipedia’s UEFI Application Development</a> Section.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Uefi.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Library/UefiLib.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Library/ShellCEntryLib.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span>  
+</span></span><span style="display:flex;"><span>EFI_STATUS EFIAPI <span style="color:#ff8000;font-weight:bold">ShellAppMain</span>(IN UINTN Argc, IN CHAR16 <span style="color:#2c5dcd">**</span>Argv)  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#ff8000;font-weight:bold">Print</span>(<span style="color:#0c6">L</span><span style="color:#0c6">&#34;hello, world</span><span style="color:#c5060b;font-weight:bold">\n</span><span style="color:#0c6">&#34;</span>);  
+</span></span><span style="display:flex;"><span>    <span style="color:#2c5dcd;font-weight:bold">return</span> EFI_SUCCESS;  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Backward &amp; forward compatibility:</strong> As we will soon see in the ‘Boot Process’ section, the [U]EFI introduces <a href="https://en.wikipedia.org/wiki/UEFI#CSM_booting"><em>Compatibility Support Module</em></a> (CSM). Through it, [U]EFI is able to boot from Legacy BIOS systems. In the end, achieving almost full backwards compatibility with relatively old operating systems &amp; programs. I don’t think I need to explain how important this can be when migrating from legacy systems!</p>
+<p><img src="csm-settings.png" alt="">
+CSM Settings on a NZXT Motherboard [U]EFI — Source: support.nzxt.com</p>
+<blockquote>
+<p>As to how CSM works under-the-hood, it will be explained soon enough.</p>
+</blockquote>
+<p>Another super helpful “feature” is it’s forward compatibility. It basically means that your storage devices or [U]EFI applications will continue to work/boot properly even if the [U]EFI firmware you are using updates itself from Specification Version 1.1 to 2.5!!! I can’t tell how much development &amp; testing time this could save for us poor “low-level” people ❤</p>
+<h2 id="boot-process-1">Boot Process</h2>
+<p><img src="uefi-boot-process.png" alt="">
+[U]EFI GPT Boot Process (Simplified)</p>
+<p>The overall steps for the [U]EFI boot process is somewhat similar to the one on legacy BIOS. But “<strong>how</strong>” they are handled is almost completely different.</p>
+<p>Thanks to its backward-compatible design, there are a few ways how the boot process can go:</p>
+<ul>
+<li><strong>UEFI-GPT</strong>: The preferred &amp; modern way</li>
+<li><strong>UEFI-MBR</strong>: The less preferred &amp; “legacy” way</li>
+<li><strong>BIOS-GPT</strong>: The weird hybrid/combo way (via CSM)</li>
+<li><strong>BIOS-MBR</strong>: The good ol’ legacy BIOS way (via CSM)</li>
+</ul>
+<blockquote>
+<p>Note that these are not the official names. But I (and other people on the Internet) sometimes prefer to use them as they are more explicit compared to the “classic” UEFI Booting &amp; CSM Booting.</p>
+</blockquote>
+<p><strong>UEFI-GPT</strong> is the “new” and, <em>naturally</em>, the ideal way to boot modern programs (like GRUB2). Unlike legacy BIOS, [U]EFI does NOT check for the boot sectors to “detect” a bootable program. Instead it relies on a storage device partition called <em>EFI System Partition (ESP)</em>.</p>
+<p><img src="uefi-boot-proccess-p1.png" alt="">
+UEFI/GPT Boot Process /w SecureBoot Enabled</p>
+<p>Like other storage partitions (e.g. FAT32, NTFS, APFS) ESP is a type of partitioning system created solely for [U]EFI firmwares to use. If your OS supports, you can even mount it and check for all the files inside.</p>
+<p>A typical ESP folder/file structures might look similar to this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>/boot/efi  
+</span></span><span style="display:flex;"><span>└── EFI  
+</span></span><span style="display:flex;"><span>   ├── BOOT  
+</span></span><span style="display:flex;"><span>   │  ├── BOOTX64.EFI  
+</span></span><span style="display:flex;"><span>   │  ├── fbx64.efi  
+</span></span><span style="display:flex;"><span>   │  └── mmx64.efi  
+</span></span><span style="display:flex;"><span>   └── ubuntu  
+</span></span><span style="display:flex;"><span>      ├── BOOTX64.CSV  
+</span></span><span style="display:flex;"><span>      ├── grub.cfg  
+</span></span><span style="display:flex;"><span>      ├── grubx64.efi  
+</span></span><span style="display:flex;"><span>      ├── mmx64.efi  
+</span></span><span style="display:flex;"><span>      └── shimx64.efi
+</span></span></code></pre></div><p>Remember that on legacy BIOS, the first boot sector with the magic value <code>0xAA55</code> was marked as a bootable program? Well, in [U]EFI this is WAY different. Let me explain!</p>
+<p>When booting with UEFI-GPT, the firmware first checks for the existence of an ESP partition via its <a href="https://en.wikipedia.org/wiki/EFI_system_partition#Overview">GUID of</a> <code>C12A7328-F81F-11D2-BA4B-00A0C93EC93B</code>. After it’s found, a “<em>very-specially-named</em>” bootable program is searched under “<em>another-very-specially-named</em>” folder.</p>
+<p><img src="linux-esp-list.png" alt="">
+List of Files Under ESP (Distro: Ubuntu 22.04)</p>
+<p>The exact folder and file/program name for a bootable [U]EFI program has the following format <code>&lt;ESP&gt;/EFI/BOOT/&lt;</code>.</p>
+<p><a href="https://en.wikipedia.org/wiki/UEFI#UEFI_booting">For example</a>:</p>
+<ul>
+<li><strong>An x86_64 [U]EFI bootable:</strong> <code>&lt;ESP&gt;/EFI/BOOT/BOOTX64.EFI</code></li>
+<li><strong>An ARM64 [U]EFI bootable:</strong> <code>&lt;ESP&gt;/EFI/BOOT/BOOTAA64.EFI</code></li>
+</ul>
+<p>The <em>first</em> [U]EFI bootable that matches the “very-specially-named” format gets loaded into memory &amp; [U]EFI kindly transfer control to it. This process is somewhat similar to what happens in BIOS. However the Environment &amp; Services for the loaded program is different.</p>
+<p><strong>UEFI-MBR</strong> is the least popular one out of the 4 here. It mostly follows the same mechanisms on UEFI-GPT, except the “checking for GUID” part.</p>
+<p><img src="uefi-boot-process-p2.png" alt="">
+UEFI/MBR StackOverflow Answer; Couldn’t Find *Any* Good Info About The Process</p>
+<p>We still need an ESP partition. The problem is MBR disks don’t use GUID for storage partitions. So, [U]EFI reverts back to the legacy BIOS way of using boot sectors (first 512 bytes) to detect &amp; boot from a storage device. This is interesting because [U]EFI handles MBR disks pretty weird if you ask me. For example; the <strong><em>boot code on MBR (424 bytes)</em></strong> will not be executed by the [U]EFI. Weird, right??</p>
+<p>As to “how” [U]EFI handles MBR disks is explained in <a href="https://uefi.org/sites/default/files/resources/UEFI_Spec_2_10_Aug29.pdfhttps://uefi.org/sites/default/files/resources/UEFI_Spec_2_10_Aug29.pdf">UEFI Specification, Section <strong>5.2.1 Legacy Master Boot Record (MBR)</strong></a>  for versions 2.4 or older**.**</p>
+<p>One important thing here is the question of “Why would you want to boot an MBR disk if you are using [U]EFI” This is like mixing a good quality tequila with a stale lime…</p>
+<p><strong>BIOS-GPT</strong> does not directly relate to [U]EFI. In fact it is actually your typical legacy BIOS boot process. I am mentioning this here because of [U]EFI’s backward-compatibility with BIOS.</p>
+<p><img src="uefi-boot-process-p3-p4.png" alt="">
+BIOS/GPT &amp; BIOS/MBR Boot Process /via CSM (Simplified)</p>
+<p>With [U]EFI we are introduced to a new backward-compatibility “feature” called Compatibility Support Module (CSM). It is an optional configuration setting within a [U]EFI firmware. With it enabled, the boot process performs the same way as on legacy BIOS. However, as the name suggests, the booting can also be performed on GPT disks!</p>
+<p>“Bad” news though, as of 2020 <a href="https://arstechnica.com/gadgets/2017/11/intel-to-kill-off-the-last-vestiges-of-the-ancient-pc-bios-by-2020/">Intel “cancelled” the CSM support</a>:/ So, I wouldn’t prefer using neither of the BIOS-* methods on an [U]EFI firmware.</p>
+<blockquote>
+<p>You can find the exact CSM details on Intel’s Platform Innovation Framework for UEFI called <a href="https://www.intel.com/content/dam/www/public/us/en/documents/reference-guides/efi-compatibility-support-module-specification-v098.pdf"><strong>Compatibility Support Module Specification</strong></a><strong>.</strong></p>
+</blockquote>
+<p><strong>BIOS-MBR</strong> is the pure legacy BIOS boot process method. It still relies on CSM to be enabled within the [U]EFI firmware. And with that enabled, the whole boot process happens exactly as on legacy BIOS. And yes, this includes the MBR boot sectors.</p>
+<h2 id="environment--services-1">Environment &amp; Services</h2>
+<p>The program loaded by the [U]EFI firmware (e.g. EFI Application, Second-Stage Loader, EFISTUB) is initially put into a pretty deterministic environment. It’s also provided with quite a lot of different services.</p>
+<blockquote>
+<p>The term “services” can be used interchangeably with “functions”. Technically they are two different things, but for simplicity sakes we’ll assume they are the same.</p>
+</blockquote>
+<p>Currently there are two types of [U]EFI services:</p>
+<ul>
+<li><strong>Boot Services</strong></li>
+<li><strong>Runtime Services</strong></li>
+</ul>
+<p><img src="uefi-boot-runtime-services.png" alt="">
+Oversimplified Comparison Between Boot &amp; Runtime Services</p>
+<blockquote>
+<p>All [U]EFI services can also be divided into two categories: “<strong>global</strong>” and “<strong>handle-based</strong>” The “global” services are platform agnostic functions. Meaning they are available on ALL [U]EFI compliant firmwares. The “handle-based” ones are quite the opposite, they depend on the hardware platform and might not be available on some firmwares. These can be custom devices or device functionalities.</p>
+</blockquote>
+<p>With [U]EFI, the loaded program doesn’t immediately have full control of the hardware. Instead, <strong>the firmware initially owns &amp; controls</strong> the system resources. The program relies on the <em>firmware’s services</em> until it’s ready to take control and implement its own methods. (e.g. Drivers, Memory Management, Interrupts)</p>
+<blockquote>
+<p>Legacy BIOS gives the loaded program some basic services (e.g. serial I/O) and leaves all controls of the hardware to it. This is like saying “Here’s some basic stuff that you might need. Do whatever you want with it, idc. I’m going to leave now, bye.” However, with [U]EFI this is NOT the case.</p>
+</blockquote>
+<p><img src="uefi-services-lifetime.png" alt="">
+[U]EFI Service Lifetime</p>
+<p>Now, let’s see what those “services” are.</p>
+<p>The functions that are available to any program loaded by a [U]EFI firmware, <em>before</em> it calls <code>ExitBootServices()</code>, are called <strong>Boot Services.</strong> They are basically functions that the programs must use to access devices &amp; allocate memory.</p>
+<p>Here’s an (incomplete) example C usage of a boot service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Uefi.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Library/UefiLib.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span>  
+</span></span><span style="display:flex;"><span>EFI_STATUS  
+</span></span><span style="display:flex;"><span>EFIAPI  
+</span></span><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">efi_main</span> (  
+</span></span><span style="display:flex;"><span>        EFI_HANDLE        ImageHandle,  
+</span></span><span style="display:flex;"><span>        EFI_SYSTEM_TABLE<span style="color:#2c5dcd">*</span> SystemTable)  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>        <span style="color:#ff8000;font-weight:bold">InitializeLib</span>(ImageHandle, SystemTable);  
+</span></span><span style="display:flex;"><span>        <span style="color:#ff8000;font-weight:bold">Print</span>(<span style="color:#0c6">L</span><span style="color:#0c6">&#34;Hello World!!!</span><span style="color:#c5060b;font-weight:bold">\n</span><span style="color:#0c6">&#34;</span>);  
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>        <span style="color:#0080ff;font-style:italic">/* Wait 10 seconds before the [U]EFI automatically restarts */</span>  
+</span></span><span style="display:flex;"><span>        SystemTable<span style="color:#2c5dcd">-&gt;</span>BootServices<span style="color:#2c5dcd">-&gt;</span><span style="color:#ff8000;font-weight:bold">Stall</span>(<span style="color:#5918bb;font-weight:bold">10000000</span>);  
+</span></span><span style="display:flex;"><span>        <span style="color:#2c5dcd;font-weight:bold">return</span> EFI_SUCCESS;  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>You can see that in order to <em>sleep</em> the CPU, we used a boot service called <code>Stall()</code>.</p>
+<p>There are many more boot services available to the loaded program. They can be found on <a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html">UEFI Specification Section 7 — Boot Services</a>. Those services (functions) are further divided categories.</p>
+<ul>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html#event-timer-and-task-priority-services"><strong>Event, Timer and Task Priority Services</strong></a>  (e.g. <code>SetTimer()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html#memory-allocation-services"><strong>Memory Allocation Services</strong></a>  (e.g <code>AllocatePages()</code>, <code>GetMemoryMap()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html#protocol-handler-services"><strong>Protocol Handler Services</strong></a> (e.g. <code>LocateDevicePath()</code>, <code>OpenProtocol()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/07_Services_Boot_Services.html#image-services"><strong>Image Services</strong></a> (e.g. <code>LoadImage()</code>, <code>StartImage()</code>, <code>ExitBootServices()</code>)</li>
+</ul>
+<p>As usual I will not be explaining all of them in detail. You can access more in-depth info from their corresponding sections in the UEFI Specification.</p>
+<p>After the program prepared itself enough to be ready, it can call the <code>ExitBootServices()</code> boot service function and get the control of the hardware from the [U]EFI firmware.</p>
+<blockquote>
+<p>It can also CHOOSE NOT to call that function and continue operating. However, this will limit its control over the hardware as the [U]EFI firmware would be still “owning” the hardware.</p>
+</blockquote>
+<p>You can think of boot services as a “mini operating system syscalls” where can run your EFI applications on. In fact, here’s the <a href="https://github.com/Cacodemon345/uefidoom">Original 1993 DOOM running as EFI application</a> using boot &amp; runtime services!</p>
+<p><img src="uefi-doom.gif" alt="">
+GIF of Original Doom on [U]EFI — Source: youtube.com/@cacodemon345</p>
+<p>The functions that are available throughout the lifetime of a program loaded by a [U]EFI firmware are called <strong>Runtime Services</strong>. They are used extensively by programs like Kernel/OS, Second-Stage loaders or any kind of EFI Application.</p>
+<p>Here’s an (incomplete) example C usage of an [U]EFI runtime service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Uefi.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff">#include</span> <span style="color:#0080ff">&lt;Library/UefiLib.h&gt;  </span><span style="color:#0080ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span>  
+</span></span><span style="display:flex;"><span>EFI_STATUS  
+</span></span><span style="display:flex;"><span>EFIAPI  
+</span></span><span style="display:flex;"><span><span style="color:#ff8000;font-weight:bold">efi_main</span>(  
+</span></span><span style="display:flex;"><span>        EFI_HANDLE ImageHandle,  
+</span></span><span style="display:flex;"><span>        EFI_SYSTEM_TABLE <span style="color:#2c5dcd">*</span>SystemTable)  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>        <span style="color:#ff8000;font-weight:bold">InitializeLib</span>(ImageHandle, SystemTable);  
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>        <span style="color:#0080ff;font-style:italic">/* Get the current system time from [U]EFI */</span>  
+</span></span><span style="display:flex;"><span>        EFI_TIME currentTime;  
+</span></span><span style="display:flex;"><span>        EFI_STATUS status <span style="color:#2c5dcd">=</span> SystemTable<span style="color:#2c5dcd">-&gt;</span>RuntimeServices<span style="color:#2c5dcd">-&gt;</span><span style="color:#ff8000;font-weight:bold">GetTime</span>(<span style="color:#2c5dcd">&amp;</span>currentTime, <span style="color:#5918bb;font-weight:bold">NULL</span>);  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>        <span style="color:#2c5dcd;font-weight:bold">if</span> (<span style="color:#2c5dcd">!</span><span style="color:#ff8000;font-weight:bold">EFI_ERROR</span>(status)) {  
+</span></span><span style="display:flex;"><span>            <span style="color:#ff8000;font-weight:bold">Print</span>(<span style="color:#0c6">L</span><span style="color:#0c6">&#34;Current Time: %04u-%02u-%02u %02u:%02u:%02u</span><span style="color:#c5060b;font-weight:bold">\n</span><span style="color:#0c6">&#34;</span>,  
+</span></span><span style="display:flex;"><span>                  currentTime.Year, currentTime.Month, currentTime.Day,  
+</span></span><span style="display:flex;"><span>                  currentTime.Hour, currentTime.Minute, currentTime.Second);  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>        <span style="color:#2c5dcd;font-weight:bold">return</span> EFI_SUCCESS;  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>You can see that we can simply use the <code>GetTime()</code> [U]EFI runtime service to get the system time without implementing our own one!</p>
+<p>Of course there are way more runtime services out there. They can be found on <a href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html">UEFI Specification Section 8 — Runtime Services</a>. Just like the boot services, they are divided into different categories.</p>
+<ul>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#variable-services"><strong>Variable Services</strong></a> (e.g. <code>SetVariable()</code>, <code>GetVariable()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#time-services"><strong>Time Services</strong></a> (e.g. <code>SetTime()</code>, <code>GetTime()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#virtual-memory-services"><strong>Virtual Memory Services</strong></a> (e.g. <code>SetVirtualAddressMap()</code>)</li>
+<li><a href="https://uefi.org/specs/UEFI/2.9_A/08_Services_Runtime_Services.html#miscellaneous-runtime-services"><strong>Miscellaneous Services</strong></a> (e.g. <code>ResetSystem()</code>, <code>UpdateCapsule()</code>)</li>
+</ul>
+<p>The information on what each runtime service of a category does and the list of all the functions can be accessed from their corresponding section in the UEFI specification.</p>
+<p><img src="linux-efivar-runtime-service.png" alt="">
+‘efivar’ Can List [U]EFI Variables Using Runtime Services Under-The-Hood on Linux</p>
+<p>With runtime services, programs can access a great deal of abilities and information for the running system. For example Linux can use of them to:</p>
+<ul>
+<li><strong>Retrieve &amp; Set Boot Variables</strong> (e.g. Boot Order, EFI Vendor &amp; Version)</li>
+<li><strong>Modify System Time</strong> (e.g. Sync System Time, <code>date</code>)</li>
+<li><strong>Access ACPI</strong> (e.g. Device &amp; Power Management)</li>
+<li><strong>Graphics Output</strong> via <em>Graphics Output Protocol</em> (e.g. Early Frame Buffer)</li>
+</ul>
+<p>An interesting take on all of [U]EFI services can also be found on <a href="https://en.wikipedia.org/wiki/UEFI#Services">Wikipedia’s UEFI Service page</a>. According to that, the services can be divided into “more logical” categories. Although not written in the official UEFI specification, it’s still an interesting take. Here’s the category list:</p>
+<ul>
+<li><strong>Graphics Output Protocol (GOP)</strong> services</li>
+<li><strong>UEFI Memory Map</strong> services</li>
+<li><strong>SMM</strong> services</li>
+<li><strong>ACPI</strong> services</li>
+<li><strong>SMBIOS</strong> services</li>
+<li><strong>Device Tree</strong> services</li>
+<li><strong>Variable</strong> services</li>
+<li><strong>Time</strong> services</li>
+</ul>
+<p>Again, these are NOT official categories. I just wanted to list them as they seem “more logical” and interesting.</p>
+<h2 id="efi-applications">EFI Applications</h2>
+<p><img src="uefi-shell.png" alt="">
+[U]EFI Shell CLI</p>
+<p>By being a First-Stage loader, [U]EFI is able to “boot/load” other programs. However, it can do way more than just that. With features like “Boot/Runtime Services” and “Virtual Addressing” it can act like a mini operating system environment. This enables a new world of applications designed &amp; written for [U]EFI environments.</p>
+<p>To put it simply: the software applications made for running within an [U]EFI environment are called <strong>EFI Applications</strong>. These applications can be anything from</p>
+<ul>
+<li>simple shell commands (e.g. <code>echo</code>, <code>ls</code>),</li>
+<li>video games (e.g. <code>[DOOM 1993](https://github.com/Cacodemon345/uefidoom)</code>, <code>[Pacman](https://github.com/kpelton/Pacman)</code>),</li>
+<li>diagnostics &amp; testing (e.g. <code>[memtest86](https://www.memtest86.com/download.htm)</code>)</li>
+</ul>
+<p>to Second-Stage loaders like GRUB, Limine or Windows Boot Manager. You can technically even make a whole o<a href="https://johv.dk/blog/bare-metal-assembly-tutorial#:~:text=In%20fact%2C%20it%27s%20possible%20to%20make%20an%20entire%20operating%20system%20as%20a%20UEFI%20application.">perating system as an EFI Application</a>!</p>
+<p><img src="linux-file-efi-application.png" alt="">
+EFI Applications Are PE32+ Executables</p>
+<p>The applications themselves reside as <code>P32 executable (EFI Application)</code> files under the EFI System Partition (e.g. <code>/boot/EFI/helloworld.EFI</code>). They are generally executed from the <a href="https://en.wikipedia.org/wiki/UEFI#UEFI_shell">[U]EFI Shell</a> which itself is also an EFI Application.</p>
+<p><img src="uefi-development-kit.png" alt="">
+[U]EFI Development Kit is Available to Public by TianaCore — Source: github.com/tianocore/udk</p>
+<p>As for the development process, they are usually written in C on platforms like Linux &amp; Windows via <a href="https://github.com/tianocore/udk">TianaCore’s UEFI Development Kit</a>. After writing the code, one can use the host compiler (e.g. <code>GCC</code>, <code>Clang</code>) and then test it using <a href="https://github.com/tianocore/tianocore.github.io/wiki/OVMF">OVMF</a> on <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;cd=&amp;ved=2ahUKEwjqtrvUyKqBAxVLxgIHHQsbAfYQFnoECAcQAQ&amp;url=https%3A%2F%2Fwww.qemu.org%2F&amp;usg=AOvVaw2ktbaepR0e0IZMfsT401_X&amp;opi=89978449">QEMU</a>.</p>
+<p>There are a lot of great tutorials out there on EFI Application Development. Here’s one that simply explains the <a href="http://x86asm.net/articles/uefi-programming-first-steps/">First Steps — UEFI Programming</a>.</p>
+<h2 id="hardware-part">Hardware Part</h2>
+<p>The [U]EFI specification does not really specify how &amp; where the firmware needs to be stored. Each vendor &amp; platform has its own way of storing the actual [U]EFI firmware.</p>
+<p><img src="x86-uefi-chip.png" alt="">
+[U]EFI Flash Chips Used on Intel Mac Pro’s</p>
+<p>Generally, vendors on <strong>Intel/AMD’s x86 platforms</strong> will put it inside an isolated Flash Memory (called <a href="https://en.wikipedia.org/wiki/UEFI#Hardware">BIOS/UEFI chip</a>). This is similar to Legacy BIOS.</p>
+<p>On ARM, the situation is little bit different. ARM-based boards generally have only an embedded flash memory where you can store almost anything you want (e.g. operating system, bare-metal Application). So, it’s relatively rare to see more than one flash memory on ARM boards. Naturally this is done as to keep the costs down.</p>
+<p><img src="arm-uefi-chip.png" alt="">
+ARM Systems [Generally] Place Their [U]EFI Inside the SoC (Alongside Boot ROM)</p>
+<p>Firmwares like [U]EFI, are then placed inside a “protected” place inside that one flash memory rather than a separate one. For example, let’s say you have 1024MiB of total space. The vendor can choose to dedicate the first 32MiB’s to the [U]EFI firmware and the rest to the user. Again, the question of “where” depends greatly on the vendor.</p>
+<h2 id="interface--look-1">Interface &amp; Look</h2>
+<p><img src="uefi-gui.jpg" alt="">
+GIGABYTE’s [U]EFI Implementation &amp; It’s Fancy GUI — Source: gigabyte.com</p>
+<p>[U]EFI has a lot of under-the-hood changes &amp; improvements, but what about more “apparent” changes? Okay, let’s talk about what [U]EFI brings to the table in terms of graphics, looks &amp; human-machine interface.</p>
+<p>Initially, the original, <a href="https://www.intel.com/content/dam/doc/product-specification/efi-v1-10-specification.pdf">EFI 1.0 defined the <strong>U</strong>niversal <strong>G</strong>raphic <strong>A</strong>dapter</a> (UAG). However, it didn’t get used much and later, with [U]EFI, was replaced with <strong>G</strong>raphics <strong>O</strong>utput <strong>P</strong>rotocol (GOP). It can be used in pre-boot environment (e.g. kernel/program not yet properly loaded) for things like displaying logos, text messages and setup &amp; configuration screens. Full definition of GOP can be found on <a href="https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf">UEFI Spec, Section 12.9 Graphics Output Protocol</a>.</p>
+<p><img src="basic-uefi-interface.png" alt="">
+This is Still [U]EFI, Just Without a Fancy GUI</p>
+<p>Typical BIOS (and also early [U]EFI) implementations generally had a very basic, console-based GUI with background colors like blue, white and black. With UEFI 2.1, <em>however</em>, the overall interface got its own proper section named Human Interface Infrastructure (HII).</p>
+<p><img src="modern-over-the-top-uefi-interface.png" alt="">
+More Modern [U]EFI Interface /w *Many* GUI Elements</p>
+<p>This new section defined (1) ways to manage user input, (2) localization, (3) fonts most importantly (4) forms. With forms, vendors can design or implement GUIs for their own [U]EFI implementations. Meaning, as the user, we can now have fancy graphics, buttons, text and images on our [U]EFI machines. There are many cool [U]EFI interfaces out there like gaming-specific themed ones.</p>
+<blockquote>
+<p>Vendors can still choose the make their [U]EFI implementations look like the legacy BIOS. However, most modern implementations (and expensive ones) do use the new UEFI features and have fancy GUIs.</p>
+</blockquote>
+<p>The exact details for HII and forms can be found on <a href="https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf">UEFI Spec 2.1+, Section 33. Human Interface Infrastructure Overview</a>. I have personally not implemented a forms, but it is <a href="https://en.wikipedia.org/wiki/UEFI#Graphics_features:~:text=fonts%2C%20and%20forms%20(-,in%20the%20HTML%20sense,-).%20These%20enable%20original">said to be similar to HTML</a>.</p>
+<h2 id="secure-boot">Secure Boot</h2>
+<p>One of the most impactful &amp; controversial “new feature” defined with UEFI is the <strong>Secure Boot</strong>. <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-8.1-and-8/hh824987(v=win.10)?redirectedfrom=MSDN">Some consider</a> (mostly vendors) it great thing as it allows “security” by locking/preventing what UEFI can load or not. And <a href="https://lwn.net/Articles/447381/">some think</a> it a “restriction” for the same reasons. I personally think it’s a good thing as long as we have the option to (1) <strong>turn it off</strong> or (2) <strong>control how it behaves</strong> (assuming knowing the risks &amp; consenting). Now let’s see what it is.</p>
+<p><img src="secure-boot-diagram.png" alt="">
+Simplified SecureBoot Diagram</p>
+<p><strong>Secure Boot</strong> is a protocol defined in <a href="https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf">UEFI Spec, Section 32</a>. It’s intended to provide a generic authentication for when booting/accessing a device. Meaning, the firmware (UEFI) can prevent unauthorized operatingsystems, bootloader or programs to be loaded by allowing ONLY the signed ones to load &amp; execute. It uses <a href="https://en.wikipedia.org/wiki/Digital_signature">digital signature</a> stored inside a <a href="https://en.wikipedia.org/wiki/Non-volatile_random-access_memory">non-volatile memory</a> in the form of <a href="https://csrc.nist.gov/glossary/term/private_key">private keys</a> (PK).</p>
+<p><img src="secure-boot-screen.png" alt="">
+Managing Secure Boot Settings — Source: lenovo.com</p>
+<p>On almost all UEFI implementations it is a configurable “feature” accessible via the setup screen. Depending on the vendor, it might come as “<strong>Enabled</strong>” by default (e.g. most PC laptops). In most cases, you won’t be messing with it unless you want to switch to different OS/Bootloader like Linux/GRUB. And that is where the problem begins.</p>
+<p>Only the “signed” programs are allowed to boot on a Secure Boot enabled UEFI firmware. And to only way to “sign” a program is via the private key (PK). We, as a user, DO NOT have access to these keys! Meaning, we can’t just use Secure Boot like normal without doing weird tricks &amp; workarounds. Heck, it might even be impossible to use Secure Boot freely on some platforms!</p>
+<p><img src="android-locked-bootloader.jpg" alt="">
+Locked Bootloader on Android Phones — Source: nexus5.gadgethacks.com</p>
+<blockquote>
+<p>A good source on <a href="https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot">UEFI, Secure Boot &amp; Linux is ArchLinux’s Wiki page</a>. I highly suggest you read it if you are curious on this topic.</p>
+</blockquote>
+<p>As you can see Secure Boot can be a good security feature as it helps prevent unauthorized people from accessing your hardware. However, some vendors can “abuse” this to prevent YOU, the user, from being free to use the anything to the hardware (and yeah this includes booting an OS).</p>
+<h1 id="iboot1">iBoot1</h1>
+<p><img src="iboot1-header.png" alt="">
+iBoot1 Diagram &amp; It’s [Made-Up] Logo by me</p>
+<p>The bootloader used on all Apple devices (such as the iPhone, Apple Watch, and Mac) is called iBoot. Its source code is known only to Apple and thus we don’t have as much information as to how-it-works compared to others like BIOS.</p>
+<p>Technically <a href="https://support.apple.com/guide/security/boot-process-secac71d5623/web">iBoot is a Second-Stage loader,</a> but internally there <a href="https://github.com/AsahiLinux/docs/wiki/SW%3ABoot">exists 2 (or more) bootloaders named iBoot</a>. They are named iBoot1 and iBoot2, with respect to their order in the boot process. What we are interested in here is the iBoot1, the First-Stage loader.</p>
+<p>Just like any other [modern] First-Stage loader, iBoot1:</p>
+<ul>
+<li><strong>Initializes hardware (e.g. CPU &amp; storage dev.)</strong></li>
+<li><strong>Finds the Second-Stage loader</strong></li>
+<li><strong>Validates/verifies the Second-Stage loader</strong></li>
+</ul>
+<p><img src="asahi-linux.png" alt="">
+AsahiLinux Desktop — Source: linuxiac.com</p>
+<p>But “how” exactly these steps work is again only known to Apple. Interestingly, <em>however</em>, the <a href="https://github.com/AsahiLinux">AsahiLinux project</a> is working to bring Linux to Apple Silicon systems. The people there are working on <a href="https://github.com/AsahiLinux/docs/wiki/SW%3ABoot">reverse-engineering the boot process</a> &amp; drivers to “learn” and use them in Linux. Check it out yourself, it’s really amazing!</p>
+<p>There exists at least 2 implementations of the iBoot1: x86 and ARM. Apple designed iBoot1 with a focus on security &amp; protection. Similar to the idea of SecureBoot on [U]EFI, iBoot1 has its own validation system.</p>
+<p>On Apple Silicon (ARM) systems the BootROM (called “SecureROM” by Apple) validates/verifies the iBoot1’s signature. If this fails, the device is put into the recovery mode. If all is well, iBoot1 get’s loaded and takes control over.</p>
+<p><img src="iboot1-boot-process.png" alt="">
+iBoot1 (and iBoot2) Boot Process on an M1 Apple Silicon — Source: eclecticlight.co</p>
+<p>On Intel (x86) systems, the BootROM &amp; iBoot1 is an [U]EFI implementation. Not much is known about this as far as I could find on the internet. The only thing known here is that they use the Secure Boot (defined by UEFI) to validate the Second-Stage loader iBoot2.</p>
+<blockquote>
+<p>More info about iBoot[1] on x86 systems: <a href="https://support.apple.com/guide/security/uefi-firmware-security-in-an-intel-based-mac-seced055bcf6/web">UEFI firmware security in an Intel-based Mac</a> and <a href="https://support.apple.com/guide/security/boot-modes-sec7703b1423/web">Boot modes of an Intel-based Mac with an Apple T2 Security Chip</a> by Apple.</p>
+</blockquote>
+<p>iBoot1’s main purpose is (apart from HW initialization) is to validate the Second-Stage loader. It does this by using Secure Enclave (which is amazing btw). I’m technically not enough to explain how it works. Luckily, Apple has an article section named “<a href="https://support.apple.com/guide/security/boot-process-secac71d5623/web">Boot process for a Mac with Apple silicon</a>” on their <a href="https://support.apple.com/guide/security/welcome/web">Apple Platform Security</a> guideline.</p>
+<p><img src="m1n1.png" alt="">
+AsahiLinux Has Another Project Called M1N1 if You Want to Learn More About iBoot1</p>
+<blockquote>
+<p>Another good writing about iBoot1 is <a href="https://eclecticlight.co/2022/01/04/booting-an-m1-mac-from-hardware-to-kexts-1-hardware/">Booting M1 from hardware to kexts</a> by hoakley. Give it a look if you are curious about Apple systems.</p>
+</blockquote>
+<h1 id="u-boot-spl">U-Boot (SPL)</h1>
+<p><img src="u-boot-header.png" alt="">
+U-Boot Logs &amp; Shell</p>
+<p>Also known as, <a href="https://en.wikipedia.org/wiki/Das_Boot">Das U-Boot</a>, is an <a href="https://source.denx.de/u-boot/u-boot">open-source</a> (GPL 2 license) First-Stage and a Second-Stage loader. It is available on many platforms like x86, ARM and RISC-V. The fact that it is *small* and heavily configurable made it the <strong>de-facto choice</strong> of bootloader for embedded devices.</p>
+<blockquote>
+<p>In fact, according to <a href="https://www.youtube.com/@PentesterAcademyTV">Pentester Academy TV</a>, as much as 90% embedded boards out there uses some form of U-Boot. This number might be a bit exaggerated, but should give you an idea of how big U-Boot is!</p>
+</blockquote>
+<p><img src="u-boot-place-on-arm.png" alt="">
+U-Boot is Very Popular Amongst Embedded Devices — <a href="https://www.youtube.com/watch?v=INWghYZH3hI">Linux Foundation Has *Lots* of Materials/Talks About it</a></p>
+<p>Originally, <em>Magnus Damm</em> wrote a bootloader for <strong>8xx PowerPC</strong> computers and called it <a href="https://ppcboot.sourceforge.net/#authors">8xxROM</a>. In 1999, the project was moved to SourceForge with the name of <strong>PPCBoot.</strong> And later in July 2000, it got published to public.</p>
+<p>With the release of PPCBoot v2.0.0 the project changed it’s name for the final time to <strong>U-Boot</strong>. The “U” here stands for “Universal” as it’s availability was expanded to more than just PowerPC (e.g. x86 support was added).</p>
+<p><img src="u-boot-github.png" alt="">
+U-Boot’s Source Code [Tree] Can be <a href="https://github.com/u-boot/u-boot">Found on GitHub</a></p>
+<p>As 2023, the latest version of U-Boot (<a href="https://source.denx.de/u-boot/u-boot/-/tree/v2023.10?ref_type=tags">2023.10</a>) supports *many* different architectures like: x86[_64], ARM[64], RISC-V and MicroBlaze. And now it is *the* most popular bootloader for embedded devices (mostly ARM).</p>
+<p>The project can be found on:</p>
+<ul>
+<li>Gitlab: <a href="https://source.denx.de/u-boot/u-boot">https://source.denx.de/u-boot/u-boot</a></li>
+<li>GitHub: <a href="https://github.com/u-boot/u-boot">https://github.com/u-boot/u-boot</a></li>
+</ul>
+<p>Unlike BIOS &amp; [U]EFI, U-Boot is NOT a specification, but rather a “project” that includes software components (or stages):</p>
+<ul>
+<li><strong>Tertiary Program Loader (TPL)</strong></li>
+<li><strong>Verifying Program Loader (VPL)</strong></li>
+<li><strong>Secondary Program Loader (SPL)</strong> — → First-Stage loader</li>
+<li><strong>U-Boot (Main Bootloader)</strong> — → Second-Stage loader</li>
+</ul>
+<p><img src="u-boot-boot-process.png" alt="">
+Simplified &amp; Generalized U-Boot Boot Stages/Process</p>
+<p>I will be only explaining the SPL here as our topic is First-Stage loaders. Other ones, like the main U-Boot Second-Stage loader, will be later explained in detail.</p>
+<blockquote>
+<p>From now on, I will use the term “U-Boot” interchangeably with “U-Boot SPL”.</p>
+</blockquote>
+<h2 id="hardware">Hardware</h2>
+<p>U-Boot SPL is a very different First-Stage loader compared to BIOS &amp; [U]EFI implementations. This is due to how the target hardware environment is designed. To understand what I’m talking about, let’s analyze the popular <a href="https://www.beagleboard.org/boards/beaglebone-black">BeagleBone Black</a> ARM board.</p>
+<p><img src="beaglebone-black-block-diagram.png" alt="">
+BeagleBone Black Functional Block Diagram — Source: static.righto.com</p>
+<p>Notice that there is only one [S]RAM available to CPU and its size is <strong>64KB!</strong> The “real” and larger [D]RAM is behind a DDR3 interface. The CPU canNOT use the bigger RAM without doing some sort of initialization first (a.k.a. the memory controller).</p>
+<p>This means when the system first starts up, the CPU can only use the 64KB of [S]RAM. And when you think about it, it really isn’t that much. There simply is no way a fully-featured Second-Stage loader can fit in there. So, obviously we need a First-Stage loader. And that is U-Boot SPL.</p>
+<blockquote>
+<p>In x86 platforms the BIOS and [U]EFI “automatically” initializes the memory controller. The difference is that they are physically “part” of the board and come pre-installed.</p>
+<p>The x86 CPUs are designed to work closely with the <a href="https://en.wikipedia.org/wiki/Chipset">Chipset’s</a> that reside physically on the motherboard.</p>
+</blockquote>
+<h2 id="its-role-as-a-first-stage-loader">It’s Role as a First-Stage Loader</h2>
+<p>The hardware restrictions helps us clearly define what U-Boot SPL does. It role is to:</p>
+<ul>
+<li><strong>be small enough</strong> to fit into CPU’s SRAM</li>
+<li>initialize the DRAM <strong>memory controller</strong> (e.g. DDR3, DDR4, DDR5)</li>
+<li><strong>find the Second-Stage</strong> loader (using storage interface like <a href="https://en.wikipedia.org/wiki/SD_card">SDHC</a>)</li>
+<li><strong>load</strong> it into DRAM &amp; <strong>pass</strong> the control</li>
+</ul>
+<p>Sounds simple enough(!) The fact that it should be “small” is no easy task. There are lots of “simplifications” done at the source level to lower the final *.bin file.</p>
+<p><img src="u-boot-size-limits.png" alt="">
+RomBoot &amp; U-Boot SPL Faces *Really* Low Size Limitations — Source: bootlin.com</p>
+<p>It should be noted that U-Boot SPL is *mainly* used to load the main U-Boot Second-Stage loader. It technically can load other programs, but it is not used that much. <em>In other words: 99% of the time U-Boot SPL will be used to load the main U-Boot and nothing else! So it is not wrong to think of them as *one* big bootloader.</em></p>
+<blockquote>
+<p>Fun fact: U-Boot SPL is also called U-Boot Memory Loader (MLO) because the main reason it exists is to initialize the DRAM memory controller! Hence the name: memory loader.</p>
+</blockquote>
+<h2 id="build--flash">Build &amp; Flash</h2>
+<p>Unlike BIOS &amp; [U]EFI implementations, U-Boot SPL does not come pre-installed on a flash memory chip. The user MUST obtain the firmware either by downloading pre-built ones from vendors or by <a href="https://u-boot.readthedocs.io/en/latest/build/index.html">building from the source code</a>.</p>
+<p><img src="u-boot-build.png" alt="">
+Overview of “How-to” Build U-Boot For Cyclone V — Source: rocketboards.org</p>
+<p>Each U-Boot SPL firmware should be configured to work with a specific board. Generally, vendors provide patches to U-Boot project to add support for their boards. They do so by “defining” the Device Trees and “specifying”the memory layouts that will be used by U-Boot SPL.</p>
+<blockquote>
+<p>The <a href="https://u-boot.readthedocs.io/en/latest/build/index.html">official U-Boot project page</a> has a great documentation explaining how to configure &amp; build U-Boot SPL for a specific board or your own custom one!</p>
+</blockquote>
+<p>After obtaining the U-Boot SPL firmware (*.bin file), it then should be flashed/installed onto the flash memory via interfaces like USB or I2C. The exact methods here <a href="https://github.com/nxp-imx/mfgtools">depends entirely on the specific board</a> you have.</p>
+<p><img src="u-boot-build.png" alt="">
+Toradex Has Different Methods For Flashing U-Boot / Linux Images on Their Boards- Source: developer.toradex.com</p>
+<p>There is a *great* chance that your board’s vendor has documentations on how to install U-Boot SPL. I recommend looking for them before trying to build it by yourself.</p>
+<p>After the flashing process, it can now then be used to load the <strong>main</strong> <strong>U-Boot</strong> Second-Stage loader.</p>
+<h2 id="interface--usage">Interface &amp; Usage</h2>
+<p>U-Boot SPL does not have a fancy interface or a configuration panel like BIOS or [U]EFI. Almost everything about U-Boot SPL is done during the build-time.</p>
+<p><img src="u-boot-logs.png" alt="">
+U-Boot Console Logs</p>
+<p>At run-time U-Boot simply initializes the DRAM memory controller &amp; loads the Second-Stage loader as fast as possible! Since there is a very-strict size limit on how big it can be, there is no place for interfaces &amp; run-time configurations. They will be provided by the main U-Boot loader, later.</p>
+<p>Most of the time (after installing it), the user will not be seeing/feeling the existence of U-Boot SPL. It is not present as much as other First-Stage loaders as it *must* be small * fast. Having a boot logo or a GUI would make it unnecessarily slow and impossible to fit into a small SRAM.</p>
+<p><img src="u-boot-logo-big-no.png" alt="">
+Although a Boot Logo is Cool, It’s Size Might be Too Much to Fit Into The U-Boot SPL Flash Memory</p>
+<p>There is more to U-Boot than what I talked about here. I’ll talk more about it on my next writing: <strong>Second-Stage Loaders: GRUB2, iBoot, BOOTMGR &amp; More.</strong></p>
+<h1 id="closing-words">Closing Words..</h1>
+<p>Well, that’s it from me on First-Stage loaders. The things I talked about here are extremely crucial for computers. You might feel like it’s a lot, but just know that each of them (BIOS, [U]EFI, iBoot1 &amp; U-Boot SPL) have multiple people working on them for years. It’s impossible for one person to learn about them in one (1) hour /w just one (1) writing.</p>
+<p>Try to re-read this writing a week, a month or a year after working more on bootloaders. I assure you they will make *more sense* then. Just keep on learning &amp; staying hungry;)</p>
+<p>If you have spotted some errors and/or think that what I said was wrong, please DO tell me! It would mean a lot to me. And lastly, thanks for the reading.</p>
+<p>Enjoy Life ❤</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/blog/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading & Take care <span style="font-style: normal;"> ❤ </span></p>
+		<p>
+			Follow me on
+			<a href="https://twitter.com/tunacicii">X (formerly Twitter)</a>,
+      if you like my works that is >.&lt;
+		</p>
+
+	</div>
+  </article>
+
+  <hr />
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">Home</a></li>
+         
+          <li><a href="/blog/memes/">Memes</a></li>
+         
+          <li><a href="/blog/about/">About</a></li>
+         
+          <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#power-on-self-test-post">Power-On Self-Test (POST)</a></li>
+    <li><a href="#boot-process">Boot Process</a></li>
+    <li><a href="#environment--services">Environment &amp; Services</a></li>
+    <li><a href="#harware-part">Harware Part</a></li>
+    <li><a href="#interface--look">Interface &amp; Look</a></li>
+    <li><a href="#system-info--configuration">System Info &amp; Configuration</a></li>
+    <li><a href="#acpi">ACPI</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#whats-not-new-relative-to-bios">What’s NOT New? (relative to BIOS)</a></li>
+    <li><a href="#whats-new-relative-to-bios">What’s New? (relative to BIOS)</a></li>
+    <li><a href="#boot-process-1">Boot Process</a></li>
+    <li><a href="#environment--services-1">Environment &amp; Services</a></li>
+    <li><a href="#efi-applications">EFI Applications</a></li>
+    <li><a href="#hardware-part">Hardware Part</a></li>
+    <li><a href="#interface--look-1">Interface &amp; Look</a></li>
+    <li><a href="#secure-boot">Secure Boot</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#its-role-as-a-first-stage-loader">It’s Role as a First-Stage Loader</a></li>
+    <li><a href="#build--flash">Build &amp; Flash</a></li>
+    <li><a href="#interface--usage">Interface &amp; Usage</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&text=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&is_video=false&description=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&title=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&name=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29&description=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26amp%3b%20U-Boot%20%28SPL%29%0aBootloaders%2c%20due%20to%20their%20low-level%20nature%2c%20sometimes%20have%20to%20work%20closely%20with%20the%20hardware.%20This%20can%20lead%20to%20some%20serious%20constrains%2c%20such%20as%20having%20size%20smaller%20than%2064%20KiB%20or%20being%20written%20in%20pure%20machine-code%20because%20the%20stack%20isn%e2%80%99t%20properly%20initialized%20yet.%0aThis%20is%20One%20Way%20to%20Initialize%20Stack%20Without%20A%20Help%20From%20First-Stage%20Loaders%0aNaturally%2c%20bootloaders%20are%20critical%20as%20they%20are%20literally%20one%20of%20the%20first%20programs%20to%20run%20when%20you%20press%20the%20%e2%80%9cPower%20On%e2%80%9d%20button.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f11%2ffirst-stage-loaders-bios-uefi-iboot1-u-boot-spl%2f&t=First-Stage%20Loaders%3a%20BIOS%2c%20%5bU%5dEFI%2c%20iBoot1%20%26%20U-Boot%20%28SPL%29">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Pasteleft &#9752; 2024  Tuna Cici (Blog) 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/blog/lib/font-awesome/css/all.min.css>
+<script src=/blog/lib/jquery/jquery.min.js></script>
+<script src=/blog/js/main.js></script>
+
+
+
+</html>
