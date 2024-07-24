@@ -3,7 +3,7 @@ import "../../../static/common.css";
 
 function welcome(args) {
   /* max 80 chars pls */
-  const message = "⭐️ New project: Non-Blocking Buddy System allocator - May 27 2024 ⭐️";
+  const message = "⭐️ New writing: AAPCS64 Procedure Call Standard - Jul 25, 2024 ⭐️";
 
   const title = "+-------| News |" + "-".repeat(63) + "+";
   const middle = " " + message;;
