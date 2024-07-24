@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> GNU/Linux CLI Shells ELI5: sh, bash, zsh and more | Tuna Cici (Blog)</title>
+  <meta name="description" content="Enjoy Life!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:url" content="https://tunacici.com/blog/2023/04/gnu/linux-cli-shells-eli5-sh-bash-zsh-and-more/">
+  <meta property="og:site_name" content="Tuna Cici (Blog)">
+  <meta property="og:title" content="GNU/Linux CLI Shells ELI5: sh, bash, zsh and more">
+  <meta property="og:description" content="If you’ve ever interacted with a GNU/Linux system, chances are you’ve heard about shells like sh, bash and zsh. But what are these shells, why are they so important? What even is a shell? And “most importantly” why should you even care about them?
+In this article, we’ll take a closer look at GNU/Linux shells and try to explain them in an ELI5-fashioned way. We’ll discuss some essential terms like: terminal, shell and CLI.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-04-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-04-05T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Shells">
+    <meta property="article:tag" content="Eli5">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="GNU/Linux CLI Shells ELI5: sh, bash, zsh and more">
+<meta name="twitter:description" content="If you’ve ever interacted with a GNU/Linux system, chances are you’ve heard about shells like sh, bash and zsh. But what are these shells, why are they so important? What even is a shell? And “most importantly” why should you even care about them?
+In this article, we’ll take a closer look at GNU/Linux shells and try to explain them in an ELI5-fashioned way. We’ll discuss some essential terms like: terminal, shell and CLI.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="/blog/css/style-white.css">
+  
+   <link rel="stylesheet" href="/blog/css/custom.css"> 
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://tunacici.com/blog/2023/02/linux-networking-eli5-part-4-minecraft-web-server/">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&text=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&is_video=false&description=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-stumbleupon " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-digg " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&name=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more&description=If%20you%e2%80%99ve%20ever%20interacted%20with%20a%20GNU%2fLinux%20system%2c%20chances%20are%20you%e2%80%99ve%20heard%20about%20shells%20like%20sh%2c%20bash%20and%20zsh.%20But%20what%20are%20these%20shells%2c%20why%20are%20they%20so%20important%3f%20What%20even%20is%20a%20shell%3f%20And%20%e2%80%9cmost%20importantly%e2%80%9d%20why%20should%20you%20even%20care%20about%20them%3f%0aIn%20this%20article%2c%20we%e2%80%99ll%20take%20a%20closer%20look%20at%20GNU%2fLinux%20shells%20and%20try%20to%20explain%20them%20in%20an%20ELI5-fashioned%20way.%20We%e2%80%99ll%20discuss%20some%20essential%20terms%20like%3a%20terminal%2c%20shell%20and%20CLI.">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&t=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#terminal-emulator">Terminal Emulator</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#layers">Layers</a></li>
+    <li><a href="#system-calls">System Calls</a></li>
+    <li><a href="#shells-for-real-this-time">Shells (For Real This Time)</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#simple-command-execution">[Simple] Command Execution</a></li>
+    <li><a href="#inputoutput-redirection">Input/Output Redirection</a></li>
+    <li><a href="#the-prompt-customization">The Prompt [Customization]</a></li>
+    <li><a href="#scripting">Scripting</a></li>
+  </ul>
+</nav>
+    </div>
+  </span>
+</div>
+
+<div class="alert-warning">
+	⭐️	
+	<a href="https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/">New writing: AAPCS64 Procedure Call Standard - Jul 25, 2024</a>
+	⭐️
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+    
+      <img src="header.png" class="hero" alt="Some Basic GNU/Linux Commands" />
+    
+
+      <h1 class="posttitle" itemprop="name headline">
+        GNU/Linux CLI Shells ELI5: sh, bash, zsh and more
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2023-04-05 00:00:00 &#43;0000 UTC" itemprop="datePublished">2023-04-05</time>
+          
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/shells/" rel="tag">shells</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/eli5/" rel="tag">eli5</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    <div class="content" itemprop="articleBody">
+      <p>If you’ve ever interacted with a GNU/Linux system, chances are you’ve heard about shells like <code>sh</code>, <code>bash</code> and <code>zsh</code>. But what are these shells, why are they so important? What even is a shell? And “most importantly” why should you even care about them?</p>
+<p>In this article, we’ll take a closer look at GNU/Linux shells and try to explain them in an ELI5-fashioned way. We’ll discuss some essential terms like: <em>terminal</em>, <em>shell</em> and <em>CLI</em>. Later I will list some popular types of shells, their features, and how they’re differ from each other.</p>
+<p>By the end of this article, you’ll have a better understanding of what GNU/Linux shells are and how they can make your life easier (or harder).</p>
+<blockquote>
+<p><strong>Important Note:</strong> This article is not meant to be technical. It is merely an ELI5 explanation of things. Some explanations might not satisfy you if you are looking for technical details.</p>
+</blockquote>
+<h1 id="tldr">TL;DR</h1>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>CLI (Command Line Interface): Text-based interface done via commands and such  
+</span></span><span style="display:flex;"><span>GUI (Graphical User Interface): Graphical interface done via clicks and such  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Terminal: An I/O device that is used when &#39;interacting&#39; with a OS  
+</span></span><span style="display:flex;"><span>Terminal Emulator: A software application that emulates a real terminal  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Shell (Layer): An OS layer that abstracts the &#39;interaction&#39; with the [Linux] kernel  
+</span></span><span style="display:flex;"><span>Shell (CLI-Application): A software application that provides a CLI via a terminal  
+</span></span><span style="display:flex;"><span>Shell (GUI-Application): A software applcation that provides a GUI via a desktop env.  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Bourne SHell (sh): A [CLI] shell application. The original...  
+</span></span><span style="display:flex;"><span>Bourne-Again SHell (bash): A [CLI] shell application. The de facto...  
+</span></span><span style="display:flex;"><span>Z SHell (zsh): A [CLI] shell application. The cool one...  
+</span></span><span style="display:flex;"><span>Friendly Interactive SHell (fish): A [CLI] shell application. The friendly one...
+</span></span></code></pre></div><h1 id="cli-command-line-interface">CLI (Command Line Interface)</h1>
+<p>When you want to interact with your computer, you have (for now) two choices: you can use the GUI or the CLI. In a typical desktop environment you have a GUI. Microsoft Windows has its <em>‘explorer.exe’</em>, Apple macOS has its ‘<em>Finder</em>’ and GNU/Linux has… many different options. GNOME, XFce, KDE Plasma, MATE and etc.</p>
+<p><img src="gui-across-oses.png" alt=""></p>
+<p>GUI Across Different Systems (macOS, Windows and GNU/Linux/KDE)</p>
+<p>You are able to create a new file on you desktop or launch an application (VSCode, Firefox and file explorer) by just double-clicking.</p>
+<p>Another way to do the same things shown above is by using the <strong>Command Line Interface</strong>. A CLI is one of the two ways to interact with a computer. It is a combination of a display and an input/output (keyboard) device. Users must ‘type out’ some commands in order to do interact with the computer.</p>
+<p>So, instead of right-clicking and creating a new <code>.txt</code> file, you now have to type commands (for example: <code>touch</code>) to create that file. Here is a simple comparison between a GUI and a CLI.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># GUI (Graphical User Interface)  </span>
+</span></span><span style="display:flex;"><span>New Folder: Right Click -&gt; New Folder  
+</span></span><span style="display:flex;"><span>New File: Right Click -&gt; New File -&gt; Word Document File <span style="color:#2c5dcd">(</span>.docx<span style="color:#2c5dcd">)</span>  
+</span></span><span style="display:flex;"><span>Browse inside your USB Drive: Launch File Explorer -&gt; Click <span style="color:#0c6">&#39;E: My_USB (16GB)&#39;</span>  
+</span></span><span style="display:flex;"><span>Launch Google Chrome: Double Click Google Chrome  
+</span></span><span style="display:flex;"><span>Turn on/off Wi-Fi: Launch the settings app -&gt; Find Wi-Fi -&gt; Click toggle  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># CLI (Command Line Interface)  </span>
+</span></span><span style="display:flex;"><span>New Folder: $ mkdir -p /home/tunacici/Desktop/Hello_There  
+</span></span><span style="display:flex;"><span>New File: $ touch /home/tunacici/Desktop/Final_Essay_2023_v2.docx  
+</span></span><span style="display:flex;"><span>Browse inside your USB Drive: $ sudo mount /dev/sdb /home/tunacici/Desktop/My_Drive  
+</span></span><span style="display:flex;"><span>                            : $ <span style="color:#5918bb;font-weight:bold">cd</span> /home/tunacici/Desktop/My_Drive  
+</span></span><span style="display:flex;"><span>                            : $ ls -l .  
+</span></span><span style="display:flex;"><span>Launch Google Chrome: $ ./usr/local/bin/chromium <span style="color:#0080ff;font-style:italic"># Not really, but trust me  </span>
+</span></span><span style="display:flex;"><span>Turn on/off Wi-Fi: $ ip link <span style="color:#5918bb;font-weight:bold">set</span> wlan0 down|up
+</span></span></code></pre></div><p>You can see that the GUI is a more interactive way to ‘interact’ with the system via menus, buttons and mouse clicks. However, a CLI is more functional and complex. It requires you to type words and execute commands. They are two different approaches that does the same thing: <strong>interaction with the computer.</strong></p>
+<h1 id="terminal">Terminal</h1>
+<p>When we ‘interact’ with our computer, we do it via the display, mouse, keyboard and other type of peripherals. It doesn’t matter which OS, software or a piece of software you have, you will always have to ‘interact’ with the hardware.</p>
+<p><img src="physical-terminal.jpeg" alt=""></p>
+<p>A Real Terminal With Display (Output) and a Keyboard (Input) — Model: DEC VT 100 — Source: wikipedia.com</p>
+<p>The most important peripheral we have at our disposals is the display and the keyboard. To interact with the computer, we need at least one input device (keyboard) and an output device (display). The combination of these devices is called a <em>terminal</em>.</p>
+<p>You can think the terminal as a ‘device’ that handles the input/output operations when we ‘interact’ with the computer.</p>
+<blockquote>
+<p>Quick note: Terminals provide us a command-line interface (CLI) to ‘intract’ with the system.</p>
+</blockquote>
+<h2 id="terminal-emulator">Terminal Emulator</h2>
+<p>Now, as you can see ‘terminals’ are pretty cool. We can use them to ‘interact’ with the computer via just a display and a keyboard. But as you can see from the above picture, it is only presented to us via the CLI.</p>
+<p>Most computers operating systems today comes with fancy GUIs (Windows, macOS, Ubuntu and etc). So, the question is: can we still continue using the CLI alongside the GUI? Yes, yes we can. <em>But not natively..</em></p>
+<p><img src="terminal-emulator.png" alt=""></p>
+<p>Warp vs. The Default macOS Terminal Emulator</p>
+<p>Sometimes the GUI is not ‘sufficient’ or ‘fast’ enough for certain tasks. So, we might prefer to use the CLI to do increase functionality and have more control over the OS. In order to use the CLI (in a GUI environment), we need an application called a _Terminal Emulato_r.</p>
+<p>Terminal emulators are <em>GUI applications</em> that provide us a CLI to interact with the operating system. For example, the ‘Terminal’ app on macOS is a terminal emulator. They are not really a ‘terminal’ but an application that ‘emulates’ one.</p>
+<p><img src="terminal-customization.png" alt=""></p>
+<p>You Can Customize The Heck out of Them (For Ex. The Windows Terminal) — Source: devblogs.microsoft.com</p>
+<p>There are MANY terminal emulator out there. So, it might be hard to choose a favorite one. In any case here are some popular terminal emulators just to name a few:</p>
+<pre tabindex="0"><code class="language-textt" data-lang="textt"># Cross platform  
+1. Putty (de facto)  
+2. iTerm2   
+3. Hyper (Electron based)  
+  
+# macOS  
+1. Terminal (system default)  
+2. Warp (Uses AI?!)  
+3. Kitty (Cute name)  
+  
+# Windows  
+1. Cmd.exe (system default)  
+2. PowerShell v5 and v7 (powerful but kinda weird)  
+3. Terminal (soon to be default) (also real pretty)  
+  
+# GNU/Linux  
+1. GNOME Terminal (GNOME default)  
+2. Konsole (default KDE)  
+3. Terminator (Cool name)
+</code></pre><p>Sorry, if I didn’t include your favorite one up there &gt;.&lt;</p>
+<h1 id="shells">Shells</h1>
+<p>Alright. Now that we have seen what a CLI, terminal and a terminal emulator is, we are ready to start talking about the main topic of this article: <strong>shells</strong>.</p>
+<p><img src="simplified-gnu-linux-system.png" alt=""></p>
+<p>An Overly Simplified Layered View of a GNU/Linux System — Source (diagram): mindmajix.com</p>
+<h2 id="layers">Layers</h2>
+<p>You can think of your whole computer as a layer abstractions. The innermost layer is the hardware (CPU, Memory and etc.) and the outermost layer is the ‘software applicatons’ that you run (Firefox, GCC, GTA 5 and etc.)</p>
+<p>There are of course some layers between them, and perhaps the most important one is <strong>the kernel</strong>. The [Linux] kernel abstracts us from the real hardware so that the operating system can run and do whatever it wants (<em>display the GUI or run commands</em>). But the Linux kernel too needs an abstraction between itself and the operating system. And that layer is called the <strong>Shell</strong>! (<em>but more on that later…</em>)</p>
+<h2 id="system-calls">System Calls</h2>
+<p>We know that the computer hardware is precious, but the [Linux] kernel is equally precious. Just like how we can’t just access the CPU and the memory directly by sticking cables on to them, we <strong>can’t access the Linux kernel</strong> by running/inserting random binaries. There are rules that we must follow!</p>
+<p><img src="system-calls-julia-evans.jpeg" alt=""></p>
+<p>An AMAZING Explanation from <strong>Julia Evans</strong> on <strong>About System Calls</strong> - Source: twitter.com/b0rk</p>
+<blockquote>
+<p>We can use kernel modules to actually insert ‘random binaries’. But for the purpose of this article let’s just assume we can’t…</p>
+</blockquote>
+<p>These rules are [basically] called ‘<strong>system calls</strong>’. System calls are very well-defined interfaces (APIs) that we can use to talk with the Linux kernel. For example, when we want to use the CPU by running an application, we ‘ask’ Linux to do it. Or if we want to create a file on disk, again, we ‘ask’ Linux. All of these are done via the ‘system calls’.</p>
+<p>Altought there are MANY more system calls, here are some of the more commonly used system calls:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#0080ff"># File operations  
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span><span style="color:#5918bb;font-weight:bold">int</span> open(...) <span style="color:#fff;background-color:#c00">#</span> Opens a file and returns it descriptor  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">int</span> read(...) <span style="color:#fff;background-color:#c00">#</span> Reads [X bytes] from the file and into a buffer  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">int</span> write(...) <span style="color:#fff;background-color:#c00">#</span> Writes [X bytes] from a buffer into a file  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">int</span> close(...) <span style="color:#fff;background-color:#c00">#</span> Closes an opened file  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff"># Process related  
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span>pid_t fork(...) <span style="color:#fff;background-color:#c00">#</span> Creates a [child] process [from the parent process]  
+</span></span><span style="display:flex;"><span>pid_t wait(...) <span style="color:#fff;background-color:#c00">#</span> Waits <span style="color:#2c5dcd;font-weight:bold">for</span> the [child] process to terminate<span style="color:#2c5dcd">/</span>exit  
+</span></span><span style="display:flex;"><span>pid_t exit(...) <span style="color:#fff;background-color:#c00">#</span> Terminates<span style="color:#2c5dcd">/</span>exits the process  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff"># Memory related  
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span><span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#2c5dcd">*</span>brk(...) <span style="color:#fff;background-color:#c00">#</span> Increases the data segment to the specified address (think malloc())  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#2c5dcd">*</span>sbrk(...) <span style="color:#fff;background-color:#c00">#</span> Increases<span style="color:#2c5dcd">/</span>decrease the data segmant to the specified address (think free())  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">void</span> <span style="color:#2c5dcd">*</span>mmap(...) <span style="color:#fff;background-color:#c00">#</span> Maps a file<span style="color:#2c5dcd">/</span>device into a memory (extremely useful when doing file<span style="color:#2c5dcd">/</span>memory ops)
+</span></span></code></pre></div><blockquote>
+<p>Now, why did I told you all this? Aren’t we supposed to talk about <strong>shells</strong>? Well, we need to understand ‘why’ we need them in the first place. Then, we can talk about them in more detail. Savvy?</p>
+</blockquote>
+<h2 id="shells-for-real-this-time">Shells (For Real This Time)</h2>
+<p>The Linux kernel [as you can see] is not something that we can use ‘directly’. We can’t talk to it unless we use the very specific and kinda-complex language called the <em>system calls.</em> Now, how about we add another layer into the system. So you know, we stay more abstract from the actual kernel and do even more crazy software things. And… boom! By adding another layer, we have created what is known as ‘<strong>a shell</strong>’.</p>
+<p><img src="another-illustration-on-shells.png" alt=""></p>
+<p>Another “Illustration” on What a Shell is</p>
+<p>The <strong>shell</strong> is an abstraction layer made around the [Linux] kernel itself. It is the layer that we users can use to talk the the Linux kernel and by doing so also talk with the computer hardware. But wait, the shell is not just an abstract layer that we can’t touch or smell, it is a real <strong>software application</strong> that you are using at this exact moment without even noticing!</p>
+<p>When you are using your computer, let it be via the <em>GUI</em> or the <em>CLI</em>, you are actually using <strong>the shell</strong>. The file explorer you are using to browse your USB drive, the system settings app that you use to turn your Bluetooth on/off or even the app launcher that you are using to launch Sims 4 is <strong>a shell!</strong></p>
+<p>The Windows’s <em>explorer.exe</em>, macOS’s <em>Finder</em> and Linux’s <em>GNOME</em> desktop environment are all shells. So basically every GUI is a shell. And what about the CLI? Is it also a shell? Well, yes of course!</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># Here are some examples of GUI shells  </span>
+</span></span><span style="display:flex;"><span>1. GNOME Shell <span style="color:#0080ff;font-style:italic"># Used on GNOME desktop env. (Also used on Ubuntu [duh])  </span>
+</span></span><span style="display:flex;"><span>2. KDE Plasma <span style="color:#0080ff;font-style:italic"># Used on KDE desktop env. (Clean AF)  </span>
+</span></span><span style="display:flex;"><span>3. Windows Shell <span style="color:#0080ff;font-style:italic"># Microsoft Windows&#39; own desktop env. (explorer.exe and etc.)  </span>
+</span></span><span style="display:flex;"><span>4. macOS Dock <span style="color:#0080ff;font-style:italic"># Apple macOS&#39; desktop env. (Finder, System Settings and etc.)  </span>
+</span></span><span style="display:flex;"><span>5. Unity Shell <span style="color:#0080ff;font-style:italic"># Used on Unity desktop env. (&#34;ain&#39;t dead yet;)&#34;)</span>
+</span></span></code></pre></div><p>Every CLI out there is actually a shell (and thus a software application) that you can use to interact with your computer. And just like anything with the GNU/Linux systems, you have many options of shells to choose from. They all provide you a CLI, but in their [most] unique ways.</p>
+<blockquote>
+<p>From now on when I use the word ‘shell’ you can assume that I am talking about the shells that provide you with a CLI and not a GUI. Remember that there are two types of shells: one that provides you a CLI and one a GUI.</p>
+</blockquote>
+<p>Here are some of the more commonly use shells that we can use in any GNU/Linux system. We will talk about each one of them in detail soon.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. SH <span style="color:#0080ff;font-style:italic"># The OG of the all shells out there: Bourne Shell  </span>
+</span></span><span style="display:flex;"><span>2. Bash <span style="color:#0080ff;font-style:italic"># GNU&#39;s own implementation of the SH, but harder, faster, stronger  </span>
+</span></span><span style="display:flex;"><span>3. ZSH <span style="color:#0080ff;font-style:italic"># Kinda like Bash but offers more customization and such  </span>
+</span></span><span style="display:flex;"><span>4. Dash <span style="color:#0080ff;font-style:italic"># Comes with [most] Debian distros. Small, fast and cute  </span>
+</span></span><span style="display:flex;"><span>5. Fish <span style="color:#0080ff;font-style:italic"># Kinda like ZSH but focused more on being user friendly and cute</span>
+</span></span></code></pre></div><p>To be more concise: A [Linux] <strong>shell</strong> is a ‘software application’ that exposes the GNU/Linux’s services to the user. It can be either thru a GUI or a CLI.</p>
+<h1 id="common-features">Common Features</h1>
+<p>Although each shell is different, they all share some pretty common features. Let’s see what those are.</p>
+<h2 id="simple-command-execution">[Simple] Command Execution</h2>
+<p><img src="command-execution.png" alt=""></p>
+<p>Executing the ‘<strong>cd</strong>’ and the ‘<strong>git</strong>’ Command (Warp Emulator with ‘<strong>zsh</strong>’)</p>
+<p>Ah commands… Perhaps the main reason you are using a shell in the first place. Every shell allows you to execute some commands (A.K.A binaries). You can simply execute a command by typing out it’s name into the prompt and pressing <code>Enter</code> .</p>
+<p>After you press <code>Enter</code> the shell goes thru some steps. Generally, it first ‘searches’ for your command. It does that by going over each directory specified in the <code>PATH</code> environment variable.</p>
+<p><img src="path-env-variable.png" alt=""></p>
+<p>Printing the PATH Environment Variable</p>
+<blockquote>
+<p>In GNU/Linux systems there is an environment variable called PATH. It stores paths of some directories (For ex. /usr/local/bin).</p>
+</blockquote>
+<p>The first binary that matches your command is then choosen to be executed. If it fails, then it gives out an error message to the <strong>stderr</strong> like:“<em>bash: command not found: bruh</em>”.</p>
+<p>Shell then goes over to <strong>execute the binary file</strong> by calling the <strong>fork()</strong> system call. So, technically every command is actually a child process of the shell! And depending on your shell, it either waits for the command to <strong>exit()</strong> or continues its normal job and waits for the next command to be entered. (<em>Remember system calls?</em>)</p>
+<p><img src="shell-child-process.png" alt=""></p>
+<p>Check Out The ‘<strong>htop</strong>’ and ‘<strong>sleep</strong>’ Commands — They “Belong” to The Shell</p>
+<blockquote>
+<p>I should note that every command is technically a software application. We can also use the word ‘binary executable’ instead of the more common ‘command’.</p>
+</blockquote>
+<h2 id="inputoutput-redirection">Input/Output Redirection</h2>
+<p><img src="shell-pipes.png" alt=""></p>
+<p>Using Some Basic I/O Redirections via ‘|’ and ‘&gt;’</p>
+<p>The start of something powerful… I/O operations via the shell. Like we previously mentioned, the terminal is basically an I/O device. It takes some input and outputs some data. Generally you will be using the default I/O devices: the keyboard <code>(stdin)</code> and the screen <code>(stdout/stderr)</code>. However, they might not always be enough!</p>
+<p><img src="stdin-stdout.png" alt=""></p>
+<p>Terminal Emulators (by default) Connects to /dev/stdin and /dev/stdout</p>
+<p>Shell applications allows you to ‘manipulate’ and ‘control’ how I/O operations handle. By default your terminal [emulator] uses the <code>stdin</code> as the input source and <code>stdout</code> as it’s output. But sometimes you might prefer to use different I/O for your command. You might want the output to be into a text file so that you can inspect it later. Or you want to combine multiple command together..!</p>
+<p>You can do all sort of crazy things with I/O redirection and <em>manipulation</em>. All you need is to follow some pretty common syntax.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># I/O Redirection Syntax  </span>
+</span></span><span style="display:flex;"><span>The <span style="color:#0c6">&#39;&gt;&#39;</span> syntax <span style="color:#0080ff;font-style:italic"># Changes output from &#39;stdout&#39; to &lt;FILE/DEVICE&gt; (Overwrites)  </span>
+</span></span><span style="display:flex;"><span>The <span style="color:#0c6">&#39;&lt;&#39;</span> syntax <span style="color:#0080ff;font-style:italic"># Changes input from &#39;stdin&#39; to &lt;FILE/DEVICE&gt;  </span>
+</span></span><span style="display:flex;"><span>The <span style="color:#0c6">&#34;2&gt;&#34;</span> syntax <span style="color:#0080ff;font-style:italic"># Changes err_output from &#39;stderr&#39; to &lt;FILE/DEVICE&gt;  </span>
+</span></span><span style="display:flex;"><span>The <span style="color:#0c6">&#34;&gt;&gt;&#34;</span> syntax <span style="color:#0080ff;font-style:italic"># Changes output from &#39;stdout&#39; to &lt;FILE/DEVICE&gt; (Appends)  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># Some examples  </span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Hello World&#34;</span> &gt; bro.txt <span style="color:#0080ff;font-style:italic"># Writes Hello World to the bro.txt file  </span>
+</span></span><span style="display:flex;"><span>$ cat &lt; bro.txt <span style="color:#0080ff;font-style:italic"># Reads from bro.txt and outputs it onto the terminal (stdout)  </span>
+</span></span><span style="display:flex;"><span>$ ls -al ~/non_existent 2&gt; oh_no.txt <span style="color:#0080ff;font-style:italic"># Prints all the errors of &#39;ls&#39; to the oh_no.txt  </span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Hello Again&#34;</span> &gt;&gt; bro.txt <span style="color:#0080ff;font-style:italic"># Appends Hello Again to the bro.txt file  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># You can combine them  </span>
+</span></span><span style="display:flex;"><span>$ ./parse_data &lt; my_data.csv 2&gt; err.txt &gt; parsed_data.csv
+</span></span></code></pre></div><p>As you can see the I/O redirection done by the shell applications can be super useful! But it is not over yet. We have one more syntax and I have a feeling that you will like it.</p>
+<p>Sometimes a command’s output can be too much for you to make a real use of it. Or the output only makes sense if it is used by another command. For example, the <code>curl</code> command will output EVERYTHING it can. You might, however, only be interested in certain parts. What do you do?</p>
+<p><img src="pipe-example.gif" alt=""></p>
+<p>Filtering Out The ‘<strong>curl</strong>’ Command’s Output With The ‘<strong>grep</strong>’ command and <strong>‘|’</strong> Syntax</p>
+<p>You can save the output into a text file with the <strong>‘&gt;’</strong> syntax and later execute another command and give it the text file with the ‘&lt;’ syntax. But… that is just inefficient doesn’t it? How about we use another syntax called a <strong>pipe</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># I/O Redirection Syntax (Pipes)  </span>
+</span></span><span style="display:flex;"><span>The <span style="color:#0c6">&#39;|&#39;</span> syntax <span style="color:#0080ff;font-style:italic"># Connects one command&#39;s output to another one&#39;s input  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># Some examples  </span>
+</span></span><span style="display:flex;"><span>$ ls -al | grep <span style="color:#0c6">&#34;.cpp&#34;</span> <span style="color:#0080ff;font-style:italic"># &#39;ls&#39; all files and filter them with &#39;grep&#39;  </span>
+</span></span><span style="display:flex;"><span>$ cat bro.txt | sort | uniq <span style="color:#0080ff;font-style:italic"># Output bro.txt &#39;sort&#39; it and then list &#39;uniq&#39; lines  </span>
+</span></span><span style="display:flex;"><span>$ curl http://example.com/api | jq .results<span style="color:#2c5dcd">[</span>0<span style="color:#2c5dcd">]</span> <span style="color:#0080ff;font-style:italic"># Retrieve the first JSON element</span>
+</span></span></code></pre></div><p>Basically, <strong>pipes</strong> allow you to redirect a command’s output to another command’s input. They are super useful especially when you want to further manipulate the output or parse some data. You will see many people use the <strong>‘|’</strong> pipe a lot in combination with commands like <code>grep</code>, <code>tail</code>, <code>head</code>, <code>sort</code>, and <code>uniq</code>.</p>
+<h2 id="the-prompt-customization">The Prompt [Customization]</h2>
+<p><img src="shell-customization.png" alt=""></p>
+<p>You Can Customize [The Hell Out] Your Shell Prompt — Source: reddit.com u/ZanarkTheAlucard</p>
+<p>Like we said previously, shells are actually software applications. And just like any other software application, you need to launch them to actually use it. But you can’t just launch it like you would do with other applications (ex. Mozilla Firefox). It is your terminal emulator’s job to launch the shell.</p>
+<p>When you launch your terminal emulator, it looks at your GNU/Linux user and determines which shell application to launch. Because there can be many shell applications available and it needs to know which one to launch. You can see the shell application tied to your user inside the file: <code>/etc/passwd</code>.</p>
+<p><img src="user-shell-choice.png" alt=""></p>
+<p>The User ‘tunacici’ Uses ‘/bin/zsh’ Shell</p>
+<p>After your terminal emulator launches the shell, it provides you with what is known as a <strong>prompt</strong>. The prompt is the ‘actual’ CLI that you interact with. Thru the prompt that you are able to input some commands and see the output.</p>
+<p>The prompt is generally displayed with a line that tells your user name, computer name, current working directory and a symbol. Let’s see an example prompt.</p>
+<p><img src="example-customized-prompt.png" alt=""></p>
+<p>An Example <strong>Prompt</strong> With Some Additional Commands on The Screen</p>
+<p>The <code>tunacici@raspberrypi:~/Mhysa-Alpha/src$</code> line is the prompt we are talking about. You can see from the above image that it actually displays my current user name, hostname and such. Then at the end we have symbol. This symbol symbolize your current user. Each shell can show a differnt symbol, but generally a <code>dollar [$]</code> sign means that the current user is a normal user and a <code>hash tag [#]</code> means the root user.</p>
+<p>The good thing about prompts is that they can be customized.. by A LOT. Althought most prompts can look the same, some people chooses to customize it. Technically it does not change the overall functionality of the shell. But why not make it cooler, am I right?</p>
+<p>Most shells uses an environment variable set called <code>PS1</code> to determine what kind of prompt to be displayed thru the terminal [emulator]. Youu can customize this variable in your dotfile (<em>ex. ~/.bashrc</em>). We will see what they are soon enough. But, here is an example <code>PS1</code> variable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PS1<span style="color:#2c5dcd">=</span><span style="color:#0c6">&#34;%F{green}%n%f%F{green}@%f%F{green}%m%f:%F{magenta}%~%f</span>$<span style="color:#0c6"> &#34;</span>
+</span></span></code></pre></div><p>You can check out some of the above images to see what this prompt looks like.</p>
+<h2 id="scripting">Scripting</h2>
+<p>It’s time to see the real power of shells. We have seen that we can use shells to execute commands thru a terminal. But shells can do much more than that. You can use them to do some very useful&amp;complex stuff via <strong>scripting</strong>.</p>
+<p>[Almost] every shell supports scripting. They all follow a similar syntax so you can write a script and use it with most shells. Scripting is general done via script files. These files have the <code>.sh</code> file extension. Let’s see an example one.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff">#!/bin/sh  
+</span></span></span><span style="display:flex;"><span><span style="color:#0080ff"></span>  
+</span></span><span style="display:flex;"><span>greet_user<span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Wazzap, </span>$1<span style="color:#0c6">! Nice to meet you.&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Please enter your name: &#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">read</span> name  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">if</span> <span style="color:#2c5dcd">[</span> -z <span style="color:#0c6">&#34;</span>$name<span style="color:#0c6">&#34;</span> <span style="color:#2c5dcd">]</span>; <span style="color:#2c5dcd;font-weight:bold">then</span> <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;You must enter a name &gt;:(&#34;</span> <span style="color:#2c5dcd">&amp;&amp;</span> <span style="color:#5918bb;font-weight:bold">exit</span> 1; <span style="color:#2c5dcd;font-weight:bold">fi</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Welcome, </span>$name<span style="color:#0c6">!&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>i<span style="color:#2c5dcd">=</span><span style="color:#5918bb;font-weight:bold">1</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#2c5dcd">[</span> $i -le <span style="color:#5918bb;font-weight:bold">3</span> <span style="color:#2c5dcd">]</span>; <span style="color:#2c5dcd;font-weight:bold">do</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;This is message </span>$i<span style="color:#0c6">.&#34;</span>  
+</span></span><span style="display:flex;"><span>  i<span style="color:#2c5dcd">=</span><span style="color:#2c5dcd;font-weight:bold">$((</span>i+1<span style="color:#2c5dcd;font-weight:bold">))</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">done</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;----------------------------------&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">for</span> fruit in apple banana cherry; <span style="color:#2c5dcd;font-weight:bold">do</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;I like </span>$fruit<span style="color:#0c6">.&#34;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">done</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;----------------------------------&#34;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>greet_user <span style="color:#0c6">&#34;</span>$name<span style="color:#0c6">&#34;</span>
+</span></span></code></pre></div><p>The first thing you should now about sh scripts is that it starts with what is called a <strong>shebang</strong>. See the first line above (<em>#!/bin/sh</em>)? That is a shebang. They are used for specifying which shell (interpreter) to be used.</p>
+<blockquote>
+<p>Shebang’s are pretty cool! I highly encourage you to check them out yourself.</p>
+</blockquote>
+<p>After a shebang, we can start writing our shell scripts. You can pretty much write a script file like you are entering them into a terminal. Most shells support name scripting features like:</p>
+<ul>
+<li>Functions</li>
+<li>If-else conditions</li>
+<li>While and For loops</li>
+</ul>
+<blockquote>
+<p>I can talk about shell scripting for hours but it is best that we leave it here to keep things ELI5.</p>
+</blockquote>
+<p>Alright now that we have seen some common shell feature, let’s see some shell application. There are many to choose from. Eventually, it is up to you to choose a favorite one.</p>
+<h1 id="bourne-shell-sh">Bourne SHell (sh)</h1>
+<p>Let’s start with the original Unix shell — <strong>sh (A.K.A Bourne shell)</strong>. Its author is Stephen <strong>Bourne</strong> and it was developed in the 1970s. <strong>Bourne SHell</strong> is the OG of most modern shells. It is pretty simple and lightweight, but still very powerful.</p>
+<p><img src="bourne-shell.png" alt=""></p>
+<p>Bourne SHell is Very Simple [But Powerful] — Source: wikipedia.com</p>
+<p>Most GNU/Linux distros comes with sh installed and you can find it under the <code>/bin/sh.</code> Nowadays it is mostly used when doing some shell scripts and not in terminals. It somewhat supports prompt customizations with <code>PS1</code> but it is nowhere near practical compared to other shells.</p>
+<p>Here is a TL;DR of Bourne SHell:</p>
+<ul>
+<li>The <strong>OG</strong> of modern shells.</li>
+<li>Comes <strong>default</strong> with most GNU/Linux distros.</li>
+<li><strong>Simple</strong> and <strong>lightweight</strong> AF.</li>
+<li>Customizable but <strong>not practical.</strong></li>
+</ul>
+<h1 id="bourne-again-shell-bash">Bourne-Again SHell (Bash)</h1>
+<p>Next up we have <strong>bash (A.K.A. Bourne-Again SHell)</strong>. Created by Brian Fox for the <strong>GNU</strong> <strong>Project</strong> in 1989. Bash is a more modern and feature-rich shell that is designed to be compatible with <strong>Bourne SHell</strong> while also providing many additional features and improvements.</p>
+<p><img src="bash.jpeg" alt=""></p>
+<p>Bash is Part of the GNU Project — Source: gnu.org</p>
+<p>Bash might be the most popular shell out there. It being a <strong>FOSS</strong> (GNU FTW) and also the de facto shell might just be the reason for its popularity. Most GNU/Linux systems chooses Bash as <strong>the default shell</strong>. Ubuntu, Kali, Arch, Fedora… you name it. Everyone uses Bash and it is for a good reason. It is damn good.</p>
+<p><img src="bash-meme.png" alt=""></p>
+<p>You Know His Name: Bash — Source: github.com/ChrisTollefson/jsonbash</p>
+<p>You can customize it however you want thru the <code>PS1</code> and its dotfile. There are two ways that you can customize the Bash. Either via the .bash_profile or the .bashrc. The former one is used only for the user it belongs to and the later is for everyone in the system.</p>
+<p>Here is an example .bashrc file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># Example .bashrc file  wg</span>
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">alias</span> ll<span style="color:#2c5dcd">=</span><span style="color:#0c6">&#39;ls -alF&#39;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">alias</span> h<span style="color:#2c5dcd">=</span><span style="color:#0c6">&#39;history&#39;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">export</span> PATH<span style="color:#2c5dcd">=</span>$PATH:/usr/local/bin  
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">export</span> EDITOR<span style="color:#2c5dcd">=</span>vim
+</span></span></code></pre></div><p>You can create alias’s. They are basically short name abbreviations. Instead of writing long commands you can just create an alias to shortened it.</p>
+<p>There are many wild things you can do with Bash and .dotfiles but I can’t explain them all here. Go wild and explore some communities like <code>r/unixporn</code> to see its potential.</p>
+<p>Here is a TL;DR of Bourne-Again SHell:</p>
+<ul>
+<li>The <strong>de facto</strong> choice amongst the shells.</li>
+<li>The <strong>default shell</strong> in most GNU/Linux systems.</li>
+<li>Greater customization compared to Bourne SHell. (via <strong>dotfiles</strong>)</li>
+<li>Supports command history and has <strong>powerful scripting capabilities</strong></li>
+</ul>
+<h1 id="z-shell-zsh">Z SHell (Zsh)</h1>
+<p>Let’s move on to a more advanced shell: <strong>zsh</strong> <strong>(A.K.A Z SHell)</strong>. It was created by Paul Falstad in 1990. zsh is designed to be a more powerful and user-friendly shell than <strong>bash</strong>, with many “advanced” features and capabilities.</p>
+<p><img src="zsh.jpeg" alt=""></p>
+<p><strong>Oh My Zsh</strong> is The Most Popular ZSH Communtiy/Framework Out There — Source: osxdaily.com</p>
+<p>If there is one thing that can be said about zsh it would be customization. Compared to Bash, zsh allows way more customiztion. Dare I say, it is the main reason many people uses it over Bash or sh.</p>
+<p>Almost <strong>none</strong> of the GNU/Linux distros uses the zsh by default. In fact, macOS is the only OS I know that chooses zsh as its default shell (i knowit is not a GNU/Linux system but still…) Weird huh?</p>
+<p>What makes zsh more customizable is in its ‘<strong>plugin</strong>’ support. You can use some pretty useful plugins/themes like:</p>
+<ul>
+<li>PowerLevel10k (from GithHub)</li>
+<li>zsh-powerleve9k-theme</li>
+<li>zsh-syntax-highlithing</li>
+<li>zsh-auto-completion</li>
+</ul>
+<p>You can easily install them via common your package manager (apt, yum, pacman). This kind of easy installation, and “<strong>plugin</strong>” support makes zsh a more customizable shell compared to Bash and sh.</p>
+<p>Here is a TL;DR of Z SHell:</p>
+<ul>
+<li>Highly <strong>customizable</strong> via it’s <strong>plugin</strong> support. (in quotes)</li>
+<li>The default shell in modern macOS systems.</li>
+<li>Did I tell you it’s <strong>highly</strong> customizable?</li>
+</ul>
+<h1 id="friendly-interactive-shell-fish">Friendly Interactive SHell (fish)</h1>
+<p>Last but not least, we have <strong>fish (A.K.A Friendly Friendly Interactive Shell)</strong>. Created by Axel Liljencrantz in 2005. fish is designed to be a more <strong>user-friendly</strong> and intuitive shell than traditional Unix shells, with a focus on ease of use and discoverability.</p>
+<p><img src="fish.jpeg" alt=""></p>
+<p>Fish is The Cutest (^^) — Source: itsfoss.com</p>
+<p>Many of the shells we have seen so far are not very “user-friendly”. I mean most people can use them pretty well do not get me wrong. But for a more generic user (average Joe), they are not that easy to use. So we have fish!</p>
+<p>Unlike zsh or bash, fish <strong>comes default</strong> with pretty good features. It supports <em>syntax-highlighting</em>, <em>auto-completion</em>, <em>listing-of-items</em> and etc. Most of these features can be added to zsh but you need to install some themes/plugins and mess around with dotfiles. Wheres in fish, they are just there. Basically it just <strong>works out-of-box</strong>.</p>
+<p>However where fish shines in customization, it lacks in being “functional”. Unfortunately it is <strong>not POSIX complien</strong>t. Meaning some scripting is different compared to what is done in bash or zsh. For example see the below code snippet:</p>
+<div class="highlight"><pre tabindex="0" style="color:#4d4d4d;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># bash/zsh  </span>
+</span></span><span style="display:flex;"><span>count<span style="color:#2c5dcd">=</span><span style="color:#5918bb;font-weight:bold">0</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>double<span style="color:#2c5dcd">()</span> <span style="color:#2c5dcd">{</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#2c5dcd;font-weight:bold">$((</span> $1 <span style="color:#2c5dcd">*</span> <span style="color:#5918bb;font-weight:bold">2</span> <span style="color:#2c5dcd;font-weight:bold">))</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#2c5dcd">[</span> $count -le <span style="color:#5918bb;font-weight:bold">10</span> <span style="color:#2c5dcd">]</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">do</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Count is: </span>$count<span style="color:#0c6">&#34;</span>  
+</span></span><span style="display:flex;"><span>  count<span style="color:#2c5dcd">=</span><span style="color:#2c5dcd;font-weight:bold">$(</span>double $count<span style="color:#2c5dcd;font-weight:bold">)</span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">done</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># --------------------------------  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#0080ff;font-style:italic"># fish  </span>
+</span></span><span style="display:flex;"><span><span style="color:#5918bb;font-weight:bold">set</span> count <span style="color:#5918bb;font-weight:bold">0</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">function</span> double  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#2c5dcd">(</span>math $argv * 2<span style="color:#2c5dcd">)</span>  
+</span></span><span style="display:flex;"><span>end  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#2c5dcd;font-weight:bold">while</span> <span style="color:#5918bb;font-weight:bold">test</span> $count -le <span style="color:#5918bb;font-weight:bold">10</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">echo</span> <span style="color:#0c6">&#34;Count is: </span>$count<span style="color:#0c6">&#34;</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#5918bb;font-weight:bold">set</span> count <span style="color:#2c5dcd">(</span>double $count<span style="color:#2c5dcd">)</span>  
+</span></span><span style="display:flex;"><span>end
+</span></span></code></pre></div><p>As you can see fish is very different with it’s syntax. This does not make it less useful or powerful but it is something you should consider when using.</p>
+<p>Here is a TL;DR of Friendly Friendly Interactive Shell:</p>
+<ul>
+<li>Focused more on being <strong>user friendly</strong> and <strong>modern</strong>.</li>
+<li>Comes default with <strong>syntax-highlighting, auto-completion</strong> and <strong>MORE</strong>…</li>
+<li><strong>Not POSIX compliant.</strong></li>
+</ul>
+<h1 id="choosing-the-right-shell">Choosing the [Right] Shell</h1>
+<p>So, with all of these different shells to choose from, how do you know which one to use? Well, the answer depends on your needs and personal preferences.</p>
+<p><img src="terminal-rice.png" alt=""></p>
+<p>Terminal Rice is Real &gt;.&lt; — Source: knowyourmeme.com</p>
+<p>If you’re looking for a simple and lightweight shell for basic tasks, then <strong>Bourne SHell</strong> might be a good choice. If you need more advanced scripting capabilities and compatibility with sh, <strong>Bourne-Again SHell</strong> is an excellent choice! If you’re looking for even more advanced features and customization options, then <strong>Z SHell</strong> is one of the best options out there. Lastly, if you want a more user-friendly and intuitive interface, <strong>Fish</strong> is your friend :)</p>
+<blockquote>
+<p>Of course, there are many other great shells available out there. You need to explore the wilderness (A.K.A. the Internet) to find the one that suits you the best.</p>
+</blockquote>
+<h1 id="closing-words">Closing Words</h1>
+<p>Hey… You are finally awake. Congratulations on making it to the end. Let’s summarize what we have seen so far. We started talking about the origins of shells via CLIs, terminals, emulators and layers of abstraction. Then we really dug into the shells and talked about their common features.</p>
+<p>Lastly we have given some example popular shells: sh, bash, zsh and fish! I hope that this article helped you learn something new :) I know that it is longer than my usual articles, but I tried to keep everything as fun and colorful as possible to not bore you.</p>
+<p>If you have spotted some errors and think that what I said was wrong please do tell me! It would mean a lot to me. And thanks again for reading my writings.</p>
+<p>Take care ❤</p>
+
+    </div>
+	<div class="post-footer">
+		<hr />
+
+		<img src="/blog/signature.png" alt="signature" style="height: 55px;" />
+
+		<p>Thanks for reading & Take care <span style="font-style: normal;"> ❤ </span></p>
+		<p>
+			Follow me on
+			<a href="https://twitter.com/tunacicii">X (formerly Twitter)</a>,
+      if you like my works that is >.&lt;
+		</p>
+
+	</div>
+  </article>
+
+  <hr />
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">Home</a></li>
+         
+          <li><a href="/blog/memes/">Memes</a></li>
+         
+          <li><a href="/blog/about/">About</a></li>
+         
+          <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#terminal-emulator">Terminal Emulator</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#layers">Layers</a></li>
+    <li><a href="#system-calls">System Calls</a></li>
+    <li><a href="#shells-for-real-this-time">Shells (For Real This Time)</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#simple-command-execution">[Simple] Command Execution</a></li>
+    <li><a href="#inputoutput-redirection">Input/Output Redirection</a></li>
+    <li><a href="#the-prompt-customization">The Prompt [Customization]</a></li>
+    <li><a href="#scripting">Scripting</a></li>
+  </ul>
+</nav>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&text=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&is_video=false&description=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more&body=Check out this article: https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.stumbleupon.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://digg.com/submit?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&title=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-digg fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&name=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more&description=If%20you%e2%80%99ve%20ever%20interacted%20with%20a%20GNU%2fLinux%20system%2c%20chances%20are%20you%e2%80%99ve%20heard%20about%20shells%20like%20sh%2c%20bash%20and%20zsh.%20But%20what%20are%20these%20shells%2c%20why%20are%20they%20so%20important%3f%20What%20even%20is%20a%20shell%3f%20And%20%e2%80%9cmost%20importantly%e2%80%9d%20why%20should%20you%20even%20care%20about%20them%3f%0aIn%20this%20article%2c%20we%e2%80%99ll%20take%20a%20closer%20look%20at%20GNU%2fLinux%20shells%20and%20try%20to%20explain%20them%20in%20an%20ELI5-fashioned%20way.%20We%e2%80%99ll%20discuss%20some%20essential%20terms%20like%3a%20terminal%2c%20shell%20and%20CLI.">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2ftunacici.com%2fblog%2f2023%2f04%2fgnu%2flinux-cli-shells-eli5-sh-bash-zsh-and-more%2f&t=GNU%2fLinux%20CLI%20Shells%20ELI5%3a%20sh%2c%20bash%2c%20zsh%20and%20more">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Pasteleft &#9752; 2024  Tuna Cici (Blog) 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/blog/">Home</a></li>
+         
+        <li><a href="/blog/memes/">Memes</a></li>
+         
+        <li><a href="/blog/about/">About</a></li>
+         
+        <li><a href="/blog/contact/">Contact</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/blog/lib/font-awesome/css/all.min.css>
+<script src=/blog/lib/jquery/jquery.min.js></script>
+<script src=/blog/js/main.js></script>
+
+
+
+</html>
