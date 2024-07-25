@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/</link>
+    <description>Recent content in Tags on Tuna Cici (Blog)</description>
+    <generator>Hugo 0.125.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 25 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aarch64</title>
+      <link>https://tunacici.com/blog/tags/aarch64/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/aarch64/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Assembly</title>
+      <link>https://tunacici.com/blog/tags/assembly/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/assembly/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C</title>
+      <link>https://tunacici.com/blog/tags/c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/c/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eli5</title>
+      <link>https://tunacici.com/blog/tags/eli5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/eli5/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bios</title>
+      <link>https://tunacici.com/blog/tags/bios/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/bios/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bootloader</title>
+      <link>https://tunacici.com/blog/tags/bootloader/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/bootloader/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Iboot</title>
+      <link>https://tunacici.com/blog/tags/iboot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/iboot/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secureboot</title>
+      <link>https://tunacici.com/blog/tags/secureboot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/secureboot/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>U-Boot</title>
+      <link>https://tunacici.com/blog/tags/u-boot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/u-boot/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uefi</title>
+      <link>https://tunacici.com/blog/tags/uefi/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/uefi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arm</title>
+      <link>https://tunacici.com/blog/tags/arm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/arm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Firmware</title>
+      <link>https://tunacici.com/blog/tags/firmware/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/firmware/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>X86</title>
+      <link>https://tunacici.com/blog/tags/x86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/x86/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://tunacici.com/blog/tags/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shells</title>
+      <link>https://tunacici.com/blog/tags/shells/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/shells/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>https://tunacici.com/blog/tags/networking/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Filesystem</title>
+      <link>https://tunacici.com/blog/tags/filesystem/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/filesystem/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Emulation</title>
+      <link>https://tunacici.com/blog/tags/emulation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/emulation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Virtualization</title>
+      <link>https://tunacici.com/blog/tags/virtualization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/virtualization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Architecture</title>
+      <link>https://tunacici.com/blog/tags/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/architecture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cpu</title>
+      <link>https://tunacici.com/blog/tags/cpu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/cpu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kibana</title>
+      <link>https://tunacici.com/blog/tags/kibana/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/kibana/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tutorial</title>
+      <link>https://tunacici.com/blog/tags/tutorial/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ubuntu</title>
+      <link>https://tunacici.com/blog/tags/ubuntu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Compilers</title>
+      <link>https://tunacici.com/blog/tags/compilers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/compilers/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Artificial Intelligence</title>
+      <link>https://tunacici.com/blog/tags/artificial-intelligence/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/artificial-intelligence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Consciousness</title>
+      <link>https://tunacici.com/blog/tags/consciousness/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/consciousness/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Philosophy</title>
+      <link>https://tunacici.com/blog/tags/philosophy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/philosophy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Brain-Computer-Interface</title>
+      <link>https://tunacici.com/blog/tags/brain-computer-interface/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/brain-computer-interface/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cyberpunk</title>
+      <link>https://tunacici.com/blog/tags/cyberpunk/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/cyberpunk/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Utopia</title>
+      <link>https://tunacici.com/blog/tags/utopia/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/utopia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Brain-Dump</title>
+      <link>https://tunacici.com/blog/tags/brain-dump/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/brain-dump/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://tunacici.com/blog/tags/security/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Apple</title>
+      <link>https://tunacici.com/blog/tags/apple/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/apple/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Review</title>
+      <link>https://tunacici.com/blog/tags/review/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/review/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Soc</title>
+      <link>https://tunacici.com/blog/tags/soc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/soc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Elasticsearch</title>
+      <link>https://tunacici.com/blog/tags/elasticsearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/tags/elasticsearch/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
