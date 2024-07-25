@@ -118,6 +118,16 @@
 	      "secureboot"
       ],
       "url": "https://medium.com/@tunacici7/first-stage-loaders-bios-u-efi-iboot1-u-boot-spl-5c0bee7feb15"
+    },
+    {
+      "name": "AArch64 Procedure Call Standard",
+      "date": "Jul 25, 2024",
+      "tags": [
+        "aarch64",
+        "assembly",
+	      "c"
+      ],
+      "url": "https://medium.com/@tunacici7/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers-a2c762540278"
     }
   ]
 }
