@@ -128,6 +128,17 @@
 	      "c"
       ],
       "url": "https://medium.com/@tunacici7/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers-a2c762540278"
+    },
+    {
+      "name": "seL4 Microkernel: Architecture",
+      "date": "Oct 30, 2024",
+      "tags": [
+        "sel4",
+        "kernel",
+	      "arm",
+        "x86"
+      ],
+      "url": "https://medium.com/@tunacici7/sel4-microkernel-architecture-130efb8d34d7"
     }
   ]
 }
