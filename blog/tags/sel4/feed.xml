@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sel4 on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/sel4/</link>
+    <description>Recent content in Sel4 on Tuna Cici (Blog)</description>
+    <generator>Hugo 0.125.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/sel4/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>seL4 Microkernel: Architecture</title>
+      <link>https://tunacici.com/blog/2024/10/sel4-microkernel-architecture/</link>
+      <pubDate>Wed, 30 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2024/10/sel4-microkernel-architecture/</guid>
+      <description>The balance between safety and security versus high-performance and high-throughput has always been a challenge in OS design. Although not mutually exclusive, making something safer usually lowers performance, which could be due to software design or hardware limitations.&#xA;To combat this, modern hardware features things like MMUs, privilege levels and virtualization. But they alone are not enough. The software should also be designed and implemented smartly to make use of the hardware the right way.</description>
+    </item>
+  </channel>
+</rss>

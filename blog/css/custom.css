@@ -1,0 +1,37 @@
+
+/* Hero images in blog posts */
+img.hero {
+	width: 100%;
+}
+
+.post-footer, .post-footer * {
+	text-align: center;
+}
+
+.field-light, .button-big {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 8px;
+	display: block;
+}
+
+/* Actual code blocks are within div.highlight > pre > code and we don't want to color them,
+   only "inline-upticked" keywords */
+p code, ul code, ol code {
+	background: #FFFBE6;
+}
+
+/* Prevent headings from looking like links */
+h3 {
+	text-decoration: none !important;
+}
+
+.alert-warning {
+	border: 1px solid rgba(241, 142, 6, 0.81);
+	background-color: rgba(220, 128, 1, 0.16);
+	box-shadow: 0px 0px 2px #ffb103;
+	color: #000000;
+	padding: 5px 5px 5px 10px;
+	margin-bottom: 16px;
+	border-radius: 3px;
+}

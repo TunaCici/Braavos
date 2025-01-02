@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Assembly on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/assembly/</link>
+    <description>Recent content in Assembly on Tuna Cici (Blog)</description>
+    <generator>Hugo 0.125.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 25 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/assembly/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AArch64 Procedure Call Standard (AAPCS64): ABI, Calling Conventions &amp; Machine Registers</title>
+      <link>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</link>
+      <pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</guid>
+      <description>Programming using high-level languages makes a ton of stuff trivial. Your compiler/interpreter abstracting lots stuff from you so that you can focus on what&amp;rsquo;s important: getting shit done, efficiently. One of those abstractions is functions.&#xA;Calling a function is one of the first things you learn when starting programming. They are relatively trivial: you just type the function name, pass some parameters and then it does what it&amp;rsquo;s meant to do (or not).</description>
+    </item>
+  </channel>
+</rss>

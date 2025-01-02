@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Iboot on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/iboot/</link>
+    <description>Recent content in Iboot on Tuna Cici (Blog)</description>
+    <generator>Hugo 0.125.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/iboot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)</title>
+      <link>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</link>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</guid>
+      <description>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp;amp; U-Boot (SPL)&#xA;Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having size smaller than 64 KiB or being written in pure machine-code because the stack isn’t properly initialized yet.&#xA;This is One Way to Initialize Stack Without A Help From First-Stage Loaders&#xA;Naturally, bootloaders are critical as they are literally one of the first programs to run when you press the “Power On” button.</description>
+    </item>
+  </channel>
+</rss>
