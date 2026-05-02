@@ -32,11 +32,13 @@
   display: flex;
   flex-direction: column;
 
+  background: var(--app-background);
+  color: var(--app-text);
   font-family: "IBM Plex Mono", monospace;
 }
 
 h2 {
-  color: #fefefe;
+  color: var(--app-text);
   opacity: 0.9;
 }
 

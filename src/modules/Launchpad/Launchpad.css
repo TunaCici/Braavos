@@ -1,5 +1,8 @@
 .launchpad {
-  color: #fafafa;
+  position: relative;
+
+  background: var(--app-background);
+  color: var(--app-text);
 
   height: 95%;
 
@@ -14,7 +17,7 @@
   position: absolute;
   top: 0;
 
-  z-index: -1;
+  z-index: 0;
 
   background-repeat: no-repeat;
 
@@ -30,6 +33,9 @@
 }
 
 .launchpad-grid {
+  position: relative;
+  z-index: 1;
+
   display: flex;
   flex-direction: row;
 
@@ -37,10 +43,10 @@
   padding: 1rem 2rem 1rem 2rem;
 
   border-radius: 16px;
-  background: rgba(33, 33, 33, 0.25);
+  background: var(--app-surface);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(80, 80, 80, 0.25);
+  border: 1px solid var(--app-surface-border);
 
   justify-content: center;
 }
@@ -74,12 +80,12 @@
   width: 72px;
 
   -webkit-box-reflect: below 2px
-  -webkit-gradient(linear, left top, left bottom, from(transparent),
-    color-stop(0.9, transparent), to(rgba(255,255,255,.5)));
+    linear-gradient(transparent 90%, var(--app-icon-reflection-color));
 }
 
 .launchpad-footer {
   position: absolute;
+  z-index: 1;
   bottom: 0.25rem;
 
   display: flex;
@@ -92,15 +98,15 @@
 .launchpad-signature {
   width: 10rem;
 
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
+  -webkit-filter: var(--app-signature-filter);
+  filter: var(--app-signature-filter);
 }
 
 .launchpad-footer-hr {
   width: 90%;
   height: 1px;
 
-  background: rgba(255, 255, 255, 0.33);
+  background: var(--app-rule);
   border: none;
   margin: 0.5rem 0 0.5rem 0;
 }

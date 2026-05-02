@@ -1,9 +1,41 @@
+:root {
+  color-scheme: light dark;
+
+  --app-background: #ffffff;
+  --app-surface: rgba(255, 255, 255, 0.58);
+  --app-surface-border: rgba(0, 0, 0, 0.18);
+  --app-text: #111111;
+  --app-rule: rgba(0, 0, 0, 0.28);
+  --app-signature-filter: none;
+  --app-icon-reflection-color: rgba(0, 0, 0, 0.28);
+
+  --terminal-user: #1d7f17;
+  --terminal-path: #a0259d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-background: #131313;
+    --app-surface: rgba(33, 33, 33, 0.25);
+    --app-surface-border: rgba(80, 80, 80, 0.25);
+    --app-text: #fafafa;
+    --app-rule: rgba(255, 255, 255, 0.33);
+    --app-signature-filter: invert(100%);
+    --app-icon-reflection-color: rgba(255, 255, 255, 0.5);
+
+    --terminal-user: #39be2b;
+    --terminal-path: #d43bd2;
+  }
+}
+
 html {
-  background-color: #131313;
+  background-color: var(--app-background);
 }
 
 body {
   margin: 0;
+  background-color: var(--app-background);
+  color: var(--app-text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

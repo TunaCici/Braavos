@@ -1,5 +1,6 @@
 .boot-screen {
-  color: #fafafa;
+  background: var(--app-background);
+  color: var(--app-text);
 
   height: 100vh;
 

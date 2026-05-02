@@ -6,15 +6,15 @@
 }
 
 .user-name {
-  color:#39be2b;
+  color: var(--terminal-user);
 }
 
 .host-name {
-  color: #39be2b;
+  color: var(--terminal-user);
 }
 
 .working-dir {
-  color: #d43bd2;
+  color: var(--terminal-path);
 }
 
 .user-input-container {
@@ -23,7 +23,7 @@
 
 .user-input {
   width: 1ch;
-  color: #fafafa;
+  color: var(--app-text);
 
   font-size: inherit;
   font-family: inherit;
@@ -44,8 +44,8 @@
   width: 0.25rem;
   height: 1rem;
 
-  color: #fafafa;
-  background: #fafafa;
+  color: var(--app-text);
+  background: var(--app-text);
 
   animation: cursor-blink 1s steps(2) infinite;
 }

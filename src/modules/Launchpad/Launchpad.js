@@ -68,11 +68,11 @@ function Launchpad(props) {
 
       let maxAmout = 0;
       if (window.innerWidth < 768) {
-        maxAmout = 6;
+        maxAmout = 8;
       } else if (window.innerWidth < 1024) {
-        maxAmout = 10;
-      } else {
         maxAmout = 12;
+      } else {
+        maxAmout = 16;
       }
 
       const randomImage = [];
@@ -155,7 +155,7 @@ function Launchpad(props) {
         <hr className="launchpad-footer-hr" />
 
         <div className="launchpad-footer-text">
-          Pasteleft &#9752; 2025 - Braavos Launchpad
+          2026 - Braavos Launchpad
         </div>
       </div>
     </div>
