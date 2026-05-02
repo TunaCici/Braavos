@@ -19,10 +19,68 @@
   gap: 1.5rem;
 }
 
-.whoami-image {
+.whoami-image-stage {
+  position: relative;
   width: min(360px, 80vw);
-  max-height: 50vh;
+  height: min(360px, 50vh);
+  overflow: hidden;
+}
+
+.whoami-image {
+  position: absolute;
+  inset: 0;
+
+  width: min(360px, 80vw);
+  height: 100%;
   object-fit: contain;
+  will-change: opacity;
+}
+
+.whoami-image-previous {
+  animation: whoami-dissolve-out 1235ms ease-in-out both;
+}
+
+.whoami-image-current {
+  animation: whoami-dissolve-in 1235ms ease-in-out both;
+}
+
+@keyframes whoami-dissolve-in {
+  0% {
+    opacity: 0;
+  }
+
+  35% {
+    opacity: 0.38;
+  }
+
+  65% {
+    opacity: 0.78;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes whoami-dissolve-out {
+  0% {
+    opacity: 1;
+  }
+
+  45% {
+    opacity: 0.62;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whoami-image-previous,
+  .whoami-image-current {
+    animation-duration: 1ms;
+  }
 }
 
 .whoami-question {
@@ -30,12 +88,20 @@
   min-height: 4rem;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
 
   text-align: center;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.whoami-question-count {
+  color: #8a8a8a;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
 }
 
 .whoami-question p {
@@ -48,6 +114,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.whoami-answers-placeholder {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .whoami-answer {
