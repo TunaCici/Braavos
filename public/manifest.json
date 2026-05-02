@@ -1,14 +1,17 @@
 {
-  "short_name": "Tuna Cici (Braavos)",
-  "name": "Tuna Cici Personal Website (Project Braavos)",
+  "short_name": "Tuna Cici",
+  "name": "Tuna Cici | Software Projects and Systems Writing",
+  "description": "Software projects, systems writing, terminal experiments, and links to Tuna Cici's work.",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "id": "https://tunacici.com/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#131313",
   "background_color": "#fafafa"
