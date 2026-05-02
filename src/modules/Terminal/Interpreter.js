@@ -23,6 +23,7 @@ import { writings } from "./Executables/writings";
 import { contact } from "./Executables/contact";
 import { neofetch } from "./Executables/neofetch";
 import { theone } from "./Executables/theone";
+import { whoami } from "./Executables/whoami";
 
 /* Register executables */
 var context = {};
@@ -48,6 +49,7 @@ context["writings"] = writings;
 context["contact"] = contact;
 context["neofetch"] = neofetch;
 context["theone"] = theone;
+context["whoami"] = whoami;
 
 /* Thanks to: https://www.inflectra.com/Support/KnowledgeBase/KB242.aspx */
 function execFn(fnName, ctx /*, args */) 

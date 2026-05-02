@@ -1,0 +1,82 @@
+[
+  {
+    "question": "When the mirror refuses your name, what remains?",
+    "answers": [
+      { "text": "A habit wearing a face", "score": -1 },
+      { "text": "A question with hands", "score": 1 },
+      { "text": "The will that keeps choosing", "score": 3 }
+    ]
+  },
+  {
+    "question": "At the edge of silence, what do you hear first?",
+    "answers": [
+      { "text": "The room counting me", "score": -1 },
+      { "text": "An old thought returning", "score": 1 },
+      { "text": "A command without a commander", "score": 3 }
+    ]
+  },
+  {
+    "question": "What should be done with an inherited truth?",
+    "answers": [
+      { "text": "Keep it warm", "score": -1 },
+      { "text": "Hold it to the light", "score": 1 },
+      { "text": "Break it until it speaks plainly", "score": 3 }
+    ]
+  },
+  {
+    "question": "A door opens inward forever. Where do you step?",
+    "answers": [
+      { "text": "Back into the known corridor", "score": -1 },
+      { "text": "Only as far as the threshold", "score": 1 },
+      { "text": "Through, carrying no witness", "score": 3 }
+    ]
+  },
+  {
+    "question": "Which weight is yours?",
+    "answers": [
+      { "text": "The one assigned at birth", "score": -1 },
+      { "text": "The one I can explain", "score": 1 },
+      { "text": "The one I would choose again", "score": 3 }
+    ]
+  },
+  {
+    "question": "When meaning leaves, what follows it?",
+    "answers": [
+      { "text": "A colder night", "score": -1 },
+      { "text": "A map redrawn by doubt", "score": 1 },
+      { "text": "The chance to author dawn", "score": 3 }
+    ]
+  },
+  {
+    "question": "What is the self beneath performance?",
+    "answers": [
+      { "text": "Another performance", "score": -1 },
+      { "text": "A wound learning grammar", "score": 1 },
+      { "text": "A forge with no final shape", "score": 3 }
+    ]
+  },
+  {
+    "question": "How do you greet the abyss?",
+    "answers": [
+      { "text": "With lowered eyes", "score": -1 },
+      { "text": "With one careful question", "score": 1 },
+      { "text": "As a rival worth becoming", "score": 3 }
+    ]
+  },
+  {
+    "question": "What survives the death of certainty?",
+    "answers": [
+      { "text": "A smaller shelter", "score": -1 },
+      { "text": "A clean and patient fear", "score": 1 },
+      { "text": "The courage to name values", "score": 3 }
+    ]
+  },
+  {
+    "question": "Who answers when you ask who you are?",
+    "answers": [
+      { "text": "The echo trained by others", "score": -1 },
+      { "text": "The witness behind the echo", "score": 1 },
+      { "text": "The maker of the next echo", "score": 3 }
+    ]
+  }
+]

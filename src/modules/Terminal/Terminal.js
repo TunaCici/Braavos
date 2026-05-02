@@ -72,6 +72,9 @@ function Terminal(props) {
       } else if (response === "blog") {
         window.location.href = "/blog";
         return;
+      } else if (response === "whoami") {
+        navigate("/whoami", { replace: true });
+        return;
       } /* if type is String and starts with "cd" */
       else if (typeof response === "string" && response.startsWith("cd: /")) {
         setCwd(response.replace("cd: ", ""));

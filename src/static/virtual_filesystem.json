@@ -154,6 +154,13 @@
                         ".owner": "matrix",
                         ".man": "displays matrix-style animation (are you [REDACTED]?)",
                         ".usage": "theone"
+                },
+                "whoami": {
+                        ".type": "executable",
+                        ".created": "2026-05-02T00:00:00+01:00",
+                        ".owner": "root",
+                        ".man": "answer the question that answers back",
+                        ".usage": "whoami"
                 }
         },
         "boot": {

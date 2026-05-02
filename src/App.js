@@ -8,6 +8,7 @@ import { BOOT_STATES } from "./static/enumerations.js";
 import BootSequence from "./modules/BootSequence/BootSequence";
 import Launchpad from "./modules/Launchpad/Launchpad";
 import Terminal from "./modules/Terminal/Terminal";
+import Whoami from "./modules/WhoAmI/Whoami";
 
 /* CSS */
 import "./App.css";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/" element={<BootSequence setBootState={setBootState} getBootState={getBootState} />} />
           <Route path="/launchpad" element={<Launchpad />} />
           <Route path="/terminal" element={<Terminal />} />
+          <Route path="/whoami" element={<Whoami />} />
 
           <Route path="*" element={<BootSequence setBootState={setBootState} getBootState={getBootState} />} />
         </Routes>
