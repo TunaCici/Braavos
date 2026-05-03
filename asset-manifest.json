@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9f1c9384.css",
-    "main.js": "/static/js/main.ead62949.js",
+    "main.css": "/static/css/main.7658269f.css",
+    "main.js": "/static/js/main.2e994d0e.js",
     "static/js/453.76e966ed.chunk.js": "/static/js/453.76e966ed.chunk.js",
     "static/media/tuna_cici_sign_bw.gif": "/static/media/tuna_cici_sign_bw.8848b077770ccc0aec2b.gif",
     "static/media/rotating_cube.gif": "/static/media/rotating_cube.dfdd33156e29820ad71f.gif",
@@ -140,12 +140,12 @@
     "static/media/Shape_57.svg": "/static/media/Shape_57.013288295b1e9ab06fcc.svg",
     "static/media/Shape_54.svg": "/static/media/Shape_54.e169ab4864190690d0e8.svg",
     "static/media/CREDIT.md": "/static/media/CREDIT.2420fcd8518122ea963b.md",
-    "main.9f1c9384.css.map": "/static/css/main.9f1c9384.css.map",
-    "main.ead62949.js.map": "/static/js/main.ead62949.js.map",
+    "main.7658269f.css.map": "/static/css/main.7658269f.css.map",
+    "main.2e994d0e.js.map": "/static/js/main.2e994d0e.js.map",
     "453.76e966ed.chunk.js.map": "/static/js/453.76e966ed.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9f1c9384.css",
-    "static/js/main.ead62949.js"
+    "static/css/main.7658269f.css",
+    "static/js/main.2e994d0e.js"
   ]
 }
