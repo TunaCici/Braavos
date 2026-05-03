@@ -8,6 +8,11 @@ import "./Whoami.css";
 
 const FINAL_IMAGE_SCORE_PERCENTAGE = 80;
 const IMAGE_TRANSITION_DURATION_MS = 1235;
+const ANSWER_SHAKE_OVERALL_INTENSITY = 4.0;
+const ANSWER_SHAKE_INTENSITIES = [0.33, 0.66, 1.0];
+const MIN_QUESTION_SHAKE_MULTIPLIER = 0.18;
+const MAX_ANSWER_SHAKE_DISTANCE = 1.65;
+const MIN_ANSWER_SHAKE_DURATION_MS = 650;
 
 function importAll(r) {
   let images = {};
@@ -78,6 +83,25 @@ function getNormalizedScore(rawScore, maxRawScore) {
   }
 
   return Math.max(0, Math.min(100, Math.round((rawScore / maxRawScore) * 100)));
+}
+
+function getAnswerShakeStyle(questionIndex, questionCount, answerIndex) {
+  const questionProgress = questionCount <= 1 ? 1 : questionIndex / (questionCount - 1);
+  const questionMultiplier = MIN_QUESTION_SHAKE_MULTIPLIER
+    + ((1 - MIN_QUESTION_SHAKE_MULTIPLIER) * questionProgress);
+  const answerIntensity = ANSWER_SHAKE_INTENSITIES[answerIndex] || ANSWER_SHAKE_INTENSITIES[0];
+  const shake = questionMultiplier * answerIntensity * ANSWER_SHAKE_OVERALL_INTENSITY;
+
+  return {
+    "--whoami-answer-shake-x": `${(shake * MAX_ANSWER_SHAKE_DISTANCE).toFixed(2)}px`,
+    "--whoami-answer-shake-y": `${(shake * 0.72).toFixed(2)}px`,
+    "--whoami-answer-shake-rotate": `${(shake * 0.16).toFixed(3)}deg`,
+    "--whoami-answer-shake-duration": `${Math.max(
+      MIN_ANSWER_SHAKE_DURATION_MS,
+      Math.round(2050 - (shake * 720)),
+    )}ms`,
+    "--whoami-answer-shake-delay": `${(questionIndex * -131) - (answerIndex * 83)}ms`,
+  };
 }
 
 function Whoami() {
@@ -191,9 +215,10 @@ function Whoami() {
             <div className="whoami-answers">
               {activeQuestion.answers.map((answer, index) => (
                 <button
-                  className="whoami-answer"
+                  className="whoami-answer whoami-answer-shaking"
                   key={`${questionIndex}-${index}`}
                   type="button"
+                  style={getAnswerShakeStyle(questionIndex, questions.length, index)}
                   onClick={() => answerQuestion(answer)}
                 >
                   {answer.text}

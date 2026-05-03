@@ -138,7 +138,67 @@
   text-align: center;
 }
 
+.whoami-answer-shaking {
+  animation: whoami-answer-shake var(--whoami-answer-shake-duration, 1800ms)
+    ease-in-out var(--whoami-answer-shake-delay, 0ms) infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
 .whoami-answer:hover {
   cursor: pointer;
   border-color: #777;
+}
+
+@keyframes whoami-answer-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  13% {
+    transform: translate3d(
+      calc(var(--whoami-answer-shake-x) * -0.42),
+      calc(var(--whoami-answer-shake-y) * 0.34),
+      0
+    ) rotate(calc(var(--whoami-answer-shake-rotate) * -0.48));
+  }
+
+  29% {
+    transform: translate3d(
+      calc(var(--whoami-answer-shake-x) * 0.31),
+      calc(var(--whoami-answer-shake-y) * -0.22),
+      0
+    ) rotate(calc(var(--whoami-answer-shake-rotate) * 0.36));
+  }
+
+  47% {
+    transform: translate3d(
+      calc(var(--whoami-answer-shake-x) * -0.18),
+      calc(var(--whoami-answer-shake-y) * -0.38),
+      0
+    ) rotate(calc(var(--whoami-answer-shake-rotate) * -0.26));
+  }
+
+  61% {
+    transform: translate3d(
+      calc(var(--whoami-answer-shake-x) * 0.52),
+      calc(var(--whoami-answer-shake-y) * 0.18),
+      0
+    ) rotate(calc(var(--whoami-answer-shake-rotate) * 0.58));
+  }
+
+  78% {
+    transform: translate3d(
+      calc(var(--whoami-answer-shake-x) * -0.26),
+      calc(var(--whoami-answer-shake-y) * 0.08),
+      0
+    ) rotate(calc(var(--whoami-answer-shake-rotate) * -0.31));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whoami-answer-shaking {
+    animation: none;
+  }
 }
