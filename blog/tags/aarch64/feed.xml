@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Aarch64 on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/aarch64/</link>
+    <description>Recent content in Aarch64 on Tuna Cici (Blog)</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 25 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/aarch64/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AArch64 Procedure Call Standard (AAPCS64): ABI, Calling Conventions &amp; Machine Registers</title>
+      <link>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</link>
+      <pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</guid>
+      <description>&lt;p&gt;Programming using high-level languages makes &lt;a href=&#34;https://en.wikipedia.org/wiki/Class_(computer_programming)&#34;&gt;a ton of stuff&lt;/a&gt; trivial. Your compiler/interpreter &lt;a href=&#34;https://en.wikipedia.org/wiki/Data_type&#34;&gt;abstracting lots stuff&lt;/a&gt; from you so that you can focus on what&amp;rsquo;s important: getting shit done, efficiently. One of those abstractions is functions.&lt;/p&gt;&#xA;&lt;p&gt;Calling a function is one of the first things you learn when starting programming. They are relatively trivial: you just type the function name, pass some parameters and then it does what it&amp;rsquo;s meant to do (&lt;a href=&#34;https://science.nasa.gov/mission/mariner-1/&#34;&gt;or not&lt;/a&gt;). You don&amp;rsquo;t need to think about whether the underlying CPU architecture is 64-bit or that it&amp;rsquo;s by AMD, Intel or Apple. All you care is that the function gets called, does its thing and successfully returns. That is until you need to get real &lt;a href=&#34;https://x.com/FFmpeg/status/1805687815294140542&#34;&gt;close to the hardware&lt;/a&gt;, &lt;a href=&#34;https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_60.html&#34;&gt;debug on register-level&lt;/a&gt; or d&lt;a href=&#34;https://www.cse.unsw.edu.au/~cs9242/19/exam/paper1.pdf&#34;&gt;esign system-level programs &amp;amp; languages&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

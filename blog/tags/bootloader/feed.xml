@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bootloader on Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/tags/bootloader/</link>
+    <description>Recent content in Bootloader on Tuna Cici (Blog)</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/tags/bootloader/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)</title>
+      <link>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</link>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</guid>
+      <description>&lt;p&gt;First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp;amp; U-Boot (SPL)&lt;/p&gt;&#xA;&lt;p&gt;Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having &lt;a href=&#34;https://www.scs.stanford.edu/nyu/04fa/lab/specsbbs101.pdf&#34;&gt;size smaller than 64 KiB&lt;/a&gt; or being written in pure &lt;a href=&#34;https://github.com/ARM-software/u-boot/blob/master/arch/x86/cpu/start.S&#34;&gt;machine-code&lt;/a&gt; because the stack isn’t properly initialized yet.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;assembly-code-of-first-stage-loader.png&#34; alt=&#34;&#34;&gt;&#xA;This is One Way to Initialize Stack Without A Help From First-Stage Loaders&lt;/p&gt;&#xA;&lt;p&gt;Naturally, bootloaders are critical as they are &lt;em&gt;literally&lt;/em&gt; one of the first programs to run when you press the “Power On” button. Without them, the system wouldn’t be able to boot up; and obviously we don’t want that &amp;gt;.&amp;lt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bootloaders &amp; The Wilderness of The Firmware</title>
+      <link>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</link>
+      <pubDate>Fri, 06 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</guid>
+      <description>&lt;p&gt;Between “pressing the power button” on your device to actually start using it, there exists many pieces of software from different vendors that must execute &amp;amp; work together for a system to Gracefully Boot™.&lt;/p&gt;&#xA;&lt;p&gt;Most modern devices are capable of &lt;a href=&#34;https://forums.macrumors.com/threads/how-long-does-it-take-to-boot-your-macbook-pro.2198565/&#34;&gt;booting in a few seconds&lt;/a&gt; &amp;amp; being fully ready to be used. There are even areas (safety-critical) where &lt;a href=&#34;https://elisa.tech/blog/2022/12/07/linux-in-aerospace/#:~:text=the%20system%20must%20be%20operational%20in%20only%20a%20few%20seconds%20or%20even%20less.&#34;&gt;sub 1 second boot time&lt;/a&gt; is not only possible but required! These timings are fascinating when you learn how much “software switching” happens &amp;amp; the important role they each play.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
