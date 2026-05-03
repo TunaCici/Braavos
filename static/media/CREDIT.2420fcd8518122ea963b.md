@@ -1,0 +1,1 @@
+For images shown here; all credit and rights belong to https://layersoffears.com
