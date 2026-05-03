@@ -1,82 +1,82 @@
 [
   {
-    "question": "When the mirror refuses your name, what remains?",
+    "question": "When was the last time a dream meant everything to you?",
     "answers": [
-      { "text": "A habit wearing a face", "score": -1 },
-      { "text": "A question with hands", "score": 1 },
-      { "text": "The will that keeps choosing", "score": 3 }
+      { "text": "I never had a dream", "score": -1 },
+      { "text": "The day I stopped being a child", "score": 1 },
+      { "text": "I am my dream, and I am everything", "score": 3 }
     ]
   },
   {
-    "question": "At the edge of silence, what do you hear first?",
+    "question": "What would you do if this plan of yours never works out?",
     "answers": [
-      { "text": "The room counting me", "score": -1 },
-      { "text": "An old thought returning", "score": 1 },
-      { "text": "A command without a commander", "score": 3 }
+      { "text": "I will give up", "score": -1 },
+      { "text": "I will try again", "score": 1 },
+      { "text": "That doesn't even enter my consciousness", "score": 3 }
     ]
   },
   {
-    "question": "What should be done with an inherited truth?",
+    "question": "What keeps you going?",
     "answers": [
-      { "text": "Keep it warm", "score": -1 },
-      { "text": "Hold it to the light", "score": 1 },
-      { "text": "Break it until it speaks plainly", "score": 3 }
+      { "text": "My instincts", "score": -1 },
+      { "text": "My purpose", "score": 1 },
+      { "text": "Love, Faith, Dream", "score": 3 }
     ]
   },
   {
-    "question": "A door opens inward forever. Where do you step?",
+    "question": "Which tells a better story?",
     "answers": [
-      { "text": "Back into the known corridor", "score": -1 },
-      { "text": "Only as far as the threshold", "score": 1 },
-      { "text": "Through, carrying no witness", "score": 3 }
+      { "text": "Sunrise", "score": -1 },
+      { "text": "Sunset", "score": 1 },
+      { "text": "Eclipse", "score": 3 }
     ]
   },
   {
-    "question": "Which weight is yours?",
+    "question": "What makes you act more bold?",
     "answers": [
-      { "text": "The one assigned at birth", "score": -1 },
-      { "text": "The one I can explain", "score": 1 },
-      { "text": "The one I would choose again", "score": 3 }
+      { "text": "Having something to lose", "score": -1 },
+      { "text": "Having nothing to lose", "score": 1 },
+      { "text": "Having everything to gain", "score": 3 }
     ]
   },
   {
-    "question": "When meaning leaves, what follows it?",
+    "question": "What transcends space and time?",
     "answers": [
-      { "text": "A colder night", "score": -1 },
-      { "text": "A map redrawn by doubt", "score": 1 },
-      { "text": "The chance to author dawn", "score": 3 }
+      { "text": "Nothing", "score": -1 },
+      { "text": "Quantum entanglement", "score": 1 },
+      { "text": "Faith. In myself and the people I love", "score": 3 }
     ]
   },
   {
-    "question": "What is the self beneath performance?",
+    "question": "If you could go back to the beginning, what would you try to change?",
     "answers": [
-      { "text": "Another performance", "score": -1 },
-      { "text": "A wound learning grammar", "score": 1 },
-      { "text": "A forge with no final shape", "score": 3 }
+      { "text": "Everything", "score": -1 },
+      { "text": "Nothing", "score": 1 },
+      { "text": "I don't fear change itself, but only who I might change into", "score": 3 }
     ]
   },
   {
-    "question": "How do you greet the abyss?",
+    "question": "When you gaze into their eyes, what do you see?",
     "answers": [
-      { "text": "With lowered eyes", "score": -1 },
-      { "text": "With one careful question", "score": 1 },
-      { "text": "As a rival worth becoming", "score": 3 }
+      { "text": "Their eyes", "score": -1 },
+      { "text": "The abyss", "score": 1 },
+      { "text": "My own universe through the reflection in their own", "score": 3 }
     ]
   },
   {
-    "question": "What survives the death of certainty?",
+    "question": "Who does the entity called 'fortune' favor?",
     "answers": [
-      { "text": "A smaller shelter", "score": -1 },
-      { "text": "A clean and patient fear", "score": 1 },
-      { "text": "The courage to name values", "score": 3 }
+      { "text": "No one", "score": -1 },
+      { "text": "Bold one", "score": 1 },
+      { "text": "The one that prepared for the worst, hoped for the best", "score": 3 }
     ]
   },
   {
-    "question": "Who answers when you ask who you are?",
+    "question": "Do you believe in happy endings?",
     "answers": [
-      { "text": "The echo trained by others", "score": -1 },
-      { "text": "The witness behind the echo", "score": 1 },
-      { "text": "The maker of the next echo", "score": 3 }
+      { "text": "No", "score": -1 },
+      { "text": "Yes", "score": 1 },
+      { "text": "There are no endings in this universe", "score": 3 }
     ]
   }
 ]

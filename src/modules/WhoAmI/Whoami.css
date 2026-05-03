@@ -21,16 +21,15 @@
 
 .whoami-image-stage {
   position: relative;
-  width: min(360px, 80vw);
-  height: min(360px, 50vh);
-  overflow: hidden;
+  width: min(360px, 80vw, 37.5vh);
+  aspect-ratio: 1125 / 1500;
 }
 
 .whoami-image {
   position: absolute;
   inset: 0;
 
-  width: min(360px, 80vw);
+  width: 100%;
   height: 100%;
   object-fit: contain;
   will-change: opacity;
@@ -114,6 +113,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.whoami-final-actions {
+  width: min(360px, 80vw, 37.5vh);
 }
 
 .whoami-answers-placeholder {

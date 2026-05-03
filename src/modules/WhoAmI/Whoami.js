@@ -131,6 +131,16 @@ function Whoami() {
     setQuestionIndex((currentIndex) => currentIndex + 1);
   };
 
+  const tryAgain = () => {
+    setQuestionIndex(0);
+    setRawScore(0);
+    setImageStage(1);
+    setVisibleImage(initialImage);
+    setPreviousImage(null);
+    setTransitionId(0);
+    visibleImageRef.current = initialImage;
+  };
+
   return (
     <main className="whoami" data-score={score}>
       <section className="whoami-content">
@@ -154,21 +164,16 @@ function Whoami() {
         {isComplete ? (
           <>
             <div className="whoami-question">
-              <p>The last answer is still becoming.</p>
+              <p>"however ruined this world has become</p>
+              <p>however mired in torment and despair</p>
+              <p>life endures</p>
+              <p>there is beauty in that, is there not?"</p>
             </div>
 
-            <div className="whoami-answers whoami-answers-placeholder" aria-hidden="true">
-              {questions[questions.length - 1].answers.map((answer, index) => (
-                <button
-                  className="whoami-answer"
-                  disabled
-                  key={`complete-placeholder-${index}`}
-                  tabIndex={-1}
-                  type="button"
-                >
-                  {answer.text}
-                </button>
-              ))}
+            <div className="whoami-answers whoami-final-actions">
+              <button className="whoami-answer" type="button" onClick={tryAgain}>
+                Try again
+              </button>
             </div>
           </>
         ) : (
