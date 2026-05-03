@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tuna Cici (Blog)</title>
+    <link>https://tunacici.com/blog/</link>
+    <description>Recent content on Tuna Cici (Blog)</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://tunacici.com/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>seL4 Microkernel: Architecture</title>
+      <link>https://tunacici.com/blog/2024/10/sel4-microkernel-architecture/</link>
+      <pubDate>Wed, 30 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2024/10/sel4-microkernel-architecture/</guid>
+      <description>&lt;p&gt;The balance between safety and security versus high-performance and high-throughput has always been a challenge in OS design. Although not mutually exclusive, making something safer usually lowers performance, which could be due to software design or hardware limitations.&lt;/p&gt;&#xA;&lt;p&gt;To combat this, modern hardware features things like &lt;a href=&#34;https://en.wikipedia.org/wiki/Memory_management_unit&#34;&gt;MMUs&lt;/a&gt;, &lt;a href=&#34;https://developer.arm.com/documentation/102412/0103/Privilege-and-Exception-levels&#34;&gt;privilege levels&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Virtualization&#34;&gt;virtualization&lt;/a&gt;. But they alone are not enough. The software should also be designed and implemented smartly to make use of the hardware the right way. This, in turn, put great responsibility on kernels, the software that abstracts the hardware.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AArch64 Procedure Call Standard (AAPCS64): ABI, Calling Conventions &amp; Machine Registers</title>
+      <link>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</link>
+      <pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2024/07/aarch64-procedure-call-standard-aapcs64-abi-calling-conventions-machine-registers/</guid>
+      <description>&lt;p&gt;Programming using high-level languages makes &lt;a href=&#34;https://en.wikipedia.org/wiki/Class_(computer_programming)&#34;&gt;a ton of stuff&lt;/a&gt; trivial. Your compiler/interpreter &lt;a href=&#34;https://en.wikipedia.org/wiki/Data_type&#34;&gt;abstracting lots stuff&lt;/a&gt; from you so that you can focus on what&amp;rsquo;s important: getting shit done, efficiently. One of those abstractions is functions.&lt;/p&gt;&#xA;&lt;p&gt;Calling a function is one of the first things you learn when starting programming. They are relatively trivial: you just type the function name, pass some parameters and then it does what it&amp;rsquo;s meant to do (&lt;a href=&#34;https://science.nasa.gov/mission/mariner-1/&#34;&gt;or not&lt;/a&gt;). You don&amp;rsquo;t need to think about whether the underlying CPU architecture is 64-bit or that it&amp;rsquo;s by AMD, Intel or Apple. All you care is that the function gets called, does its thing and successfully returns. That is until you need to get real &lt;a href=&#34;https://x.com/FFmpeg/status/1805687815294140542&#34;&gt;close to the hardware&lt;/a&gt;, &lt;a href=&#34;https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_60.html&#34;&gt;debug on register-level&lt;/a&gt; or d&lt;a href=&#34;https://www.cse.unsw.edu.au/~cs9242/19/exam/paper1.pdf&#34;&gt;esign system-level programs &amp;amp; languages&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp; U-Boot (SPL)</title>
+      <link>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</link>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/11/first-stage-loaders-bios-uefi-iboot1-u-boot-spl/</guid>
+      <description>&lt;p&gt;First-Stage Loaders: BIOS, [U]EFI, iBoot1 &amp;amp; U-Boot (SPL)&lt;/p&gt;&#xA;&lt;p&gt;Bootloaders, due to their low-level nature, sometimes have to work closely with the hardware. This can lead to some serious constrains, such as having &lt;a href=&#34;https://www.scs.stanford.edu/nyu/04fa/lab/specsbbs101.pdf&#34;&gt;size smaller than 64 KiB&lt;/a&gt; or being written in pure &lt;a href=&#34;https://github.com/ARM-software/u-boot/blob/master/arch/x86/cpu/start.S&#34;&gt;machine-code&lt;/a&gt; because the stack isn’t properly initialized yet.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;assembly-code-of-first-stage-loader.png&#34; alt=&#34;&#34;&gt;&#xA;This is One Way to Initialize Stack Without A Help From First-Stage Loaders&lt;/p&gt;&#xA;&lt;p&gt;Naturally, bootloaders are critical as they are &lt;em&gt;literally&lt;/em&gt; one of the first programs to run when you press the “Power On” button. Without them, the system wouldn’t be able to boot up; and obviously we don’t want that &amp;gt;.&amp;lt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bootloaders &amp; The Wilderness of The Firmware</title>
+      <link>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</link>
+      <pubDate>Fri, 06 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/10/bootloaders-the-wilderness-of-the-firmware/</guid>
+      <description>&lt;p&gt;Between “pressing the power button” on your device to actually start using it, there exists many pieces of software from different vendors that must execute &amp;amp; work together for a system to Gracefully Boot™.&lt;/p&gt;&#xA;&lt;p&gt;Most modern devices are capable of &lt;a href=&#34;https://forums.macrumors.com/threads/how-long-does-it-take-to-boot-your-macbook-pro.2198565/&#34;&gt;booting in a few seconds&lt;/a&gt; &amp;amp; being fully ready to be used. There are even areas (safety-critical) where &lt;a href=&#34;https://elisa.tech/blog/2022/12/07/linux-in-aerospace/#:~:text=the%20system%20must%20be%20operational%20in%20only%20a%20few%20seconds%20or%20even%20less.&#34;&gt;sub 1 second boot time&lt;/a&gt; is not only possible but required! These timings are fascinating when you learn how much “software switching” happens &amp;amp; the important role they each play.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GNU/Linux CLI Shells ELI5: sh, bash, zsh and more</title>
+      <link>https://tunacici.com/blog/2023/04/gnu/linux-cli-shells-eli5-sh-bash-zsh-and-more/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/04/gnu/linux-cli-shells-eli5-sh-bash-zsh-and-more/</guid>
+      <description>&lt;p&gt;If you’ve ever interacted with a GNU/Linux system, chances are you’ve heard about shells like &lt;code&gt;sh&lt;/code&gt;, &lt;code&gt;bash&lt;/code&gt; and &lt;code&gt;zsh&lt;/code&gt;. But what are these shells, why are they so important? What even is a shell? And “most importantly” why should you even care about them?&lt;/p&gt;&#xA;&lt;p&gt;In this article, we’ll take a closer look at GNU/Linux shells and try to explain them in an ELI5-fashioned way. We’ll discuss some essential terms like: &lt;em&gt;terminal&lt;/em&gt;, &lt;em&gt;shell&lt;/em&gt; and &lt;em&gt;CLI&lt;/em&gt;. Later I will list some popular types of shells, their features, and how they’re differ from each other.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux Networking ELI5 — Part 4, Minecraft &amp; Web Server</title>
+      <link>https://tunacici.com/blog/2023/02/linux-networking-eli5-part-4-minecraft-web-server/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/02/linux-networking-eli5-part-4-minecraft-web-server/</guid>
+      <description>&lt;p&gt;Hello and welcome to the final part of this ELI5 series. So far, we have learned the fundamentals of computer networking through questions like ‘&lt;em&gt;what is networking?’&lt;/em&gt;, ‘&lt;em&gt;what is the TCP/IP model?&lt;/em&gt;’ and ‘&lt;em&gt;what are ports?&lt;/em&gt;’. We have covered most of the important networking terms, but there are still A LOT MORE things out there. However, let’s just leave them for future articles:)&lt;/p&gt;&#xA;&lt;p&gt;In this final part we will &lt;strong&gt;not&lt;/strong&gt; be explaining new networking terms, but instead we will use them to build something!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux Networking ELI5 — Part 3, Ports, TCP/IP &amp; Firewalls</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-3-ports-tcp/ip-firewalls/</link>
+      <pubDate>Mon, 30 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-3-ports-tcp/ip-firewalls/</guid>
+      <description>&lt;p&gt;Welcome to the part 3 of my Linux Networking ELI5 series! In the previous article, we have talked about IP addresses, the idea behind the NAT and DHCP servers.&lt;/p&gt;&#xA;&lt;p&gt;Today’s stars are TCP/IP model, ports and firewalls. We will try to answer what they are, how do they work and how to use them in our Linux machines. Unlike the previous articles, this one will be more software centric. Meaning, there will be many terminal commands and practical examples.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux Networking ELI5 — Part 2, IP, NAT &amp; DHCP</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-2-ip-nat-dhcp/</link>
+      <pubDate>Sun, 29 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-2-ip-nat-dhcp/</guid>
+      <description>&lt;p&gt;Hey everyone! In this article we are continuing our Linux Networking journey from where we left off. Previously, we made a simple introduction to networks, interfaces and basic Linux commands. Now, here in this article we will go deeper into the networking itself and talk about IP addresses, NAT, DHCP and more.&lt;/p&gt;&#xA;&lt;p&gt;If you haven’t read the Part-1, I highly encourage you to give it a quick look. Most of the stuff here will make a lot more sense if you know about networks and interfaces.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux Networking ELI5 — Part 1, Networks &amp; Interfaces</title>
+      <link>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-1-networks-interfaces/</link>
+      <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2023/01/linux-networking-eli5-part-1-networks-interfaces/</guid>
+      <description>&lt;p&gt;As we all know, Linux is a very powerful operating system. Even if it’s not as popular as Windows or macOS, it’s importance and power is no joke. Heck, it might even be the most important OS ever (depending on the person you ask) and there is a good justification for that.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;daily-time-spent-online.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Daily Time Spent Online — Source: oberlo.com&lt;/p&gt;&#xA;&lt;p&gt;Look at the visualized data above. You can clearly see that we spent a lot of time on the internet. This means that, we are interacting with tons of server all around the world. And guess what OS does those servers are running? Linux! And they are all using it’s networking tools.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux Filesystem Explained</title>
+      <link>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</link>
+      <pubDate>Sun, 27 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/11/linux-filesystem-explained/</guid>
+      <description>&lt;p&gt;If you have ever used a Linux system, you probably heard the term &lt;code&gt;root filesystem&lt;/code&gt;. When you install something with &lt;code&gt;apt&lt;/code&gt; or want to configure an application’s settings, you need to meddle with the &lt;code&gt;root filesystem&lt;/code&gt;. And if you are a developer deploying an application to Linux, just know that you need to get your hands dirty with it. But what is the &lt;code&gt;root filesystem&lt;/code&gt;, anyway?&lt;/p&gt;&#xA;&lt;p&gt;In this article I will explain the &lt;code&gt;root filesystem&lt;/code&gt;, it’s brief history and all the directories inside it. There will be examples that gives some practical use cases.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Virtualization &amp; Emulation</title>
+      <link>https://tunacici.com/blog/2022/10/virtualization-emulation/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/10/virtualization-emulation/</guid>
+      <description>&lt;p&gt;When developing software applications, there are tons of crazy tools. In the older days, some of those crazy tools were just impossible to think of because of the hardware and design limitations in the software world. But now, they are very common. And on some areas, are just a necessity. Of course, I am talking about &lt;strong&gt;virtualization&lt;/strong&gt; and &lt;strong&gt;emulation&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;If you ever meddled with software development, you are sure to heard about them. You might even be using them daily in your projects. Naturally, they sound similar but there are some fundamental differences between them. Here in this article I will try to explain how they work and the problems they solve. I will compare and list their differences. So stick with me to the end.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What are CPU Architectures &amp; ISAs? ELI5</title>
+      <link>https://tunacici.com/blog/2022/10/what-are-cpu-architectures-isas-eli5/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/10/what-are-cpu-architectures-isas-eli5/</guid>
+      <description>&lt;p&gt;We all probably have heard them: &lt;strong&gt;ARM&lt;/strong&gt;, &lt;strong&gt;RISC-V, CISC, x86, x64, AARCH64, AMD64&lt;/strong&gt;… Why are there so many of them? Why do they sound so mathematical and scientific? And most importantly What do they even mean?&lt;/p&gt;&#xA;&lt;p&gt;Here in this article I will try to clear the confessions about all the terms above. I will talk about &lt;em&gt;CPUs&lt;/em&gt;, &lt;em&gt;CPU architectures and instruction sets&lt;/em&gt;. At the end, you will have the fundamental understanding of their meaning and their place in this big tech world.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Install Kibana on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/09/how-to-install-kibana-on-ubuntu-22.04/</guid>
+      <description>&lt;p&gt;Kibana is the front-end application for the ElasticSearch server. It provides an interface to your server and all it’s data. You can do many things like: adding data, removing data, searching through your database and creating graphs and visualizations.&lt;/p&gt;&#xA;&lt;p&gt;If you use ElasticSearch, it is highly recommended that you also use Kibana too. They work excellent together. Writing applications that uses ElasticSearch becomes way easier if you use Kibana. It has a debug section where you can create queries which then can be used in your applications.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What is a Compiler Really? ELI5</title>
+      <link>https://tunacici.com/blog/2022/09/what-is-a-compiler-really-eli5/</link>
+      <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/09/what-is-a-compiler-really-eli5/</guid>
+      <description>&lt;p&gt;If you ever meddled with programming or coding, it is very likely that you have heard about compilers. Espacially them ugly link and compiler errors you get when you try to build a C/C++ project you got from GitHub. I know they are annoying to see but, they all mean something. Today I will tell you the most basic things about the compilers so that you can better understand the reason of them errors. I will try some questions like: Why do they exist? What problems do they solve? How do they work? etc.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Conciousness &amp; Artificial Intelligence</title>
+      <link>https://tunacici.com/blog/2022/07/conciousness-artificial-intelligence/</link>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/07/conciousness-artificial-intelligence/</guid>
+      <description>&lt;p&gt;Look at the above painting. I mean really look at it. What do you see? Well, we see a human on the left (Adam) and the God on the right (with his/her angels) &lt;em&gt;touching their fingers&lt;/em&gt;. But there is more to it. See the right side of the picture where the God stays. Doesn’t it look like a human brain? A doctor realized this similarity 500 years after the picture was drawn.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What&#39;s Next for Computers and Humans? Brain-Computer Interface</title>
+      <link>https://tunacici.com/blog/2022/07/whats-next-for-computers-and-humans-brain-computer-interface/</link>
+      <pubDate>Sun, 03 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/07/whats-next-for-computers-and-humans-brain-computer-interface/</guid>
+      <description>&lt;p&gt;Lately I’ve been thinking about personal computers and how it affected all of us. Yeah, it’s a bit cliché and cringy to talk about these type of topics. Everyone writes and talks about how computer are either the greatest or the most evil thing that ever existed. I’m not going to talk about either of them today. Today, I will talk about the future and do a little bit philosophy. It’s a gonna be a wild ride!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ways to Increase Your Online Security</title>
+      <link>https://tunacici.com/blog/2022/06/ways-to-increase-your-online-security/</link>
+      <pubDate>Thu, 16 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/06/ways-to-increase-your-online-security/</guid>
+      <description>&lt;p&gt;It is a no-brainer to know that the internet is a big place. Everyday new content/software is being created. From &lt;em&gt;funny-looking&lt;/em&gt; TikTok videos to &lt;em&gt;not-so-funny-looking-but-very-informing&lt;/em&gt; articles, there are just &lt;strong&gt;too many things&lt;/strong&gt; to discover and interact with. But like the old Uncle Sam said:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;“With great power comes great responsibility.”&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;In our case &lt;em&gt;the great power&lt;/em&gt; being &lt;em&gt;the internet&lt;/em&gt; and the great responsibility being &lt;em&gt;your cyber security&lt;/em&gt;. With the increase on amount of people using the internet, there is no doubt that some of them will have &lt;strong&gt;malicious intentions&lt;/strong&gt;. In order to &lt;strong&gt;secure yourself and your data&lt;/strong&gt; from these people/softwares, here are some ways you can do.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Apple M1 Chip from a Software Engineer&#39;s Perspective</title>
+      <link>https://tunacici.com/blog/2022/05/apple-m1-chip-from-a-software-engineers-perspective/</link>
+      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2022/05/apple-m1-chip-from-a-software-engineers-perspective/</guid>
+      <description>&lt;p&gt;As far as I remember, I have been using Windows machines both for entertainment and programming. That was until the Apple’s WWDC 2021 event where they announced the new Macbook Pros with M1 Pro and M1 Max SoCs. Looking at their presentation I was simply amazed. Everything they showed about the performance and efficiency of these new SoCs, sounded too good to be true. Imagine running an Ubuntu Virtual Machine, many Docker containers, compiling large codebases and watching 4K content on YouTube at the same time. Yeah, it might not sound &lt;strong&gt;&lt;em&gt;that&lt;/em&gt;&lt;/strong&gt; impressive but the M1 chip does all of it without breaking a sweat! It’s efficiency is so good that you rarely find yourself looking for an outlet to plug your charger.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Install ElasticSearch on Ubuntu 22.04</title>
+      <link>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</link>
+      <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/2021/12/how-to-install-elasticsearch-on-ubuntu-22.04/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Note: Updated for the latest version 8.4.2 and tested on Ubuntu 22.04.&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;ElasticSearch is a search engine built on Apache Lucene and developed in Java. It is basically a database but heavily focused on indexing and searching. ElasticSearch, indexes the database regularly to make searching extremely fast and easy. You can search within these indexes using it’s official application called Kibana or the APIs provided. But first you need an ElasticSearch server&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bruh Sound Effect #2</title>
+      <link>https://tunacici.com/blog/memes/bruh/</link>
+      <pubDate>Sat, 18 Jul 1987 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/memes/bruh/</guid>
+      <description>&lt;p&gt;this is definietly one of the bruh moments ever&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://tunacici.com/blog/404.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/404.html</guid>
+      <description>&lt;h1 id=&#34;404&#34;&gt;404&lt;/h1&gt;&#xA;&lt;p&gt;We can&amp;rsquo;t seem to find this page&amp;rsquo;s pixels. Sorry about that, chief.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://tunacici.com/blog/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/about/</guid>
+      <description>&lt;div class=&#34;py2&#34;&gt;&#xA;&#xA;  &lt;img src=&#34;https://tunacici.com/blog/images/me.jpeg&#34; style=&#34;width: 75%; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; border-radius: 4px;&#34;&gt;&#xA;&#xA;  &lt;p&gt;Picture of me with an [GTR] R35 (i&#39;m obsessed with it)&lt;/p&gt;&#xA;&#xA;  &lt;p&gt;&#xA;    Hi I&amp;#39;m Tuna, your underground software dealer from &lt;a href=&#34;https://cyberpunk.fandom.com/wiki/Night_City&#34;&gt;Night City&lt;/a&gt;.&#xA;    If you would like to see some of my work, either visit one of the above [contact] links or my &lt;a href=&#34;https://github.com/TunaCici&#34;&gt;GitHub&lt;/a&gt; thingy.&lt;/p&gt;&#xA;  &lt;p&gt;&#xA;&#xA;  &lt;br&gt;&#xA;  &#xA;  I &lt;strong&gt;love&lt;/strong&gt;:&lt;/p&gt;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;Desiging software [architectures] &amp;amp; vibing with the code (C++ my beloved)&lt;/li&gt;&#xA;    &lt;li&gt;Low-level [embedded] programming (&amp;quot;iso C will never destroyed&amp;quot;)&lt;/li&gt;&#xA;    &lt;li&gt;Tinkering with hardware (my good-old raspberry pi &amp;amp; poor-old &amp;#39;gaming&amp;#39; pc)&lt;/li&gt;&#xA;    &lt;li&gt;Illustrations &amp;amp; Content-creation (i&amp;#39;m no good at it, but nvm that)&lt;/li&gt;&#xA;    &lt;li&gt;Ricing the hell out of my Archy [Linux] machine (no i won&amp;#39;t say it)&lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;  &#xA;  &lt;p&gt;&#xA;    &lt;em&gt;and when I say &amp;quot;love&amp;quot;, I mean &amp;quot;addicted&amp;quot;&lt;/em&gt;&#xA;  &lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Contact Me &gt;.&lt;</title>
+      <link>https://tunacici.com/blog/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/contact/</guid>
+      <description>&lt;div class=&#34;py2&#34;&gt;&#xA;&#xA;  &lt;p&gt;&#xA;    You can try to contact me via one of my social medias given above (altough i prefer Discord).&#xA;    But if you are in a hurry, you can use this _Formspree_ HTML form to send me an email. Don&#39;t worry,&#xA;    I will receive it &#34;instantly&#34; and reply as soon as possible.&#xA;  &lt;/p&gt;&#xA;&#xA;  &lt;form action=&#34;https://formspree.io/f/xjvqypar&#34; method=&#34;POST&#34; class=&#34;form-stacked&#34;&gt;&#xA;    &lt;input type=&#34;text&#34; name=&#34;email&#34; class=&#34;field-light&#34; placeholder=&#34;Email Address&#34;&gt;&#xA;    &lt;textarea type=&#34;text&#34; name=&#34;content&#34; class=&#34;field-light&#34; rows=&#34;5&#34; placeholder=&#34;What would you like to say?&#34;&gt;&lt;/textarea&gt;&#xA;    &lt;input type=&#34;hidden&#34; name=&#34;_next&#34; value=&#34;https://joonas.fi/contact-thanks.html&#34; /&gt;&#xA;    &lt;input type=&#34;hidden&#34; name=&#34;_subject&#34; value=&#34;New submission!&#34; /&gt;&#xA;    &lt;input type=&#34;text&#34; name=&#34;_gotcha&#34; style=&#34;display:none&#34; /&gt;&#xA;    &lt;input type=&#34;submit&#34; class=&#34;button button-blue button-big mobile-block&#34; value=&#34;Say Hello [to my little friend]&#34;&gt;&#xA;  &lt;/form&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Thanks for contacting me!</title>
+      <link>https://tunacici.com/blog/contact-thanks.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://tunacici.com/blog/contact-thanks.html</guid>
+      <description>&lt;p&gt;I will get in touch with you, if your message prompted for response.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
