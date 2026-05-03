@@ -123,6 +123,24 @@ function Whoami() {
   const image = getStageImage(imageStage);
 
   useEffect(() => {
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const previousThemeColor = themeColorMeta?.getAttribute("content");
+
+    document.documentElement.classList.add("whoami-page");
+    document.body.classList.add("whoami-page");
+    themeColorMeta?.setAttribute("content", "#000000");
+
+    return () => {
+      document.documentElement.classList.remove("whoami-page");
+      document.body.classList.remove("whoami-page");
+
+      if (themeColorMeta && previousThemeColor) {
+        themeColorMeta.setAttribute("content", previousThemeColor);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     Promise.all(preloadedStageImages.map(preloadImage));
   }, []);
 
